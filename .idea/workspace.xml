@@ -2,61 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_bluecove_bluecove_2_1_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_bluecove_bluecove_gpl_2_1_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_base_linux_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_controls_linux_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_fxml_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_fxml_linux_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_linux_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_mac_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_graphics_win_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_media_linux_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_media_mac_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openjfx_javafx_media_win_11.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/bluecove_2_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WiiBalance.iml" beforeDir="false" afterPath="$PROJECT_DIR$/WiiBalance.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/home/Controller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/home/Main$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/home/Main$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/home/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/home/sample.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/test/WiiboardTest$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/test/WiiboardTest$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/test/WiiboardTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/bluetooth/BluetoothDevice.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/WiiBoard$CommandListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/WiiBoard.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/WiiBoardDiscoverer$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/WiiBoardDiscoverer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/WiiBoardDiscoveryListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/event/WiiBoardButtonEvent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/event/WiiBoardEvent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/event/WiiBoardListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/event/WiiBoardMassEvent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/WiiBalance/wiiboard/wiiboard/event/WiiBoardStatusEvent.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/home/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/home/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/home/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sample.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/WiiboardTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wiiboard/bluetooth/BluetoothDevice.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wiiboard/wiiboard/WiiBoard.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wiiboard/wiiboard/WiiBoardDiscoverer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wiiboard/wiiboard/WiiBoardDiscoveryListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wiiboard/wiiboard/event/WiiBoardButtonEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wiiboard/wiiboard/event/WiiBoardEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wiiboard/wiiboard/event/WiiBoardListener.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wiiboard/wiiboard/event/WiiBoardMassEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wiiboard/wiiboard/event/WiiBoardStatusEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/Controller.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/HelloFX.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/Main$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/Main$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/main/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/bluetooth/BluetoothDevice.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/WiiBoard$CommandListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/WiiBoard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/WiiBoardDiscoverer$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/WiiBoardDiscoverer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/WiiBoardDiscoveryListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/event/WiiBoardButtonEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/event/WiiBoardEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/event/WiiBoardListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/event/WiiBoardMassEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/wiiboard/wiiboard/event/WiiBoardStatusEvent.class" beforeDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -120,7 +83,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
+            <state relative-caret-position="266">
               <caret line="30" selection-start-line="30" selection-end-line="30" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -129,7 +92,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="323">
@@ -138,10 +101,15 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WiiBalance.iml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="446">
+            <state relative-caret-position="532">
               <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
             </state>
           </provider>
@@ -150,7 +118,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/main/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
+            <state relative-caret-position="133">
               <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -162,7 +130,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/test/WiiboardTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
+            <state relative-caret-position="190">
               <caret line="16" column="68" selection-start-line="16" selection-start-column="68" selection-end-line="16" selection-end-column="68" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -192,7 +160,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/wiiboard/wiiboard/WiiBoard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5947">
+            <state relative-caret-position="7220">
               <caret line="418" column="32" selection-start-line="418" selection-start-column="32" selection-end-line="418" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -248,6 +216,7 @@
         <option value="$PROJECT_DIR$/src/main/java/main/HelloFX.java" />
         <option value="$PROJECT_DIR$/src/main/java/main/Main.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -259,11 +228,11 @@
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
-  <component name="ProjectFrameBounds" extendedState="4">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="67" />
-    <option name="y" value="25" />
-    <option name="width" value="927" />
-    <option name="height" value="1055" />
+    <option name="y" value="27" />
+    <option name="width" value="917" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
@@ -274,6 +243,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -318,7 +288,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -488,17 +457,19 @@
       <workItem from="1583845605999" duration="1962000" />
       <workItem from="1583939906811" duration="707000" />
       <workItem from="1583940736776" duration="6061000" />
+      <workItem from="1584092776192" duration="599000" />
+      <workItem from="1584109455714" duration="119000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36610000" />
+    <option name="totallyTimeSpent" value="37328000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="927" height="1055" extended-state="4" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.31328037" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.15882678" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -596,18 +567,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/sample.fxml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/HelloFX.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="8" column="101" selection-start-line="8" selection-start-column="101" selection-end-line="8" selection-end-column="101" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        <state relative-caret-position="266">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -616,32 +580,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WiiBalance.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="446">
+        <state relative-caret-position="532">
           <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/test/WiiboardTest.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/main/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="16" column="68" selection-start-line="16" selection-start-column="68" selection-end-line="16" selection-end-column="68" />
+        <state relative-caret-position="133">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wiiboard/bluetooth/BluetoothDevice.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/test/WiiboardTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/wiiboard/wiiboard/WiiBoard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5947">
-          <caret line="418" column="32" selection-start-line="418" selection-start-column="32" selection-end-line="418" selection-end-column="32" />
+        <state relative-caret-position="190">
+          <caret line="16" column="68" selection-start-line="16" selection-start-column="68" selection-end-line="16" selection-end-column="68" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -655,27 +612,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main/HelloFX.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/wiiboard/bluetooth/BluetoothDevice.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        <state relative-caret-position="152">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/wiiboard/wiiboard/WiiBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7220">
+          <caret line="418" column="32" selection-start-line="418" selection-start-column="32" selection-end-line="418" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#681#682#0" expanded="true" />
-            <element signature="e#705#706#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/main/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/sample.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="152">
+          <caret line="8" column="101" selection-start-line="8" selection-start-column="101" selection-end-line="8" selection-end-column="101" />
         </state>
       </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
@@ -683,6 +643,9 @@
           <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
   <component name="masterDetails">
