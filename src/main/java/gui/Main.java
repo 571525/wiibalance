@@ -25,7 +25,7 @@ public class Main extends Application implements GuiInterface {
 
     @Override
     public void start(Stage stage) throws Exception {
-        
+
         stackPane = new StackPane();
         textArea = new TextArea();
         stackPane.getChildren().add(textArea);

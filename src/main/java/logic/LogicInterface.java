@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface LogicInterface {
 
-    void addCopPoint(double tr, double tl, double br, double bl);
+    void addCopPoint(double tr, double tl, double br, double bl, double time);
 
     double calculateTurningPointForMaintainingBalance();
 
