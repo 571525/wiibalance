@@ -98,7 +98,7 @@ public class CopPlotTest extends Application {
             }
         };
 
-        WiiBoardDiscoverer discoverer = WiiBoardDiscoverer.getWiiBoardDiscoverer();
+        WiiBoardDiscoverer discoverer = WiiBoardDiscoverer.getWiiBoardDiscoverer(null);
         discoverer.addWiiBoardDiscoveryListener(wiiBoardDiscoveryListener);
         discoverer.startWiiBoardSearch();
     }

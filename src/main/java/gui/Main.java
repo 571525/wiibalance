@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import wiiboard.Wiiboard;
 
 /**
- * This is the centre of the application, responisble for gui and all couplings in the application.
+ * This is the centre of the application, responsible for gui and all couplings in the application.
  */
 public class Main extends Application implements GuiInterface {
 
