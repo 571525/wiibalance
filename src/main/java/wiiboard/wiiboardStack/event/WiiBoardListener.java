@@ -17,11 +17,11 @@
     along with Wiiboard Simple.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package wiiboard.wiiboard.event;
+package wiiboard.wiiboardStack.event;
 
 /**
  * Implement this and register with a WiiBoard instance in order to receive updates from
- * the wiiboard
+ * the wiiboardStack
  */
 public interface WiiBoardListener {
 

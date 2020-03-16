@@ -17,9 +17,9 @@
     along with Wiiboard Simple.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package wiiboard.wiiboard.event;
+package wiiboard.wiiboardStack.event;
 
-import wiiboard.wiiboard.WiiBoard;
+import wiiboard.wiiboardStack.WiiBoard;
 
 /**
  * A button event contains information about the state of the only button

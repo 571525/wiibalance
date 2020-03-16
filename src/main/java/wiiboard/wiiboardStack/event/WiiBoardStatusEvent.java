@@ -17,12 +17,12 @@
     along with Wiiboard Simple.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package wiiboard.wiiboard.event;
+package wiiboard.wiiboardStack.event;
 
-import wiiboard.wiiboard.WiiBoard;
+import wiiboard.wiiboardStack.WiiBoard;
 
 /**
- * A wiiboard status event contains information about the state of the power button
+ * A wiiboardStack status event contains information about the state of the power button
  * LED and the battery life
  *
  */

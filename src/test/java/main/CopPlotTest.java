@@ -8,17 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
-import wiiboard.wiiboard.WiiBoard;
-import wiiboard.wiiboard.WiiBoardDiscoverer;
-import wiiboard.wiiboard.WiiBoardDiscoveryListener;
-import wiiboard.wiiboard.event.WiiBoardButtonEvent;
-import wiiboard.wiiboard.event.WiiBoardListener;
-import wiiboard.wiiboard.event.WiiBoardMassEvent;
-import wiiboard.wiiboard.event.WiiBoardStatusEvent;
+import wiiboard.wiiboardStack.WiiBoard;
+import wiiboard.wiiboardStack.WiiBoardDiscoverer;
+import wiiboard.wiiboardStack.WiiBoardDiscoveryListener;
+import wiiboard.wiiboardStack.event.WiiBoardButtonEvent;
+import wiiboard.wiiboardStack.event.WiiBoardListener;
+import wiiboard.wiiboardStack.event.WiiBoardMassEvent;
+import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
-import java.io.File;
-
-public class Main extends Application {
+public class CopPlotTest extends Application {
 
     private ScatterChart<Double,Double> chart;
     private XYChart.Series series;
@@ -65,8 +63,8 @@ public class Main extends Application {
 
             @Override
             public void wiiBoardMassReceived(WiiBoardMassEvent massEvent) {
-                int L = 433;
-                int W = 228;
+                int L = 433; //wiiboardStack length
+                int W = 228; // wiiboardStack width
                 double TR = massEvent.getTopRight();
                 double TL = massEvent.getTopLeft();
                 double BR = massEvent.getBottomRight();
