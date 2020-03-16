@@ -1,11 +1,10 @@
-package home;
+package main;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
@@ -17,8 +16,7 @@ import wiiboard.wiiboard.event.WiiBoardListener;
 import wiiboard.wiiboard.event.WiiBoardMassEvent;
 import wiiboard.wiiboard.event.WiiBoardStatusEvent;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.io.File;
 
 public class Main extends Application {
 
@@ -31,7 +29,7 @@ public class Main extends Application {
 
         this.series = new XYChart.Series<Double, Double>();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sample.fxml"));
         loader.setController(new Controller());
         Parent root = loader.load();
         primaryStage.setTitle("Wiibalance");
@@ -67,8 +65,16 @@ public class Main extends Application {
 
             @Override
             public void wiiBoardMassReceived(WiiBoardMassEvent massEvent) {
-                Double xVal = (massEvent.getTopRight()+massEvent.getBottomRight())-(massEvent.getBottomLeft()+massEvent.getTopLeft());
-                Double yVal = (massEvent.getTopLeft()+massEvent.getTopRight())-(massEvent.getBottomLeft()+massEvent.getBottomRight());
+                int L = 433;
+                int W = 228;
+                double TR = massEvent.getTopRight();
+                double TL = massEvent.getTopLeft();
+                double BR = massEvent.getBottomRight();
+                double BL = massEvent.getBottomLeft();
+
+                double xVal = (L/2) * (((TR+BR)-(TL+BL))/(TR+BR+TL+BL));
+                double yVal = (W/2) * (((TR+TL)-(BR+BL))/(TR+BR+TL+BL));
+
 
                 Platform.runLater(() -> {
                     updatePlot(new XYChart.Data<Double,Double>(xVal,yVal));

@@ -1,8 +1,7 @@
-package home;
+package main;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.ScatterChart;
 
 import java.net.URL;
