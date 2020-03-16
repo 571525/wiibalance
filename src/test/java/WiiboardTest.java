@@ -1,12 +1,10 @@
-package test;
-
-import wiiboard.wiiboard.WiiBoard;
-import wiiboard.wiiboard.WiiBoardDiscoverer;
-import wiiboard.wiiboard.WiiBoardDiscoveryListener;
-import wiiboard.wiiboard.event.WiiBoardButtonEvent;
-import wiiboard.wiiboard.event.WiiBoardListener;
-import wiiboard.wiiboard.event.WiiBoardMassEvent;
-import wiiboard.wiiboard.event.WiiBoardStatusEvent;
+import wiiboard.wiiboardStack.WiiBoard;
+import wiiboard.wiiboardStack.WiiBoardDiscoverer;
+import wiiboard.wiiboardStack.WiiBoardDiscoveryListener;
+import wiiboard.wiiboardStack.event.WiiBoardButtonEvent;
+import wiiboard.wiiboardStack.event.WiiBoardListener;
+import wiiboard.wiiboardStack.event.WiiBoardMassEvent;
+import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
 
 public class WiiboardTest {

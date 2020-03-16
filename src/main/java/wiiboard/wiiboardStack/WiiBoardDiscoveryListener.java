@@ -18,7 +18,7 @@
  */
 
 
-package wiiboard.wiiboard;
+package wiiboard.wiiboardStack;
 
 /**
  * Implement this interface to be notified of WiiBoards that are connected to. Register your

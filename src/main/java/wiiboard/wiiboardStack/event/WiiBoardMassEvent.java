@@ -17,9 +17,9 @@
     along with Wiiboard Simple.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package wiiboard.wiiboard.event;
+package wiiboard.wiiboardStack.event;
 
-import wiiboard.wiiboard.WiiBoard;
+import wiiboard.wiiboardStack.WiiBoard;
 
 /**
  * A Mass event contains information about the force sensors on the wii board.

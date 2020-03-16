@@ -17,7 +17,7 @@
     along with Wiiboard Simple.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package wiiboard.wiiboard;
+package wiiboard.wiiboardStack;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -30,6 +30,7 @@ import javax.bluetooth.LocalDevice;
 import javax.bluetooth.RemoteDevice;
 import javax.bluetooth.ServiceRecord;
 
+import gui.GuiInterface;
 import wiiboard.bluetooth.BluetoothDevice;
 
 /**
@@ -42,7 +43,7 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 	private static LinkedList<String> discoveredWiiBoardAddresses = new LinkedList<String>();
 	private static WiiBoardDiscoverer discoverer;
 
-	//stores the address of a newly found wiiboard
+	//stores the address of a newly found wiiboardStack
 	private String discoveredAddress;
 	private DiscoveryAgent agent;
 	
@@ -51,6 +52,8 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 	//stores the live connections so we can close them later
 	private LinkedList<WiiBoardDiscoveryListener> listeners;
 	private boolean isSearching;
+
+	private GuiInterface gui;
 	
 	protected WiiBoardDiscoverer() {
 		isSearching = false;
@@ -100,14 +103,19 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 	/**
 	 * Returns an instance of WiiBoardDiscoverer. This is how you should get one for use.
 	 */
-	synchronized static public WiiBoardDiscoverer getWiiBoardDiscoverer() {
+	synchronized static public WiiBoardDiscoverer getWiiBoardDiscoverer(GuiInterface gui) {
 		if (discoverer==null) {
 			discoverer = new WiiBoardDiscoverer();
+			discoverer.registerGui(gui);
 		}
 		
 		return discoverer;
 	}
-	
+
+	private void registerGui(GuiInterface gui) {
+		this.gui = gui;
+	}
+
 	/**
 	 * Notifies listeners that a wiiBoard has been discovered and connected to.
 	 */
@@ -136,12 +144,12 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 			new Thread(){
 				
 				public void run(){
-					System.out.println("WiiBoard Discovery Started");
+					gui.updateConnectionInfo("WiiBoard Discovery Started");
 					WiiBoard wiiboard = null;
 					try {
 						while (isSearching) {
 							do {
-								System.out.println("Press the red sync button on your board now");
+								gui.updateConnectionInfo("Press the red sync button on your board now");
 								agent.startInquiry(DiscoveryAgent.GIAC, discoverer);
 								synchronized (lock) {
 									lock.wait();
@@ -150,7 +158,7 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 							try {
 								if (discoveredAddress!=null) {
 									wiiboard = new WiiBoard(discoveredAddress,discoverer);
-									System.out.println("Connected.");
+									gui.updateConnectionInfo("Connected.");
 									notifyListeners(wiiboard);
 									wiiboard = null;
 									discoveredWiiBoardAddresses.add(discoveredAddress);
@@ -159,14 +167,14 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 							} catch (Exception e) {
 					    		discoveredAddress = null;
 					    		discoveredWiiBoardAddresses.remove(discoveredAddress);
-					    		System.out.println("Connection failed. Try again. ");
+					    		gui.updateConnectionInfo("Connection failed. Try again. ");
 					    		e.printStackTrace();
 							}
 						}
 					}
 					catch (InterruptedException e) {}
 					catch (BluetoothStateException bse) {
-						System.err.println("Error Starting WiiBoard Discovery");
+						gui.updateConnectionInfo("Error Starting WiiBoard Discovery");
 						bse.printStackTrace();
 					}
 					finally {
@@ -174,7 +182,7 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 							wiiboard.cleanup();
 						}
 					}
-					System.out.println("WiiBoard Discovery Stopped");
+					gui.updateConnectionInfo("WiiBoard Discovery Stopped");
 				}
 				
 			}.start();
@@ -218,24 +226,24 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 		try {
 			name = remotedevice.getFriendlyName(true);
 		
-			System.out.print("Discovered " + name);
+			gui.updateConnectionInfo("Discovered " + name);
 		}
 		catch (Exception e) {System.out.println(e);}
 		
-		//if this isn't named correctly then it isn't a wiiboard.
-		//we will return and wait until we find a wiiboard
+		//if this isn't named correctly then it isn't a wiiboardStack.
+		//we will return and wait until we find a wiiboardStack
 		if (!name.equals("Nintendo RVL-WBC-01")) {
-			System.out.println();
+			gui.updateConnectionInfo("");
 			return;
 		}
 		
-		//it is a wiiboard, so we will get it's address
+		//it is a wiiboardStack, so we will get it's address
 		String address = remotedevice.getBluetoothAddress();
-		System.out.print(" " + address+". ");
+		gui.updateConnectionInfo(" " + address+". ");
 		
-		//check to see if we found this wiiboard previously. return if we did. we want a new one.
+		//check to see if we found this wiiboardStack previously. return if we did. we want a new one.
 		if (discoveredWiiBoardAddresses.contains(address)) {
-			System.out.println("Already connected.");
+			gui.updateConnectionInfo("Already connected.");
 			return;
 		}
 		

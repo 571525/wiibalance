@@ -17,13 +17,13 @@
     along with Wiiboard Simple.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package wiiboard.wiiboard.event;
+package wiiboard.wiiboardStack.event;
 import java.util.EventObject;
 
-import wiiboard.wiiboard.WiiBoard;
+import wiiboard.wiiboardStack.WiiBoard;
 
 /**
- * Base class for all wiiboard event classes.
+ * Base class for all wiiboardStack event classes.
  */
 
 public class WiiBoardEvent extends EventObject {
