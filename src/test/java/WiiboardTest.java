@@ -1,5 +1,3 @@
-package test;
-
 import wiiboard.wiiboard.WiiBoard;
 import wiiboard.wiiboard.WiiBoardDiscoverer;
 import wiiboard.wiiboard.WiiBoardDiscoveryListener;

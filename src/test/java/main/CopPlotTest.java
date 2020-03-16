@@ -18,7 +18,7 @@ import wiiboard.wiiboard.event.WiiBoardStatusEvent;
 
 import java.io.File;
 
-public class Main extends Application {
+public class CopPlotTest extends Application {
 
     private ScatterChart<Double,Double> chart;
     private XYChart.Series series;
@@ -65,8 +65,8 @@ public class Main extends Application {
 
             @Override
             public void wiiBoardMassReceived(WiiBoardMassEvent massEvent) {
-                int L = 433;
-                int W = 228;
+                int L = 433; //wiiboard length
+                int W = 228; // wiiboard width
                 double TR = massEvent.getTopRight();
                 double TL = massEvent.getTopLeft();
                 double BR = massEvent.getBottomRight();
