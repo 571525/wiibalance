@@ -17,7 +17,7 @@
     along with Wiiboard Simple.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package wiiboard.wiiboard;
+package wiiboard.wiiboardStack;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -43,7 +43,7 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 	private static LinkedList<String> discoveredWiiBoardAddresses = new LinkedList<String>();
 	private static WiiBoardDiscoverer discoverer;
 
-	//stores the address of a newly found wiiboard
+	//stores the address of a newly found wiiboardStack
 	private String discoveredAddress;
 	private DiscoveryAgent agent;
 	
@@ -230,18 +230,18 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 		}
 		catch (Exception e) {System.out.println(e);}
 		
-		//if this isn't named correctly then it isn't a wiiboard.
-		//we will return and wait until we find a wiiboard
+		//if this isn't named correctly then it isn't a wiiboardStack.
+		//we will return and wait until we find a wiiboardStack
 		if (!name.equals("Nintendo RVL-WBC-01")) {
 			gui.updateConnectionInfo("");
 			return;
 		}
 		
-		//it is a wiiboard, so we will get it's address
+		//it is a wiiboardStack, so we will get it's address
 		String address = remotedevice.getBluetoothAddress();
 		gui.updateConnectionInfo(" " + address+". ");
 		
-		//check to see if we found this wiiboard previously. return if we did. we want a new one.
+		//check to see if we found this wiiboardStack previously. return if we did. we want a new one.
 		if (discoveredWiiBoardAddresses.contains(address)) {
 			gui.updateConnectionInfo("Already connected.");
 			return;

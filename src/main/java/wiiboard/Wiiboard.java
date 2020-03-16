@@ -2,8 +2,11 @@ package wiiboard;
 
 import gui.GuiInterface;
 import logic.LogicInterface;
-import wiiboard.wiiboard.WiiBoardDiscoverer;
+import wiiboard.wiiboardStack.WiiBoardDiscoverer;
 
+/**
+ * This class implements the wiiboard interface and is the connecting class to the rest of the application
+ */
 public class Wiiboard implements WiiboardInterface {
 
     private LogicInterface logic;
@@ -13,6 +16,7 @@ public class Wiiboard implements WiiboardInterface {
         System.setProperty("bluecove.jsr82.psm_minimum_off", "true"); //enable bluetooth to work properly
 
     }
+
 
     @Override
     public void registerGui(GuiInterface gui) {

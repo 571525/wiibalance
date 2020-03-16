@@ -18,7 +18,7 @@
     along with Wiiboard Simple.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package wiiboard.wiiboard;
+package wiiboard.wiiboardStack;
 
 
 import java.io.IOException;
@@ -31,8 +31,7 @@ import javax.bluetooth.L2CAPConnection;
 import javax.microedition.io.Connector;
 
 import wiiboard.bluetooth.BluetoothDevice;
-import wiiboard.wiiboard.event.*;
-import wiiboard.wiiboard.event.*;
+import wiiboard.wiiboardStack.event.*;
 
 /**
  * Represents a Wii Balance Board that has been connected to.
@@ -87,12 +86,12 @@ public class WiiBoard implements BluetoothDevice {
     //order of calibration {top right, bottom right, top left, bottom left}
     final private static int TOP_RIGHT = 0, BOTTOM_RIGHT = 1, TOP_LEFT = 2, BOTTOM_LEFT = 3;
     
-    //wiiboard calibration comes with information about 0KG, 17KG and 34KG for every sensor
+    //wiiboardStack calibration comes with information about 0KG, 17KG and 34KG for every sensor
 	private double[] calibration0, calibration17, calibration34;
 	private Thread commandListener;
 		
 	/**
-	 * Creates a WiiBoard instance given an address. Forms connections to the wiiboard, and
+	 * Creates a WiiBoard instance given an address. Forms connections to the wiiboardStack, and
 	 * readies sending and receiving of data. You likely won't call this yourself. Instead,
 	 * your WiiBoard instances will be created by WiiBoardDiscoverer
 	 */
@@ -135,7 +134,7 @@ public class WiiBoard implements BluetoothDevice {
 	}
 
 	/**
-	 * Attaches a WiiBoardListener to this wiiboard. The wiiboard will send events to the
+	 * Attaches a WiiBoardListener to this wiiboardStack. The wiiboardStack will send events to the
 	 * given listener whenever something happens (e.g. button is pressed).
 	 * Mass events will be sent continuously to the listener.
 	 */
@@ -152,7 +151,7 @@ public class WiiBoard implements BluetoothDevice {
 	}
 	
 	/**
-	 * Dispatches wiiboard events to all the WiiBoardListeners.
+	 * Dispatches wiiboardStack events to all the WiiBoardListeners.
 	 */
 	protected void dispatchEvent(WiiBoardEvent e) {
 		
@@ -207,7 +206,7 @@ public class WiiBoard implements BluetoothDevice {
 
 	
 	/**
-	 * Causes the given data to be written to the given register address on the wiiboard
+	 * Causes the given data to be written to the given register address on the wiiboardStack
 	 */
 	private void writeToRegister(int address, byte[] data) {
 		byte[] message = new byte[21];
@@ -227,7 +226,7 @@ public class WiiBoard implements BluetoothDevice {
 	}
 	
 	/**
-	 * Sends message to the wiiboard asking for mass calibration data.
+	 * Sends message to the wiiboardStack asking for mass calibration data.
 	 */
 	synchronized private void readCalibration() {
 		calibrationRequested = true;
@@ -236,7 +235,7 @@ public class WiiBoard implements BluetoothDevice {
 	}
 
 	/**
-	 * Sends a generic command to the wiiboard.
+	 * Sends a generic command to the wiiboardStack.
 	 */
 	synchronized private void sendCommand(byte command, byte[] payload) {
 		try {
@@ -253,14 +252,14 @@ public class WiiBoard implements BluetoothDevice {
 	}
 	
 	/**
-	 * Causes the wiiboard connections to close.
+	 * Causes the wiiboardStack connections to close.
 	 */
 	protected void finalize() throws Throwable {
 		cleanup();
 	}
 	
 	/**
-	 * Closes any open wiiboard connections.
+	 * Closes any open wiiboardStack connections.
 	 */
 	public void cleanup() {
 		synchronized (receiveCon) { 
@@ -362,7 +361,7 @@ public class WiiBoard implements BluetoothDevice {
 	}
 	
 	/**
-	 * This loops infinitely, constantly listening for data from the wiiboard. When
+	 * This loops infinitely, constantly listening for data from the wiiboardStack. When
 	 * data is received it responds accordingly.
 	 */
 	protected class CommandListener extends Thread {
