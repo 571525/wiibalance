@@ -5,13 +5,15 @@ import logic.LogicInterface;
 
 import java.util.List;
 
-public interface wiiboardInterface {
+public interface WiiboardInterface {
 
     void registerGui(GuiInterface gui);
 
+    void registerLogic(LogicInterface logic);
+
     void startWiiboardDiscoverer();
 
-    void startRecordingData(LogicInterface logic);
+    void startRecordingData(int seconds);
 
 
 
