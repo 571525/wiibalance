@@ -60,11 +60,28 @@ public class Logic implements LogicInterface {
 
     @Override
     public double calculateCurveArea() {
-        double curveArea = 0.0;
+        double area = 0.0;
 
-        //TODO calculate curve area
+        List<Double> X = new ArrayList<>();
+        List<Double> Y = new ArrayList<>();
 
-        return curveArea;
+        cop.forEach(a -> {
+            X.add(a[0]);
+            Y.add(a[1]);
+        });
+
+        // Calculate value of shoelace formula
+        int j = cop.size() - 1;
+        for (int i = 0; i < cop.size(); i++)
+        {
+            area += (X.get(j) + X.get(i) * (Y.get(j) - Y.get(i)));
+
+            // j is previous vertex to i
+            j = i;
+        }
+
+        // Return absolute value
+        return Math.abs(area / 2.0);
     }
 
     @Override

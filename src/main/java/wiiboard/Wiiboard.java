@@ -59,7 +59,6 @@ public class Wiiboard implements WiiboardInterface {
             wiiboard.addListener(listener);
         }
     };
-    ;
 
     public Wiiboard() {
         System.setProperty("bluecove.jsr82.psm_minimum_off", "true"); //enable bluetooth to work properly
@@ -103,6 +102,12 @@ public class Wiiboard implements WiiboardInterface {
             }
         }
 
-        gui.updateConnectionInfo(logic.copToString());
+        //USED FOR TESTING PURPOSE - shows the recorded list on the UI
+        gui.updateConnectionInfo(
+                "Curvelength X: " + logic.calcCurveLengthX() + "\n" +
+                        "Curvelength Y: " + logic.calcCurveLengthY() + "\n" +
+                        "Curvelength: " + logic.calculateCurveLength() + "\n" +
+                        "AREA: " + logic.calculateCurveArea()
+        );
     }
 }
