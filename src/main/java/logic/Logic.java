@@ -72,6 +72,10 @@ public class Logic implements LogicInterface {
         cop.clear();
     }
 
+    /**
+     * Help method for logging content of COP list
+     * @return
+     */
     @Override
     public String copToString() {
         StringBuilder s = new StringBuilder();
@@ -79,5 +83,43 @@ public class Logic implements LogicInterface {
         cop.forEach(a -> s.append("ENTRY: " +a[0]+" " +a[1]+" " +a[2] + "\n"));
 
         return s.toString();
+    }
+
+    @Override
+    public double calcCurveLengthX() {
+        double length = 0.0;
+
+        for(int i = 1; i < cop.size(); i++) {
+            double[] cops = cop.get(i);
+            double[] copsPrev = cop.get(i-1);
+            double x1 = Math.abs(cops[0]);
+            double x2 = Math.abs(copsPrev[0]);
+
+            if (x1 > x2)
+                length += x1-x2;
+            else
+                length += x2-x1;
+        }
+
+        return length;
+    }
+
+    @Override
+    public double calcCurveLengthY() {
+        double length = 0.0;
+
+        for(int i = 1; i < cop.size(); i++) {
+            double[] cops = cop.get(i);
+            double[] copsPrev = cop.get(i-1);
+            double y1 = Math.abs(cops[1]);
+            double y2 = Math.abs(copsPrev[1]);
+
+            if (y1 > y2)
+                length += y1-y2;
+            else
+                length += y2-y1;
+        }
+
+        return length;
     }
 }

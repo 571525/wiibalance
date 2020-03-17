@@ -18,5 +18,9 @@ public interface LogicInterface {
 
     String copToString();
 
+    double calcCurveLengthX();
+
+    double calcCurveLengthY();
+
 
 }
