@@ -72,5 +72,12 @@ public class Logic implements LogicInterface {
         cop.clear();
     }
 
+    @Override
+    public String copToString() {
+        StringBuilder s = new StringBuilder();
 
+        cop.forEach(a -> s.append("ENTRY: " +a[0]+" " +a[1]+" " +a[2] + "\n"));
+
+        return s.toString();
+    }
 }

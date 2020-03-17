@@ -16,5 +16,7 @@ public interface LogicInterface {
 
     void clearData();
 
+    String copToString();
+
 
 }

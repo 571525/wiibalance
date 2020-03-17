@@ -1,5 +1,7 @@
+wiiboard/Wiiboard$2.class
 wiiboard/wiiboardStack/event/WiiBoardListener.class
 wiiboard/wiiboardStack/WiiBoardDiscoveryListener.class
+wiiboard/Wiiboard$1.class
 wiiboard/wiiboardStack/event/WiiBoardEvent.class
 logic/Logic.class
 gui/GuiInterface.class
@@ -15,3 +17,4 @@ wiiboard/Wiiboard.class
 wiiboard/wiiboardStack/WiiBoardDiscoverer$1.class
 wiiboard/WiiboardInterface.class
 gui/Main.class
+gui/Main$1.class

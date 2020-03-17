@@ -1,11 +1,15 @@
 package gui;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import logic.Logic;
 import wiiboard.Wiiboard;
 
 /**
@@ -27,13 +31,26 @@ public class Main extends Application implements GuiInterface {
     public void start(Stage stage) throws Exception {
 
         stackPane = new StackPane();
+        Button button = new Button();
+
+        button.setText("TEST CLICK");
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                wiiboard.startRecordingData(10);
+            }
+        });
+
         textArea = new TextArea();
         stackPane.getChildren().add(textArea);
+        stackPane.getChildren().add(button);
         scene = new Scene(stackPane, 640, 480);
         stage.setScene(scene);
         stage.show();
         wiiboard.registerGui(this);
+        wiiboard.registerLogic(new Logic());
         wiiboard.startWiiboardDiscoverer();
+
 
     }
 
