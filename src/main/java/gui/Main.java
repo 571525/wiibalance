@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import logic.Logic;
 import wiiboard.Wiiboard;
 
+import java.util.List;
+
 /**
  * This is the centre of the application, responsible for gui and all couplings in the application.
  */
@@ -57,6 +59,21 @@ public class Main extends Application implements GuiInterface {
     @Override
     public void updateConnectionInfo(String info) {
         textArea.setText(info);
+    }
+
+    @Override
+    public void startCountdown() {
+
+    }
+
+    @Override
+    public void displayDataPoint(List<Double> datapoint) {
+
+    }
+
+    @Override
+    public void notifyTestFinished() {
+
     }
 
 

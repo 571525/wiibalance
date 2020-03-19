@@ -26,70 +26,73 @@ public class Logic implements LogicInterface {
     }
 
     @Override
-    public void addCopPoint(double tr, double tl, double br, double bl, double time) {
-        int L = 433; //wiiboardStack length
-        int W = 228; // wiiboardStack width
-
-        double xVal = (L / 2) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
-        double yVal = (W / 2) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
-
+    public void addCopPoint(double xVal, double yVal, double time) {
         cop.add(Arrays.asList(xVal, yVal, time));
     }
 
+    /**
+     * Finds the turning point for maintaining balance as described in the article by T. Aasen.
+     *
+     * @return TP, -1.0 if error
+     */
     @Override
-    public double calculateTurningPointForMaintainingBalance() {
+    public double findTP() {
 
-        // Simple check to see if COP har more than one object
-        if(cop.size() < 1) return -1.0;
+        try {
 
-        List<List<Double>> slope = new ArrayList<>();
+            List<List<Double>> slope = new ArrayList<>();
+            List<List<Double>> derivatedSlope;
 
-        int beta = 500;
-        int n = cop.size();
-        int k = 1;
-        double timeInterval = 0.0;
-        double stepsize = cop.get(n - 1).get(2) / n; // i sekunder
-        double sum = 0.0;
+            int beta = 500;
+            int n = cop.size();
+            int k = 1;
+            double timeInterval = 0.0;
+            double stepsize = cop.get(n - 1).get(2) / n; // i sekunder
+            double sum = 0.0;
 
-        while (k < beta) {
-            for (int i = 0; i < (-k + n); i++) {
-                List<Double> xiPlusK = cop.get(i + k);
-                List<Double> xi = cop.get(i);
+            while (k < beta) {
+                for (int i = 0; i < (-k + n); i++) {
+                    List<Double> xiPlusK = cop.get(i + k);
+                    List<Double> xi = cop.get(i);
 
-                double xDif = xiPlusK.get(0) - xi.get(0);
-                double yDif = xiPlusK.get(1) - xi.get(1);
+                    double xDif = xiPlusK.get(0) - xi.get(0);
+                    double yDif = xiPlusK.get(1) - xi.get(1);
 
-                sum += Math.pow(xDif,2) + Math.pow(yDif, 2);
+                    sum += Math.pow(xDif, 2) + Math.pow(yDif, 2);
+                }
+                double msd = sum / (-k + n);
+                double slopeK = (0.5) * ((Math.log10(msd)));
+                slope.add(Arrays.asList(slopeK, timeInterval));
+                k++;
+                timeInterval += stepsize;
+                sum = 0.0;
             }
-            double msd = sum / (-k + n);
-            double slopeK = (0.5) * ((Math.log10(msd)));
-            slope.add(Arrays.asList(slopeK,timeInterval));
-            k++;
-            timeInterval += stepsize;
-            sum = 0.0;
+
+            derivatedSlope = calcSlopeDerivated(slope);
+
+            for (int i = 0; i < derivatedSlope.size(); i++) {
+                if (derivatedSlope.get(i).get(0) <= 0.5)
+                    return derivatedSlope.get(i).get(1);
+            }
+
+            return -1.0;
+
+        } catch (Exception e) {
+            return -1.0;
         }
-
-        List<List<Double>> derivatedSlope = calcSlopeDerivated(slope);
-
-        for(int i = 0; i<derivatedSlope.size(); i++){
-            System.out.println("slope: " + derivatedSlope.get(i).get(0));
-            if (derivatedSlope.get(i).get(0) <= 0.5)
-                return derivatedSlope.get(i).get(1);
-        }
-
-        return -1.0;
     }
 
     private List<List<Double>> calcSlopeDerivated(List<List<Double>> data) {
-        List<List<Double>> deriv = new ArrayList<>();
 
-        double x1,x2,y1,y2;
-        for (int i = 1; i < data.size(); i++) {
-            x1 = data.get(i-1).get(1);
-            x2 = data.get(i).get(1);
-            y1 = data.get(i-1).get(0);
-            y2 = data.get(i).get(0);
-            deriv.add(Arrays.asList((y2-y1)/(x2-x1),data.get(i).get(1)));
+        List<List<Double>> deriv = new ArrayList<>();
+        double x1, x2, y1, y2;
+
+        for (int i = 1; i < data.size() - 1; i++) {
+            x1 = data.get(i - 1).get(1);
+            x2 = data.get(i + 1).get(1);
+            y1 = data.get(i - 1).get(0);
+            y2 = data.get(i + 1).get(0);
+            deriv.add(Arrays.asList((y2 - y1) / (x2 - x1), data.get(i).get(1)));
         }
 
         return deriv;
@@ -123,6 +126,11 @@ public class Logic implements LogicInterface {
         return curveLength;
     }
 
+    /**
+     * Creates a 95% confidense ellipse and calculates the area of this ellipse in mm^2
+     *
+     * @return
+     */
     @Override
     public double calculateCurveArea() {
 
@@ -130,7 +138,6 @@ public class Logic implements LogicInterface {
 
         double Cxx = subMean.stream().mapToDouble(a -> a.get(0) * a.get(0)).sum();
         double Cxy = subMean.stream().mapToDouble(a -> a.get(0) * a.get(1)).sum();
-        double Cyx = subMean.stream().mapToDouble(a -> a.get(1) * a.get(0)).sum();
         double Cyy = subMean.stream().mapToDouble(a -> a.get(1) * a.get(1)).sum();
 
         double eigenValue0 = ((Cxx + Cyy) / 2) + Math.sqrt(Math.pow(Cxy, 2) + Math.pow((Cxx - Cyy) / 2, 2));
@@ -171,10 +178,7 @@ public class Logic implements LogicInterface {
             double x1 = Math.abs(cops.get(0));
             double x2 = Math.abs(copsPrev.get(0));
 
-            if (x1 > x2)
-                length += x1 - x2;
-            else
-                length += x2 - x1;
+            length += (x1 > x2) ? x1 - x2 : x2 - x1;
         }
 
         return length;
@@ -190,10 +194,7 @@ public class Logic implements LogicInterface {
             double y1 = Math.abs(cops.get(1));
             double y2 = Math.abs(copsPrev.get(1));
 
-            if (y1 > y2)
-                length += y1 - y2;
-            else
-                length += y2 - y1;
+            length += (y1 > y2) ? y1 - y2 : y2 - y1;
         }
 
         return length;
