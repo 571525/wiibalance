@@ -37,7 +37,7 @@ public class Main extends Application implements GuiInterface {
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                wiiboard.startRecordingData(10);
+                wiiboard.startRecordingData(20);
             }
         });
 

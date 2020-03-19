@@ -107,6 +107,7 @@ public class Wiiboard implements WiiboardInterface {
                 "Curvelength X: " + logic.calcCurveLengthX() + "\n" +
                         "Curvelength Y: " + logic.calcCurveLengthY() + "\n" +
                         "Curvelength: " + logic.calculateCurveLength() + "\n" +
+                        "TP: " + logic.calculateTurningPointForMaintainingBalance() + "\n" +
                         "AREA: " + logic.calculateCurveArea()
         );
     }
