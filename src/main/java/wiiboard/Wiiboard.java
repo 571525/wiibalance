@@ -15,6 +15,8 @@ import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
  */
 public class Wiiboard implements WiiboardInterface {
 
+    private static final int L = 433; //wiiboardStack length
+    private static final int W = 228; // wiiboardStack width
 
     private double tr;
     private double tl;
@@ -95,20 +97,29 @@ public class Wiiboard implements WiiboardInterface {
         long start = System.currentTimeMillis();
         long duration = start + seconds * 1000;
 
+        gui.startCountdown();
+
         while (System.currentTimeMillis() < duration) {
             if (updated) {
-                logic.addCopPoint(tr, tl, br, bl, (System.currentTimeMillis() - start) / 1000.0);
+
+                double xVal = (L / 2) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
+                double yVal = (W / 2) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
+                logic.addCopPoint(xVal,yVal,(System.currentTimeMillis() - start) / 1000.0);
                 updated = false;
             }
         }
 
+        gui.notifyTestFinished();
+
         //USED FOR TESTING PURPOSE - shows the recorded list on the UI
+        /*
         gui.updateConnectionInfo(
                 "Curvelength X: " + logic.calcCurveLengthX() + "\n" +
                         "Curvelength Y: " + logic.calcCurveLengthY() + "\n" +
                         "Curvelength: " + logic.calculateCurveLength() + "\n" +
-                        "TP: " + logic.calculateTurningPointForMaintainingBalance() + "\n" +
+                        "TP: " + logic.findTP() + "\n" +
                         "AREA: " + logic.calculateCurveArea()
         );
+        */
     }
 }

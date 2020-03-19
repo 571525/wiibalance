@@ -158,7 +158,7 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 							try {
 								if (discoveredAddress!=null) {
 									wiiboard = new WiiBoard(discoveredAddress,discoverer);
-									gui.updateConnectionInfo("Connected.");
+									gui.updateConnectionInfo("Connected");
 									notifyListeners(wiiboard);
 									wiiboard = null;
 									discoveredWiiBoardAddresses.add(discoveredAddress);
@@ -182,7 +182,6 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 							wiiboard.cleanup();
 						}
 					}
-					gui.updateConnectionInfo("WiiBoard Discovery Stopped");
 				}
 				
 			}.start();
@@ -225,25 +224,20 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 		String name = null;
 		try {
 			name = remotedevice.getFriendlyName(true);
-		
-			gui.updateConnectionInfo("Discovered " + name);
 		}
 		catch (Exception e) {System.out.println(e);}
 		
 		//if this isn't named correctly then it isn't a wiiboardStack.
 		//we will return and wait until we find a wiiboardStack
 		if (!name.equals("Nintendo RVL-WBC-01")) {
-			gui.updateConnectionInfo("");
 			return;
 		}
 		
 		//it is a wiiboardStack, so we will get it's address
 		String address = remotedevice.getBluetoothAddress();
-		gui.updateConnectionInfo(" " + address+". ");
-		
+
 		//check to see if we found this wiiboardStack previously. return if we did. we want a new one.
 		if (discoveredWiiBoardAddresses.contains(address)) {
-			gui.updateConnectionInfo("Already connected.");
 			return;
 		}
 		
