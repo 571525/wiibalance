@@ -3,6 +3,7 @@ package logic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Logic implements LogicInterface {
 
@@ -30,79 +31,84 @@ public class Logic implements LogicInterface {
         cop.add(Arrays.asList(xVal, yVal, time));
     }
 
-    /**
-     * Finds the turning point for maintaining balance as described in the article by T. Aasen.
-     *
-     * @return TP, -1.0 if error
-     */
+
     @Override
     public double findTP() {
 
-        try {
+        List<Double> timeSerie = getTimeSerie();
+        List<List<Double>> slope = new ArrayList<>();
 
-            List<List<Double>> slope = new ArrayList<>();
-            List<List<Double>> derivatedSlope;
 
-            int beta = 500;
-            int n = cop.size();
-            int k = 1;
-            double timeInterval = 0.0;
-            double stepsize = cop.get(n - 1).get(2) / n; // i sekunder
-            double sum = 0.0;
+        int beta = 500;
+        int n = timeSerie.size();
+        int k = 1;
+        double timeInterval = 0.0;
+        double stepsize = cop.get(cop.size() - 1).get(2) / cop.size(); // i sekunder
+        double sumSpread = 0.0;
 
-            while (k < beta) {
-                for (int i = 0; i < (-k + n); i++) {
-                    List<Double> xiPlusK = cop.get(i + k);
-                    List<Double> xi = cop.get(i);
-
-                    double xDif = xiPlusK.get(0) - xi.get(0);
-                    double yDif = xiPlusK.get(1) - xi.get(1);
-
-                    sum += Math.pow(xDif, 2) + Math.pow(yDif, 2);
-                }
-                double msd = sum / (-k + n);
-                double slopeK = (0.5) * ((Math.log10(msd)));
-                slope.add(Arrays.asList(slopeK, timeInterval));
-                k++;
-                timeInterval += stepsize;
-                sum = 0.0;
+        while (k < beta) {
+            double xi, xiPlusK, sqrd;
+            for (int i = 0; i < (-k + n); i++) {
+                xi = timeSerie.get(i);
+                xiPlusK = timeSerie.get(i + k);
+                sqrd = Math.pow(xiPlusK - xi, 2);
+                sumSpread += sqrd;
             }
-
-            derivatedSlope = calcSlopeDerivated(slope);
-
-            for (int i = 0; i < derivatedSlope.size(); i++) {
-                if (derivatedSlope.get(i).get(0) <= 0.5)
-                    return derivatedSlope.get(i).get(1);
-            }
-
-            return -1.0;
-
-        } catch (Exception e) {
-            return -1.0;
-        }
-    }
-
-    private List<List<Double>> calcSlopeDerivated(List<List<Double>> data) {
-
-        List<List<Double>> deriv = new ArrayList<>();
-        double x1, x2, y1, y2;
-
-        for (int i = 1; i < data.size() - 1; i++) {
-            x1 = data.get(i - 1).get(1);
-            x2 = data.get(i + 1).get(1);
-            y1 = data.get(i - 1).get(0);
-            y2 = data.get(i + 1).get(0);
-            deriv.add(Arrays.asList((y2 - y1) / (x2 - x1), data.get(i).get(1)));
+            double msd = sumSpread / (-k + n);
+            double hurst = 0.5 * Math.log10(msd);
+            slope.add(Arrays.asList(Math.log10(timeInterval), hurst, timeInterval));
+            k++;
+            timeInterval += stepsize;
+            sumSpread = 0.0;
         }
 
-        return deriv;
+        double h1, h2, t1, t2, tp;
+        for (int i = 5; i < slope.size(); i++) {
+            h1 = slope.get(i).get(1);
+            h2 = slope.get(i - 1).get(1);
+            t1 = slope.get(i).get(0);
+            t2 = slope.get(i - 1).get(0);
+            tp = Math.abs((h1 - h2)) / (t1 - t2);
+            if (tp <= 0.5) return slope.get(i).get(2);
+        }
+
+        return -1.0;
+
     }
 
-    /**
-     * This gets the COP points. Each entry is on the format [x,y,time]
-     *
-     * @return A List with COP points in format [x,y,time]
-     */
+    private List<Double> getTimeSerie() {
+        List<Double> ts = new ArrayList<>();
+        List<Double> z = new ArrayList<>();
+
+
+        double x1, x2, y1, y2, sum;
+        for (int i = 1; i < cop.size(); i++) {
+            x1 = cop.get(i - 1).get(0);
+            x2 = cop.get(i).get(0);
+            y1 = cop.get(i - 1).get(1);
+            y2 = cop.get(i).get(1);
+            sum = Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2);
+            z.add(Math.sqrt(sum));
+        }
+
+        double mean = z.stream().mapToDouble(a -> a).average().getAsDouble();
+
+        List<Double> zMinMean = z.stream().map(a -> a - mean).collect(Collectors.toList());
+
+        ts.add(z.get(0));
+
+        double c, d, value;
+        for (int i = 1; i < zMinMean.size(); i++) {
+            c = zMinMean.get(i);
+            d = ts.get(i - 1);
+            value = c + d;
+            ts.add(value);
+        }
+
+        return ts;
+    }
+
+
     @Override
     public List getCopList() {
         return this.cop;
@@ -126,11 +132,6 @@ public class Logic implements LogicInterface {
         return curveLength;
     }
 
-    /**
-     * Creates a 95% confidense ellipse and calculates the area of this ellipse in mm^2
-     *
-     * @return
-     */
     @Override
     public double calculateCurveArea() {
 
@@ -154,11 +155,7 @@ public class Logic implements LogicInterface {
         cop.clear();
     }
 
-    /**
-     * Help method for logging content of COP list
-     *
-     * @return
-     */
+
     @Override
     public String copToString() {
         StringBuilder s = new StringBuilder();
