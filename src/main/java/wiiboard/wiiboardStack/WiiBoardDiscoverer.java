@@ -149,7 +149,7 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 					try {
 						while (isSearching) {
 							do {
-								gui.updateConnectionInfo("Press the red sync button on your board now");
+								gui.updateConnectionInfo("Press the red sync button");
 								agent.startInquiry(DiscoveryAgent.GIAC, discoverer);
 								synchronized (lock) {
 									lock.wait();
@@ -167,7 +167,7 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 							} catch (Exception e) {
 					    		discoveredAddress = null;
 					    		discoveredWiiBoardAddresses.remove(discoveredAddress);
-					    		gui.updateConnectionInfo("Connection failed. Try again. ");
+					    		gui.updateConnectionInfo("Failed. Try again. ");
 					    		e.printStackTrace();
 							}
 						}

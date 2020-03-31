@@ -1,29 +1,26 @@
 package gui;
 
+import gui.controller.DashboardController;
 import javafx.application.Application;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import logic.Logic;
 import wiiboard.Wiiboard;
 
 import java.util.List;
 
+
 /**
  * This is the centre of the application, responsible for gui and all couplings in the application.
  */
 public class Main extends Application implements GuiInterface {
 
+    private DashboardController controller;
     private Scene scene;
-    private StackPane stackPane;
-    private TextArea textArea;
-
-    private Wiiboard wiiboard = new Wiiboard();
+    private Logic logic;
+    private Wiiboard wiiboard;
 
     public static void main(String[] args) {
         launch();
@@ -31,34 +28,27 @@ public class Main extends Application implements GuiInterface {
 
     @Override
     public void start(Stage stage) throws Exception {
+        logic = new Logic();
+        wiiboard = new Wiiboard();
 
-        stackPane = new StackPane();
-        Button button = new Button();
+        wiiboard.registerLogic(logic);
+        wiiboard.registerGui(this);
 
-        button.setText("TEST CLICK");
-        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                wiiboard.startRecordingData(20);
-            }
-        });
 
-        textArea = new TextArea();
-        stackPane.getChildren().add(textArea);
-        stackPane.getChildren().add(button);
-        scene = new Scene(stackPane, 640, 480);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
+        controller = new DashboardController(logic,wiiboard);
+        loader.setController(controller);
+        Parent root = loader.load();
+        scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        wiiboard.registerGui(this);
-        wiiboard.registerLogic(new Logic());
-        wiiboard.startWiiboardDiscoverer();
 
-
+        controller.connect();
     }
 
     @Override
     public void updateConnectionInfo(String info) {
-        textArea.setText(info);
+        controller.setConnectionInfo(info);
     }
 
     @Override
