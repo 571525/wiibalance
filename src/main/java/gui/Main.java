@@ -34,7 +34,6 @@ public class Main extends Application implements GuiInterface {
         wiiboard.registerLogic(logic);
         wiiboard.registerGui(this);
 
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
         controller = new DashboardController(logic,wiiboard);
         loader.setController(controller);
@@ -43,7 +42,7 @@ public class Main extends Application implements GuiInterface {
         stage.setScene(scene);
         stage.show();
 
-        controller.connect();
+        controller.setup();
     }
 
     @Override
@@ -51,19 +50,10 @@ public class Main extends Application implements GuiInterface {
         controller.setConnectionInfo(info);
     }
 
-    @Override
-    public void startCountdown() {
-
-    }
-
-    @Override
-    public void displayDataPoint(List<Double> datapoint) {
-
-    }
 
     @Override
     public void notifyTestFinished() {
-
+        controller.stopRecording();
     }
 
 

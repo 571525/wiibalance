@@ -35,11 +35,11 @@ import wiiboard.bluetooth.BluetoothDevice;
 
 /**
  * This class is used to search for WiiBoards.
- * When it finds a board, it attempts to connect to the board and notifies any listeners
+ * When it finds a board, it attempts to setup to the board and notifies any listeners
  *
  */
 public class WiiBoardDiscoverer implements DiscoveryListener {
-	//stores previously found wiiboards so that we don't try to connect to the same one twice
+	//stores previously found wiiboards so that we don't try to setup to the same one twice
 	private static LinkedList<String> discoveredWiiBoardAddresses = new LinkedList<String>();
 	private static WiiBoardDiscoverer discoverer;
 
@@ -127,7 +127,7 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 	
 	/**
 	 * Advises the discoverer that a connected bluetooth device was disconnected
-	 * and it may now connect to that device again
+	 * and it may now setup to that device again
 	 */
 	public void bluetoothDeviceDisconnected(BluetoothDevice b){
 		discoveredWiiBoardAddresses.remove(b.getBluetoothAddress());
