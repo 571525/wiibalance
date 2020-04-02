@@ -10,7 +10,6 @@ import wiiboard.wiiboardStack.event.WiiBoardListener;
 import wiiboard.wiiboardStack.event.WiiBoardMassEvent;
 import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class Wiiboard implements WiiboardInterface {
     private volatile double br;
     private volatile double bl;
 
-    private double xVal =0.0, yVal=0.0, xPrev = 0.0, yPrev = 0.0;
+    private double xVal = 0.0, yVal = 0.0, xPrev = 0.0, yPrev = 0.0;
 
 
     private volatile boolean updated = false;
@@ -101,31 +100,31 @@ public class Wiiboard implements WiiboardInterface {
 
     @Override
     public void startRecordingData(int seconds) {
+        new Thread(() -> {
+            logic.clearData();
 
-        logic.clearData();
+            long start = System.currentTimeMillis();
+            long duration = start + seconds * 1000;
 
-        long start = System.currentTimeMillis();
-        long duration = start + seconds * 1000;
+            while (System.currentTimeMillis() < duration) {
+                if (updated) {
+                    if (xVal != xPrev || yVal != yPrev) { //We want unique values
 
-        while (System.currentTimeMillis() < duration) {
-            if (updated) {
-                if(xVal != xPrev || yVal != yPrev) { //We want unique values
+                        logic.addCopPoint(xVal, yVal, (System.currentTimeMillis() - start) / 1000.0);
 
-                    logic.addCopPoint(xVal, yVal, (System.currentTimeMillis() - start) / 1000.0);
-
-                    xPrev = xVal;
-                    yPrev = yVal;
+                        xPrev = xVal;
+                        yPrev = yVal;
+                    }
+                    updated = false;
                 }
-                updated = false;
             }
-        }
 
-        gui.notifyTestFinished();
-
+            gui.notifyTestFinished();
+        }).start();
     }
 
     @Override
     public List getCopPoint() {
-        return Arrays.asList(xVal,yVal);
+        return Arrays.asList(xVal, yVal);
     }
 }

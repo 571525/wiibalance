@@ -1,46 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.ScatterChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="dashboardPane" prefHeight="636.0" prefWidth="828.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="dashboardPane" prefHeight="636.0" prefWidth="828.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-       <LineChart axisSortingPolicy="NONE" fx:id="copChart" layoutX="382.0" layoutY="48.0" legendVisible="false" prefHeight="372.0" prefWidth="423.0" visible="true">
-           <xAxis>
-               <NumberAxis autoRanging="false" lowerBound="-100" side="BOTTOM" tickUnit="1" upperBound="100" />
-           </xAxis>
-           <yAxis>
-               <NumberAxis autoRanging="false" lowerBound="-100" side="LEFT" tickUnit="1" upperBound="100" />
-           </yAxis>
-       </LineChart>
        <AnchorPane id="infoPane" layoutX="20.0" layoutY="293.0" prefHeight="329.0" prefWidth="250.0">
           <children>
               <MenuButton id="menuTest" layoutX="72.0" layoutY="83.0" mnemonicParsing="false" text="TESTS">
                   <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                      <MenuItem mnemonicParsing="false" text="Action 2" />
+                      <MenuItem mnemonicParsing="false" text="EYES OPEN" />
+                      <MenuItem mnemonicParsing="false" text="EYES CLOSED" />
+                  <MenuItem mnemonicParsing="false" text="EYES OPEN - FOAM" />
+                  <MenuItem mnemonicParsing="false" text="EYES CLOSED - FOAM" />
+                  <MenuItem mnemonicParsing="false" text="ADD NEW" />
                   </items>
               </MenuButton>
-              <Text id="misc-text" layoutX="53.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person og test info" wrappingWidth="127.09716796875" />
-              <TextField id="personText" editable="false" layoutX="72.0" layoutY="49.0" />
+              <Text id="misc-text" layoutX="54.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person og test info" wrappingWidth="171.0">
+               <font>
+                  <Font size="18.0" />
+               </font></Text>
+              <TextField id="personText" layoutX="72.0" layoutY="49.0" />
               <TextField fx:id="durationInput" layoutX="73.0" layoutY="120.0" prefHeight="26.0" prefWidth="75.0" />
               <Button id="exportButton" layoutX="24.0" layoutY="178.0" mnemonicParsing="false" text="Export Data" />
               <Button fx:id="startButton" layoutX="139.0" layoutY="178.0" mnemonicParsing="false" text="Start Test" />
@@ -59,16 +49,59 @@
              <Label layoutX="33.0" layoutY="59.0" text="Kurvelengde" />
              <Label layoutX="212.0" layoutY="59.0" text="Areal" />
              <Label layoutX="343.0" layoutY="59.0" text="Turning-point" />
-             <TextArea fx:id="curve" editable="false" layoutX="33.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0" />
-             <TextArea fx:id="areal" editable="false" layoutX="197.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0" />
-             <TextArea fx:id="turning" editable="false" layoutX="339.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0" />
+             <TextArea fx:id="curve" editable="false" layoutX="12.0" layoutY="89.0" prefHeight="76.0" prefWidth="135.0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextArea>
+             <TextArea fx:id="areal" editable="false" layoutX="164.0" layoutY="89.0" prefHeight="76.0" prefWidth="135.0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextArea>
+             <TextArea fx:id="turning" editable="false" layoutX="339.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextArea>
            </children>
        </AnchorPane>
-       <AnchorPane fx:id="connectPane" layoutX="466.0" layoutY="11.0" prefHeight="37.0" prefWidth="319.0">
+       <AnchorPane fx:id="connectPane" layoutX="14.0" layoutY="14.0" prefHeight="37.0" prefWidth="319.0">
           <children>
-              <Button fx:id="connectButton" layoutX="233.0" layoutY="6.0" mnemonicParsing="false" text="Connect" />
-              <TextField fx:id="wiiStats" editable="false" layoutX="11.0" layoutY="6.0" prefHeight="25.0" prefWidth="211.0" />
+              <Button fx:id="connectButton" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="Connect" />
+              <TextField fx:id="wiiStats" editable="false" layoutX="94.0" layoutY="6.0" prefHeight="25.0" prefWidth="211.0" />
           </children>
        </AnchorPane>
+      <AnchorPane fx:id="COP" layoutX="276.0" layoutY="58.0" prefHeight="374.0" prefWidth="540.0">
+         <children>
+            <LineChart fx:id="copChart" axisSortingPolicy="NONE" createSymbols="false" horizontalGridLinesVisible="false" legendVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false">
+               <xAxis>
+                  <NumberAxis autoRanging="false" lowerBound="-100" side="BOTTOM" tickUnit="1" upperBound="100" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="false" lowerBound="-100" side="LEFT" tickUnit="1" upperBound="100" />
+               </yAxis>
+            </LineChart>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="recordingPane" layoutX="286.0" layoutY="16.0" prefHeight="426.0" prefWidth="540.0" visible="false">
+         <children>
+            <LineChart fx:id="recordingYChart" horizontalGridLinesVisible="false" layoutX="-4.0" layoutY="187.0" prefHeight="164.0" prefWidth="531.0" title="Y Axis">
+               <xAxis>
+                  <NumberAxis fx:id="recYXAxis" side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis lowerBound="-150.0" side="LEFT" upperBound="150.0" />
+               </yAxis>
+            </LineChart>
+            <LineChart fx:id="recordingXChart" horizontalGridLinesVisible="false" layoutX="-9.0" layoutY="14.0" prefHeight="164.0" prefWidth="531.0" title="X Axis">
+               <xAxis>
+                  <NumberAxis fx:id="recXXAxis" side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis lowerBound="-150.0" side="LEFT" upperBound="150.0" />
+               </yAxis>
+            </LineChart>
+            <Label layoutX="387.0" layoutY="22.0" text="Time:" />
+            <TextField fx:id="remainingTime" layoutX="435.0" layoutY="11.0" prefHeight="37.0" prefWidth="65.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

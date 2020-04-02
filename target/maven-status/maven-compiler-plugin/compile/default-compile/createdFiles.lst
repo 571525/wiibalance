@@ -4,7 +4,6 @@ wiiboard/wiiboardStack/event/WiiBoardEvent.class
 gui/GuiInterface.class
 wiiboard/wiiboardStack/event/WiiBoardButtonEvent.class
 wiiboard/wiiboardStack/WiiBoard.class
-gui/controller/DashboardController$2.class
 wiiboard/wiiboardStack/WiiBoardDiscoverer.class
 wiiboard/wiiboardStack/event/WiiBoardStatusEvent.class
 wiiboard/bluetooth/BluetoothDevice.class

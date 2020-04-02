@@ -1,24 +1,30 @@
 package gui.controller;
 
+import com.sun.javafx.tk.Toolkit;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import logic.Logic;
 import wiiboard.Wiiboard;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DashboardController {
     private Logic logic;
     private Wiiboard wiiboard;
 
     private boolean plotting = true;
-    private boolean recording = false;
 
     @FXML
     private Button connectButton;
@@ -28,6 +34,18 @@ public class DashboardController {
 
     @FXML
     private LineChart copChart;
+
+    @FXML
+    private LineChart recordingYChart;
+
+    @FXML
+    private LineChart recordingXChart;
+
+    @FXML
+    private NumberAxis recYXAxis;
+
+    @FXML
+    private NumberAxis recXXAxis;
 
     @FXML
     private TextField durationInput;
@@ -44,7 +62,19 @@ public class DashboardController {
     @FXML
     private TextArea turning;
 
-    private XYChart.Series series = new XYChart.Series<Double, Double>();
+    @FXML
+    private AnchorPane COP;
+
+    @FXML
+    private AnchorPane recordingPane;
+
+    @FXML
+    private TextField remainingTime;
+
+    private XYChart.Series seriesPlotting = new XYChart.Series<Double, Double>();
+
+    private XYChart.Series seriesRecordingX = new XYChart.Series<Double, Double>();
+    private XYChart.Series seriesRecordingY = new XYChart.Series<Double, Double>();
 
 
     public DashboardController(Logic logic, Wiiboard wiiboard) {
@@ -61,7 +91,10 @@ public class DashboardController {
         connectButton.setOnMouseClicked(e -> wiiboard.startWiiboardDiscoverer());
         startButton.setOnMouseClicked(e -> startRecording());
 
-        copChart.getData().add(series);
+        seriesPlotting.setName("COP");
+        copChart.getData().add(seriesPlotting);
+
+
         startPlotting();
     }
 
@@ -83,41 +116,54 @@ public class DashboardController {
 
     private void plotPoint(double xVal, double yVal) {
         Platform.runLater(() -> {
-            series.getData().clear();
-            series.getData().add(new XYChart.Data<>(xVal, yVal));
-        });
-    }
-
-    private void recordPoint(double x, double y) {
-        Platform.runLater(() -> {
-            series.getData().add(new XYChart.Data<>(x, y));
+            seriesPlotting.getData().clear();
+            seriesPlotting.getData().add(new XYChart.Data<>(xVal, yVal));
         });
     }
 
     public void startRecording() {
-        plotting = false;
-        recording = true;
+        int duration = 0;
+        try {
+            duration = Integer.parseInt(durationInput.getText());
+        } catch (NumberFormatException e) {
+            //TODO - alert user to write a number
+            return;
+        }
 
-        int duration = Integer.parseInt(durationInput.getText());
-        wiiboard.startRecordingData(duration);
+        if (duration > 0) {
+            changeViewToRecording(duration);
 
-        Task task = new Task() {
-            @Override
-            protected Void call() throws Exception {
-                while (recording) {
-                    List<Double> point = wiiboard.getCopPoint();
-                    recordPoint(point.get(0), point.get(1));
-                    Thread.sleep(50);
-                }
-                return null;
-            }
-        };
-        new Thread(task).start();
+            wiiboard.startRecordingData(duration);
+        }
+    }
+
+    private void changeViewToRecording(int time) {
+        COP.setVisible(false);
+        recordingPane.setVisible(true);
+        recXXAxis.setLowerBound(0.0);
+        recXXAxis.setUpperBound(time);
+        recYXAxis.setLowerBound(0.0);
+        recYXAxis.setUpperBound(time);
+
+        startTimer(time);
+    }
+
+    private void startTimer(int time) {
+        // setup a scheduled executor to periodically put data into the chart
+        ScheduledExecutorService scheduledExecutorService;
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        AtomicInteger remaining = new AtomicInteger(time + 1);
+
+        // put dummy data onto graph per second
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            int t = remaining.getAndDecrement();
+            if (t <= 1) scheduledExecutorService.shutdown();
+
+            Platform.runLater(() -> remainingTime.setText(String.format("%d", remaining.get())));
+        }, 0, 1, TimeUnit.SECONDS);
     }
 
     public void stopRecording() {
-        recording = false;
-
         double tp = logic.findTP();
         double area = logic.calculateCurveArea();
         double curvelength = logic.calculateCurveLength();
