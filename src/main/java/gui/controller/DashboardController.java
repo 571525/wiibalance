@@ -1,8 +1,6 @@
 package gui.controller;
 
-import com.sun.javafx.tk.Toolkit;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -14,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import logic.Logic;
 import wiiboard.Wiiboard;
 
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -63,6 +60,12 @@ public class DashboardController {
     private TextArea turning;
 
     @FXML
+    private TextField xCurvelength;
+
+    @FXML
+    private TextField yCurvelength;
+
+    @FXML
     private AnchorPane COP;
 
     @FXML
@@ -91,34 +94,25 @@ public class DashboardController {
         connectButton.setOnMouseClicked(e -> wiiboard.startWiiboardDiscoverer());
         startButton.setOnMouseClicked(e -> startRecording());
 
-        seriesPlotting.setName("COP");
         copChart.getData().add(seriesPlotting);
 
-
-        startPlotting();
+        recordingXChart.getData().add(seriesRecordingX);
+        recordingYChart.getData().add(seriesRecordingY);
     }
 
-    private void startPlotting() {
-        Task task = new Task() {
-            @Override
-            protected Void call() throws Exception {
-                while (plotting) {
-                    List<Double> point = wiiboard.getCopPoint();
-                    plotPoint(point.get(0), point.get(1));
-                    Thread.sleep(50);
-                }
-                return null;
-            }
-        };
-        new Thread(task).start();
-    }
-
-
-    private void plotPoint(double xVal, double yVal) {
+    public void plotPoint(double xVal, double yVal) {
         Platform.runLater(() -> {
             seriesPlotting.getData().clear();
             seriesPlotting.getData().add(new XYChart.Data<>(xVal, yVal));
         });
+    }
+
+    public void plotXRec(double xVal, double time) {
+        Platform.runLater(() -> seriesRecordingX.getData().add(new XYChart.Data<>(time, xVal)));
+    }
+
+    public void plotYRec(double yVal, double time) {
+        Platform.runLater(() -> seriesRecordingY.getData().add(new XYChart.Data<>(time, yVal)));
     }
 
     public void startRecording() {
@@ -132,29 +126,28 @@ public class DashboardController {
 
         if (duration > 0) {
             changeViewToRecording(duration);
-
             wiiboard.startRecordingData(duration);
+            startTimer(duration);
         }
     }
 
     private void changeViewToRecording(int time) {
         COP.setVisible(false);
         recordingPane.setVisible(true);
-        recXXAxis.setLowerBound(0.0);
-        recXXAxis.setUpperBound(time);
-        recYXAxis.setLowerBound(0.0);
-        recYXAxis.setUpperBound(time);
 
-        startTimer(time);
+        recXXAxis.setLowerBound(0.0);
+        recXXAxis.setUpperBound((double) time);
+        recYXAxis.setLowerBound(0.0);
+        recYXAxis.setUpperBound((double) time);
+
+        seriesRecordingX.getData().clear();
+        seriesRecordingY.getData().clear();
     }
 
     private void startTimer(int time) {
-        // setup a scheduled executor to periodically put data into the chart
-        ScheduledExecutorService scheduledExecutorService;
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         AtomicInteger remaining = new AtomicInteger(time + 1);
 
-        // put dummy data onto graph per second
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             int t = remaining.getAndDecrement();
             if (t <= 1) scheduledExecutorService.shutdown();
@@ -170,9 +163,10 @@ public class DashboardController {
         double curveX = logic.calcCurveLengthX();
         double curveY = logic.calcCurveLengthY();
 
+        xCurvelength.setText(String.format("%.2f", curveX));
+        yCurvelength.setText(String.format("%.2f", curveY));
         curve.setText(String.format("%.2f", curvelength));
         areal.setText(String.format("%.2f", area));
         turning.setText(String.format("%.2f", tp));
-
     }
 }

@@ -50,6 +50,8 @@ public class Wiiboard implements WiiboardInterface {
             xVal = (L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
             yVal = (W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
 
+            gui.notifyCopChanged(xVal,yVal);
+
             updated = true;
         }
 
@@ -110,7 +112,11 @@ public class Wiiboard implements WiiboardInterface {
                 if (updated) {
                     if (xVal != xPrev || yVal != yPrev) { //We want unique values
 
-                        logic.addCopPoint(xVal, yVal, (System.currentTimeMillis() - start) / 1000.0);
+                        double time = (System.currentTimeMillis() - start) / 1000.0;
+                        logic.addCopPoint(getxVal(), getyVal(), time);
+
+                        gui.plotXrecorded(xVal,time);
+                        gui.plotYrecorded(yVal,time);
 
                         xPrev = xVal;
                         yPrev = yVal;
@@ -121,6 +127,22 @@ public class Wiiboard implements WiiboardInterface {
 
             gui.notifyTestFinished();
         }).start();
+    }
+
+    public double getxVal() {
+        return xVal;
+    }
+
+    public void setxVal(double xVal) {
+        this.xVal = xVal;
+    }
+
+    public double getyVal() {
+        return yVal;
+    }
+
+    public void setyVal(double yVal) {
+        this.yVal = yVal;
     }
 
     @Override

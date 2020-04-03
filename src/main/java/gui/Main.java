@@ -9,8 +9,6 @@ import javafx.stage.Stage;
 import logic.Logic;
 import wiiboard.Wiiboard;
 
-import java.util.List;
-
 
 /**
  * This is the centre of the application, responsible for gui and all couplings in the application.
@@ -35,7 +33,7 @@ public class Main extends Application implements GuiInterface {
         wiiboard.registerGui(this);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
-        controller = new DashboardController(logic,wiiboard);
+        controller = new DashboardController(logic, wiiboard);
         loader.setController(controller);
         Parent root = loader.load();
         scene = new Scene(root);
@@ -56,5 +54,18 @@ public class Main extends Application implements GuiInterface {
         controller.stopRecording();
     }
 
+    @Override
+    public void notifyCopChanged(double xVal, double yVal) {
+        controller.plotPoint(xVal, yVal);
+    }
 
+    @Override
+    public void plotXrecorded(double xVal, double time) {
+        controller.plotXRec(xVal, time);
+    }
+
+    @Override
+    public void plotYrecorded(double yVal, double time) {
+        controller.plotYRec(yVal, time);
+    }
 }

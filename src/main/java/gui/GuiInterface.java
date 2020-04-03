@@ -16,4 +16,24 @@ public interface GuiInterface {
      */
     void notifyTestFinished();
 
+    /**
+     * Plots new point on COP chart
+     * @param xVal
+     * @param yVal
+     */
+    void notifyCopChanged(double xVal, double yVal);
+
+    /**
+     * Plot recorded xVal and time on recorded X chart
+     * @param xVal
+     * @param time
+     */
+    void plotXrecorded(double xVal, double time);
+
+    /**
+     * Plots recorded yVal and time on Y chart
+     * @param yVal
+     * @param time
+     */
+    void plotYrecorded(double yVal, double time);
 }
