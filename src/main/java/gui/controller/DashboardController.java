@@ -75,16 +75,13 @@ public class DashboardController {
     private TextField remainingTime;
 
     private XYChart.Series seriesPlotting = new XYChart.Series<Double, Double>();
-
     private XYChart.Series seriesRecordingX = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecordingY = new XYChart.Series<Double, Double>();
-
 
     public DashboardController(Logic logic, Wiiboard wiiboard) {
         this.logic = logic;
         this.wiiboard = wiiboard;
     }
-
 
     public void setConnectionInfo(String info) {
         wiiStats.setText(info);
@@ -115,7 +112,7 @@ public class DashboardController {
         Platform.runLater(() -> seriesRecordingY.getData().add(new XYChart.Data<>(time, yVal)));
     }
 
-    public void startRecording() {
+    private void startRecording() {
         int duration = 0;
         try {
             duration = Integer.parseInt(durationInput.getText());
@@ -135,10 +132,13 @@ public class DashboardController {
         COP.setVisible(false);
         recordingPane.setVisible(true);
 
+        recXXAxis.setAutoRanging(false);
+        recYXAxis.setAutoRanging(false);
+
         recXXAxis.setLowerBound(0.0);
-        recXXAxis.setUpperBound((double) time);
+        recXXAxis.setUpperBound(time);
         recYXAxis.setLowerBound(0.0);
-        recYXAxis.setUpperBound((double) time);
+        recYXAxis.setUpperBound(time);
 
         seriesRecordingX.getData().clear();
         seriesRecordingY.getData().clear();
