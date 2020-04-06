@@ -10,6 +10,9 @@ import wiiboard.wiiboardStack.event.WiiBoardListener;
 import wiiboard.wiiboardStack.event.WiiBoardMassEvent;
 import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This class implements the wiiboard interface and is the connecting class to the rest of the application
  */
@@ -22,6 +25,10 @@ public class Wiiboard implements WiiboardInterface {
     private volatile double tl;
     private volatile double br;
     private volatile double bl;
+
+    private double xVal = 0.0, yVal = 0.0, xPrev = 0.0, yPrev = 0.0;
+
+
     private volatile boolean updated = false;
 
     private LogicInterface logic;
@@ -39,6 +46,12 @@ public class Wiiboard implements WiiboardInterface {
             tl = massEvent.getTopLeft();
             br = massEvent.getBottomRight();
             bl = massEvent.getBottomLeft();
+
+            xVal = (L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
+            yVal = (W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
+
+            gui.notifyCopChanged(xVal,yVal);
+
             updated = true;
         }
 
@@ -63,7 +76,6 @@ public class Wiiboard implements WiiboardInterface {
 
     public Wiiboard() {
         System.setProperty("bluecove.jsr82.psm_minimum_off", "true"); //enable bluetooth to work properly
-
     }
 
 
@@ -90,30 +102,51 @@ public class Wiiboard implements WiiboardInterface {
 
     @Override
     public void startRecordingData(int seconds) {
+        new Thread(() -> {
+            logic.clearData();
 
-        logic.clearData();
+            long start = System.currentTimeMillis();
+            long duration = start + seconds * 1000;
 
-        long start = System.currentTimeMillis();
-        long duration = start + seconds * 1000;
+            while (System.currentTimeMillis() < duration) {
+                if (updated) {
+                    if (xVal != xPrev || yVal != yPrev) { //We want unique values
 
-        gui.startCountdown();
+                        double time = (System.currentTimeMillis() - start) / 1000.0;
+                        logic.addCopPoint(getxVal(), getyVal(), time);
 
-        double xVal, yVal, xPrev = 0.0, yPrev = 0.0;
-        while (System.currentTimeMillis() < duration) {
-            if (updated) {
+                        gui.plotXrecorded(xVal,time);
+                        gui.plotYrecorded(yVal,time);
 
-                xVal = (L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
-                yVal = (W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
-
-                if(xVal != xPrev || yVal != yPrev) { //We want unique values
-                    logic.addCopPoint(xVal, yVal, (System.currentTimeMillis() - start) / 1000.0);
-                    xPrev = xVal;
-                    yPrev = yVal;
+                        xPrev = xVal;
+                        yPrev = yVal;
+                    }
+                    updated = false;
                 }
-                updated = false;
             }
-        }
 
-        gui.notifyTestFinished();
+            gui.notifyTestFinished();
+        }).start();
+    }
+
+    public double getxVal() {
+        return xVal;
+    }
+
+    public void setxVal(double xVal) {
+        this.xVal = xVal;
+    }
+
+    public double getyVal() {
+        return yVal;
+    }
+
+    public void setyVal(double yVal) {
+        this.yVal = yVal;
+    }
+
+    @Override
+    public List getCopPoint() {
+        return Arrays.asList(xVal, yVal);
     }
 }

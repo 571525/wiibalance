@@ -10,19 +10,30 @@ public interface GuiInterface {
      */
     void updateConnectionInfo(String info);
 
-    /**
-     *Starts a coundown before a test is running
-     */
-    void startCountdown();
-
-    /**
-     * sends a recorded datapoint to gui
-     * @param datapoint
-     */
-    void displayDataPoint(List<Double> datapoint);
 
     /**
      * Notifies the gui that a test has finished.
      */
     void notifyTestFinished();
+
+    /**
+     * Plots new point on COP chart
+     * @param xVal
+     * @param yVal
+     */
+    void notifyCopChanged(double xVal, double yVal);
+
+    /**
+     * Plot recorded xVal and time on recorded X chart
+     * @param xVal
+     * @param time
+     */
+    void plotXrecorded(double xVal, double time);
+
+    /**
+     * Plots recorded yVal and time on Y chart
+     * @param yVal
+     * @param time
+     */
+    void plotYrecorded(double yVal, double time);
 }

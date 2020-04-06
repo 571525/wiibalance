@@ -1,6 +1,7 @@
 package wiiboard;
 
 import gui.GuiInterface;
+import javafx.scene.chart.XYChart;
 import logic.LogicInterface;
 
 import java.util.List;
@@ -15,6 +16,6 @@ public interface WiiboardInterface {
 
     void startRecordingData(int seconds);
 
-
+    List getCopPoint();
 
 }

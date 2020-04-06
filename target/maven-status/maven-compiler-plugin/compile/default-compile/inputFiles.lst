@@ -3,6 +3,8 @@
 /home/david/bachelor/WiiBalance/src/main/java/wiiboard/wiiboardStack/WiiBoardDiscoveryListener.java
 /home/david/bachelor/WiiBalance/src/main/java/wiiboard/wiiboardStack/event/WiiBoardEvent.java
 /home/david/bachelor/WiiBalance/src/main/java/wiiboard/wiiboardStack/event/WiiBoardMassEvent.java
+/home/david/bachelor/WiiBalance/src/main/java/logic/Filemanager.java
+/home/david/bachelor/WiiBalance/src/main/java/gui/controller/DashboardController.java
 /home/david/bachelor/WiiBalance/src/main/java/wiiboard/wiiboardStack/event/WiiBoardStatusEvent.java
 /home/david/bachelor/WiiBalance/src/main/java/wiiboard/wiiboardStack/event/WiiBoardButtonEvent.java
 /home/david/bachelor/WiiBalance/src/main/java/logic/Logic.java

@@ -1,94 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.ScatterChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="dashboardPane" prefHeight="568.0" prefWidth="828.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="">
+<AnchorPane id="dashboardPane" prefHeight="636.0" prefWidth="828.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ScatterChart id="XYchart" layoutX="414.0" layoutY="66.0" prefHeight="286.0" prefWidth="383.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </ScatterChart>
-      <AnchorPane id="infoPane" layoutX="20.0" layoutY="302.0" prefHeight="251.0" prefWidth="250.0">
-         <children>
-            <MenuButton id="menuTest" layoutX="72.0" layoutY="83.0" mnemonicParsing="false" text="TESTS">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
-            </MenuButton>
-            <Text id="misc-text" layoutX="53.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person og test info" wrappingWidth="127.09716796875" />
-            <TextField id="personText" editable="false" layoutX="72.0" layoutY="49.0" />
-            <TextField id="durationInput" layoutX="73.0" layoutY="120.0" prefHeight="26.0" prefWidth="75.0" />
-            <Button id="exportButton" layoutX="24.0" layoutY="178.0" mnemonicParsing="false" text="Export Data" />
-            <Button id="startButton" layoutX="139.0" layoutY="178.0" mnemonicParsing="false" text="Start Test" />
-            <Label layoutX="14.0" layoutY="54.0" text="Person" />
-            <Label layoutX="19.0" layoutY="88.0" text="Test" />
-            <Label layoutX="8.0" layoutY="125.0" text="Duration" />
-         </children>
-      </AnchorPane>
-      <MenuBar id="menuBar" layoutX="20.0" layoutY="15.0" prefWidth="118.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-                  <MenuItem mnemonicParsing="false" text="Menu1" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-                  <MenuItem mnemonicParsing="false" text="sampleMenu" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <AnchorPane id="resultPane" layoutX="283.0" layoutY="372.0" prefHeight="181.0" prefWidth="531.0">
-         <children>
-            <Label id="result-text" text="Resultat">
+       <AnchorPane id="infoPane" layoutX="20.0" layoutY="293.0" prefHeight="329.0" prefWidth="250.0">
+          <children>
+              <Text id="misc-text" layoutX="40.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person og test info" wrappingWidth="171.0">
                <font>
-                  <Font size="28.0" />
-               </font>
-            </Label>
-            <Label layoutX="33.0" layoutY="59.0" text="Kurvelengde" />
-            <Label layoutX="212.0" layoutY="59.0" text="Areal" />
-            <Label layoutX="343.0" layoutY="59.0" text="Turning-point" />
-            <TextArea id="kurve" editable="false" layoutX="33.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0" />
-            <TextArea id="areal" editable="false" layoutX="197.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0" />
-            <TextArea id="turning" editable="false" layoutX="339.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0" />
+                  <Font size="18.0" />
+               </font></Text>
+              <TextField id="personText" layoutX="72.0" layoutY="49.0" />
+              <TextField fx:id="durationInput" layoutX="73.0" layoutY="120.0" prefHeight="26.0" prefWidth="75.0" />
+              <Button id="exportButton" layoutX="24.0" layoutY="178.0" mnemonicParsing="false" text="Export Data" />
+              <Button fx:id="startButton" layoutX="139.0" layoutY="178.0" mnemonicParsing="false" text="Start Test" />
+              <Label layoutX="14.0" layoutY="54.0" text="Person" />
+              <Label layoutX="19.0" layoutY="88.0" text="Test" />
+              <Label layoutX="8.0" layoutY="125.0" text="Duration" />
+              <ComboBox id="selectTest" editable="true" layoutX="73.0" layoutY="83.0" prefWidth="150.0" promptText="Select Test">
+                  <items>
+                      <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="Eyes Open" />
+                          <String fx:value="Eyes closed" />
+                          <String fx:value="Eyes Open - Foam" />
+                          <String fx:value="Eyes Closed - Foam" />
+                      </FXCollections>
+                  </items>
+              </ComboBox>
+          </children>
+       </AnchorPane>
+       <AnchorPane id="resultPane" layoutX="283.0" layoutY="441.0" prefHeight="181.0" prefWidth="531.0">
+           <children>
+             <Label id="result-text" text="Resultat">
+                 <font>
+                     <Font size="28.0" />
+                 </font>
+             </Label>
+             <Label layoutX="33.0" layoutY="59.0" text="Kurvelengde" />
+             <Label layoutX="212.0" layoutY="59.0" text="Areal" />
+             <Label layoutX="398.0" layoutY="59.0" text="Turning-point" />
+             <TextArea fx:id="curve" editable="false" layoutX="12.0" layoutY="89.0" prefHeight="76.0" prefWidth="135.0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextArea>
+             <TextArea fx:id="areal" editable="false" layoutX="164.0" layoutY="89.0" prefHeight="76.0" prefWidth="135.0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextArea>
+             <TextArea fx:id="turning" editable="false" layoutX="394.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0">
+               <font>
+                  <Font size="20.0" />
+               </font></TextArea>
+           </children>
+       </AnchorPane>
+       <AnchorPane fx:id="connectPane" layoutX="14.0" layoutY="14.0" prefHeight="37.0" prefWidth="319.0">
+          <children>
+              <Button fx:id="connectButton" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="Connect" />
+              <TextField fx:id="wiiStats" editable="false" layoutX="94.0" layoutY="6.0" prefHeight="25.0" prefWidth="211.0" />
+          </children>
+       </AnchorPane>
+      <AnchorPane fx:id="COP" layoutX="276.0" layoutY="58.0" prefHeight="374.0" prefWidth="540.0">
+         <children>
+            <LineChart fx:id="copChart" animated="true" axisSortingPolicy="NONE" horizontalGridLinesVisible="false" legendVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false">
+               <xAxis>
+                  <NumberAxis autoRanging="false" lowerBound="-150" side="BOTTOM" tickUnit="1" upperBound="150" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="false" lowerBound="-150" side="LEFT" tickUnit="1" upperBound="150" />
+               </yAxis>
+            </LineChart>
          </children>
       </AnchorPane>
-      <AnchorPane id="connectPane" layoutX="466.0" layoutY="11.0" prefHeight="37.0" prefWidth="319.0">
+      <AnchorPane fx:id="recordingPane" layoutX="286.0" layoutY="16.0" prefHeight="426.0" prefWidth="540.0" visible="false">
          <children>
-            <Button id="connectButton" layoutX="233.0" layoutY="6.0" mnemonicParsing="false" text="Connect" />
-            <TextField id="wiiStats" editable="false" layoutX="35.0" layoutY="6.0" />
+            <Label layoutX="311.0" layoutY="186.0" text="X Curvelength:" />
+            <LineChart fx:id="recordingYChart" animated="true" createSymbols="false" horizontalGridLinesVisible="false" layoutY="213.0" prefHeight="164.0" prefWidth="531.0" title="Y Axis">
+               <xAxis>
+                  <NumberAxis fx:id="recYXAxis" side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="false" lowerBound="-100.0" side="LEFT" upperBound="100.0" />
+               </yAxis>
+            </LineChart>
+            <LineChart fx:id="recordingXChart" animated="true" createSymbols="false" horizontalGridLinesVisible="false" layoutY="30.0" prefHeight="164.0" prefWidth="531.0" title="X Axis">
+               <xAxis>
+                  <NumberAxis fx:id="recXXAxis" side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="false" lowerBound="-100.0" side="LEFT" upperBound="100.0" />
+               </yAxis>
+            </LineChart>
+            <Label layoutX="387.0" layoutY="22.0" text="Time:" />
+            <TextField fx:id="remainingTime" layoutX="435.0" layoutY="11.0" prefHeight="37.0" prefWidth="65.0" />
+            <TextField fx:id="xCurvelength" layoutX="422.0" layoutY="181.0" prefHeight="26.0" prefWidth="93.0" />
+            <Label layoutX="311.0" layoutY="369.0" text="Y Curvelength:" />
+            <TextField fx:id="yCurvelength" layoutX="422.0" layoutY="364.0" prefHeight="26.0" prefWidth="93.0" />
          </children>
       </AnchorPane>
-      <VBox id="enu" layoutX="31.0" layoutY="103.0" prefHeight="181.0" prefWidth="141.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="225.0" text="Item1" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="173.0" text="Item2" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="168.0" text="Item3" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="163.0" text="Item4" />
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="152.0" text="Item5" />
-         </children>
-      </VBox>
    </children>
 </AnchorPane>
