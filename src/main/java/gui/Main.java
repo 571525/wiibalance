@@ -40,7 +40,7 @@ public class Main extends Application implements GuiInterface {
         stage.setScene(scene);
         stage.show();
 
-        controller.setup();
+        controller.setup(stage);
     }
 
     @Override

@@ -5,13 +5,15 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import logic.Filemanager;
 import logic.Logic;
 import wiiboard.Wiiboard;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,10 +23,13 @@ public class DashboardController {
     private Logic logic;
     private Wiiboard wiiboard;
 
-    private boolean plotting = true;
+    private Stage stage;
 
     @FXML
     private Button connectButton;
+
+    @FXML
+    private Button exportButton;
 
     @FXML
     private TextField wiiStats;
@@ -74,9 +79,27 @@ public class DashboardController {
     @FXML
     private TextField remainingTime;
 
+    @FXML
+    private Button buttonCOPPlot;
+
+    @FXML
+    private Button buttonXYSplit;
+
+    @FXML
+    private TextField personText;
+
+    @FXML
+    private ComboBox selectTest;
+
     private XYChart.Series seriesPlotting = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecordingX = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecordingY = new XYChart.Series<Double, Double>();
+    private double tp = 0.0;
+    private double area = 0.0;
+    private double curvelength = 0.0;
+    private double curveX = 0.0;
+    private double curveY = 0.0;
+    private int duration = 0;
 
     public DashboardController(Logic logic, Wiiboard wiiboard) {
         this.logic = logic;
@@ -87,14 +110,52 @@ public class DashboardController {
         wiiStats.setText(info);
     }
 
-    public void setup() {
+    public void setup(Stage stage) {
+        setStage(stage);
         connectButton.setOnMouseClicked(e -> wiiboard.startWiiboardDiscoverer());
         startButton.setOnMouseClicked(e -> startRecording());
+        buttonCOPPlot.setOnMouseClicked(e -> {
+            COP.setVisible(true);
+            recordingPane.setVisible(false);
+        });
+        buttonXYSplit.setOnMouseClicked(e -> {
+            COP.setVisible(false);
+            recordingPane.setVisible(true);
+        });
+
+        exportButton.setOnMouseClicked(e -> exportData());
+
 
         copChart.getData().add(seriesPlotting);
 
         recordingXChart.getData().add(seriesRecordingX);
         recordingYChart.getData().add(seriesRecordingY);
+    }
+
+    private void exportData() {
+        String id = personText.getText();
+        String type = (String) selectTest.getValue();
+
+        if (id.equals("")) {
+            showDialog("Please provide a person id");
+        } else if (type == null) {
+            showDialog("Please provide a test type");
+        } else {
+            File file = Filemanager.findDir(stage);
+            try {
+                Filemanager.writeToCSV(type, id, duration, tp, curveX, curveY, curvelength, area, logic.getCopList(), file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            showDialog("Data exported sucessfully");
+        }
+    }
+
+    private void showDialog(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Wiibalance");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void plotPoint(double xVal, double yVal) {
@@ -113,7 +174,6 @@ public class DashboardController {
     }
 
     private void startRecording() {
-        int duration = 0;
         try {
             duration = Integer.parseInt(durationInput.getText());
         } catch (NumberFormatException e) {
@@ -157,16 +217,20 @@ public class DashboardController {
     }
 
     public void stopRecording() {
-        double tp = logic.findTP();
-        double area = logic.calculateCurveArea();
-        double curvelength = logic.calculateCurveLength();
-        double curveX = logic.calcCurveLengthX();
-        double curveY = logic.calcCurveLengthY();
+        tp = logic.findTP();
+        area = logic.calculateCurveArea();
+        curvelength = logic.calculateCurveLength();
+        curveX = logic.calcCurveLengthX();
+        curveY = logic.calcCurveLengthY();
 
         xCurvelength.setText(String.format("%.2f", curveX));
         yCurvelength.setText(String.format("%.2f", curveY));
         curve.setText(String.format("%.2f", curvelength));
         areal.setText(String.format("%.2f", area));
         turning.setText(String.format("%.2f", tp));
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
