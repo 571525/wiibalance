@@ -21,14 +21,14 @@
                <font>
                   <Font size="18.0" />
                </font></Text>
-              <TextField id="personText" layoutX="72.0" layoutY="49.0" />
+              <TextField fx:id="personText" layoutX="72.0" layoutY="49.0" />
               <TextField fx:id="durationInput" layoutX="73.0" layoutY="120.0" prefHeight="26.0" prefWidth="75.0" />
-              <Button id="exportButton" layoutX="24.0" layoutY="178.0" mnemonicParsing="false" text="Export Data" />
+              <Button fx:id="exportButton" layoutX="24.0" layoutY="178.0" mnemonicParsing="false" text="Export Data" />
               <Button fx:id="startButton" layoutX="139.0" layoutY="178.0" mnemonicParsing="false" text="Start Test" />
               <Label layoutX="14.0" layoutY="54.0" text="Person" />
               <Label layoutX="19.0" layoutY="88.0" text="Test" />
               <Label layoutX="8.0" layoutY="125.0" text="Duration" />
-              <ComboBox id="selectTest" editable="true" layoutX="73.0" layoutY="83.0" prefWidth="150.0" promptText="Select Test">
+              <ComboBox fx:id="selectTest" editable="true" layoutX="73.0" layoutY="83.0" prefWidth="150.0" promptText="Select Test">
                   <items>
                       <FXCollections fx:factory="observableArrayList">
                           <String fx:value="Eyes Open" />
@@ -103,10 +103,12 @@
             </LineChart>
             <Label layoutX="387.0" layoutY="22.0" text="Time:" />
             <TextField fx:id="remainingTime" layoutX="435.0" layoutY="11.0" prefHeight="37.0" prefWidth="65.0" />
-            <TextField fx:id="xCurvelength" layoutX="422.0" layoutY="181.0" prefHeight="26.0" prefWidth="93.0" />
+            <TextField layoutX="422.0" layoutY="181.0" prefHeight="26.0" prefWidth="93.0" fx:id="xCurvelength" />
             <Label layoutX="311.0" layoutY="369.0" text="Y Curvelength:" />
             <TextField fx:id="yCurvelength" layoutX="422.0" layoutY="364.0" prefHeight="26.0" prefWidth="93.0" />
          </children>
       </AnchorPane>
+      <Button fx:id="buttonCOPPlot" layoutX="20.0" layoutY="221.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="250.0" text="COP Plot" />
+      <Button fx:id="buttonXYSplit" layoutX="20.0" layoutY="166.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="250.0" text="XY Split" />
    </children>
 </AnchorPane>

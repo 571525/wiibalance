@@ -174,7 +174,7 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 					}
 					catch (InterruptedException e) {}
 					catch (BluetoothStateException bse) {
-						gui.updateConnectionInfo("Error Starting WiiBoard Discovery");
+						gui.updateConnectionInfo("Error, try again");
 						bse.printStackTrace();
 					}
 					finally {

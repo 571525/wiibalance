@@ -67,12 +67,7 @@ public class Wiiboard implements WiiboardInterface {
     };
 
     private WiiBoardDiscoverer discoverer;
-    private WiiBoardDiscoveryListener discoveryListener = new WiiBoardDiscoveryListener() {
-        @Override
-        public void wiiBoardDiscovered(WiiBoard wiiboard) {
-            wiiboard.addListener(listener);
-        }
-    };
+    private WiiBoardDiscoveryListener discoveryListener = wiiboard -> wiiboard.addListener(listener);
 
     public Wiiboard() {
         System.setProperty("bluecove.jsr82.psm_minimum_off", "true"); //enable bluetooth to work properly
