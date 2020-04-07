@@ -1,0 +1,64 @@
+
+.root{
+
+}
+
+#dashboardPane{
+    -fx-background-color: azure;;
+}
+
+.label{
+
+    -fx-font-weight: bold;
+}
+
+
+
+#result-text{
+    -fx-border-color: black;
+}
+
+#infoPane{
+    -fx-border-color: black;
+    -fx-background-color: darkgray;
+}
+
+#resultPane{
+    -fx-border-color: black;
+    -fx-background-color: darkgrey;
+}
+
+#connectButton{
+    -fx-text-fill: red;
+    -fx-background-radius: 25px;
+}
+#exportButton{
+    -fx-background-radius: 25px;
+}
+
+#startButton{
+    -fx-background-radius: 25px;
+}
+
+#turning{
+    -fx-border-color: black;
+}
+
+#areal{
+    -fx-border-color: black;
+}
+
+#curve{
+    -fx-border-color: black;
+}
+
+#connectPane{
+    -fx-background-radius: 25px;
+    -fx-border-color: salmon;
+    -fx-background-color: white;
+    -fx-border-radius: 25px;
+}
+
+
+
+
