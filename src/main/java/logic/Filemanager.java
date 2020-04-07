@@ -13,7 +13,7 @@ public class Filemanager {
 
     public static void writeToCSV(String testType, String id, int duration, double tp, double xLen, double yLen, double totLen, double area, List<List<Double>> cop, File file) throws IOException {
 
-        String filename = String.format("%s_%s_%tF.csv", id, testType, new Date());
+        String filename = String.format("%s_%s_%tc.csv", id, testType, new Date());
 
         FileWriter csvWriter = new FileWriter(file.getAbsolutePath() + "/" + filename);
 

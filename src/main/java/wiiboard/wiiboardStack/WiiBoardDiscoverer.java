@@ -65,7 +65,6 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 		}
 		catch (BluetoothStateException e) {
 			System.out.println("BluetoothStateException. Exiting. " + e);
-			System.exit(0);
 		}
 		catch (Exception e) {System.out.println("exception " + e);}
 	}
@@ -141,10 +140,9 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 		if (!isSearching) {
 			isSearching = true;
 			
-			new Thread(){
+			Thread t = new Thread(){
 				
 				public void run(){
-					gui.updateConnectionInfo("WiiBoard Discovery Started");
 					WiiBoard wiiboard = null;
 					try {
 						while (isSearching) {
@@ -167,12 +165,14 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 							} catch (Exception e) {
 					    		discoveredAddress = null;
 					    		discoveredWiiBoardAddresses.remove(discoveredAddress);
-					    		gui.updateConnectionInfo("Failed. Try again. ");
+					    		gui.updateConnectionInfo("Failed. Try again.");
 					    		e.printStackTrace();
 							}
 						}
 					}
-					catch (InterruptedException e) {}
+					catch (InterruptedException e) {
+						gui.updateConnectionInfo("Error, try again");
+					}
 					catch (BluetoothStateException bse) {
 						gui.updateConnectionInfo("Error, try again");
 						bse.printStackTrace();
@@ -184,7 +184,9 @@ public class WiiBoardDiscoverer implements DiscoveryListener {
 					}
 				}
 				
-			}.start();
+			};
+			t.setDaemon(true);
+			t.start();
 		}
 	}
 	

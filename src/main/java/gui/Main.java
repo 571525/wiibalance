@@ -68,4 +68,9 @@ public class Main extends Application implements GuiInterface {
     public void plotYrecorded(double yVal, double time) {
         controller.plotYRec(yVal, time);
     }
+
+    @Override
+    public void plotCOPRecorded(double xVal, double yVal) {
+        controller.plotCopRec(xVal,yVal);
+    }
 }

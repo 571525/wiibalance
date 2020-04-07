@@ -10,6 +10,7 @@ import wiiboard.wiiboardStack.event.WiiBoardListener;
 import wiiboard.wiiboardStack.event.WiiBoardMassEvent;
 import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
+import javax.bluetooth.BluetoothStateException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,12 +63,12 @@ public class Wiiboard implements WiiboardInterface {
 
         @Override
         public void wiiBoardDisconnected() {
-
+            gui.updateConnectionInfo("Disconnected");
         }
     };
 
     private WiiBoardDiscoverer discoverer;
-    private WiiBoardDiscoveryListener discoveryListener = wiiboard -> wiiboard.addListener(listener);
+    private WiiBoardDiscoveryListener discoveryListener;
 
     public Wiiboard() {
         System.setProperty("bluecove.jsr82.psm_minimum_off", "true"); //enable bluetooth to work properly
@@ -87,9 +88,14 @@ public class Wiiboard implements WiiboardInterface {
     @Override
     public void startWiiboardDiscoverer() {
         if (gui != null) {
-            discoverer = WiiBoardDiscoverer.getWiiBoardDiscoverer(gui);
-            discoverer.addWiiBoardDiscoveryListener(discoveryListener);
-            discoverer.startWiiBoardSearch();
+            if(WiiBoardDiscoverer.isBluetoothReady()) {
+                discoveryListener = wiiboard -> wiiboard.addListener(listener);
+                discoverer = WiiBoardDiscoverer.getWiiBoardDiscoverer(gui);
+                discoverer.addWiiBoardDiscoveryListener(discoveryListener);
+                discoverer.startWiiBoardSearch();
+            } else {
+                gui.updateConnectionInfo("Bluetooth not available");
+            }
         } else {
             throw new NullPointerException("Gui is not registered");
         }
@@ -112,6 +118,7 @@ public class Wiiboard implements WiiboardInterface {
 
                         gui.plotXrecorded(xVal,time);
                         gui.plotYrecorded(yVal,time);
+                        gui.plotCOPRecorded(xVal,yVal);
 
                         xPrev = xVal;
                         yPrev = yVal;

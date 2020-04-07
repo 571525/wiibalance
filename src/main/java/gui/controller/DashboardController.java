@@ -92,6 +92,7 @@ public class DashboardController {
     private ComboBox selectTest;
 
     private XYChart.Series seriesPlotting = new XYChart.Series<Double, Double>();
+    private XYChart.Series seriesRecording = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecordingX = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecordingY = new XYChart.Series<Double, Double>();
     private double tp = 0.0;
@@ -127,6 +128,8 @@ public class DashboardController {
 
 
         copChart.getData().add(seriesPlotting);
+        copChart.getData().add(seriesRecording);
+        copChart.setCreateSymbols(false);
 
         recordingXChart.getData().add(seriesRecordingX);
         recordingYChart.getData().add(seriesRecordingY);
@@ -202,6 +205,7 @@ public class DashboardController {
 
         seriesRecordingX.getData().clear();
         seriesRecordingY.getData().clear();
+        seriesRecording.getData().clear();
     }
 
     private void startTimer(int time) {
@@ -232,5 +236,9 @@ public class DashboardController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void plotCopRec(double xVal, double yVal) {
+       Platform.runLater(() -> seriesRecording.getData().add(new XYChart.Data<>(xVal,yVal)));
     }
 }
