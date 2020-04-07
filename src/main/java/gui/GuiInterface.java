@@ -36,4 +36,6 @@ public interface GuiInterface {
      * @param time
      */
     void plotYrecorded(double yVal, double time);
+
+    void plotCOPRecorded(double xVal, double yVal);
 }

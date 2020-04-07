@@ -26,6 +26,7 @@ import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.Executors;
 
 import javax.bluetooth.L2CAPConnection;
 import javax.microedition.io.Connector;
@@ -128,6 +129,7 @@ public class WiiBoard implements BluetoothDevice {
 			throw e;
 		}
 		commandListener = new CommandListener();
+		commandListener.setDaemon(true);
 		commandListener.start();
 		connectToExtension();
 		readCalibration();
