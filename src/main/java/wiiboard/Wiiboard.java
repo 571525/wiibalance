@@ -22,10 +22,10 @@ public class Wiiboard implements WiiboardInterface {
     private static final int L = 433; //wiiboardStack length
     private static final int W = 228; // wiiboardStack width
 
-    private volatile double tr;
-    private volatile double tl;
-    private volatile double br;
-    private volatile double bl;
+    private double tr;
+    private double tl;
+    private double br;
+    private double bl;
 
     private double xVal = 0.0, yVal = 0.0, xPrev = 0.0, yPrev = 0.0;
 
@@ -111,6 +111,7 @@ public class Wiiboard implements WiiboardInterface {
 
             while (System.currentTimeMillis() < duration) {
                 if (updated) {
+
                     if (xVal != xPrev || yVal != yPrev) { //We want unique values
 
                         double time = (System.currentTimeMillis() - start) / 1000.0;

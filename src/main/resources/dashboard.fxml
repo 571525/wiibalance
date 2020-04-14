@@ -90,7 +90,7 @@
       <AnchorPane fx:id="recordingPane" layoutX="286.0" layoutY="16.0" prefHeight="426.0" prefWidth="540.0" visible="false" AnchorPane.bottomAnchor="194.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="16.0">
          <children>
             <Label layoutX="89.0" layoutY="369.0" text="X Curvelength:" AnchorPane.bottomAnchor="41.0" AnchorPane.rightAnchor="341.0" />
-            <LineChart fx:id="recordingYChart" animated="true" createSymbols="false" horizontalGridLinesVisible="false" layoutY="213.0" prefHeight="238.0" prefWidth="652.0" title="Y Axis" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0">
+            <LineChart fx:id="recordingYChart" animated="true" createSymbols="false" horizontalGridLinesVisible="false" layoutY="213.0" legendVisible="false" prefHeight="238.0" prefWidth="652.0" title="Y Axis" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0">
 
                <xAxis>
                   <NumberAxis fx:id="recYXAxis" side="BOTTOM" />
@@ -102,7 +102,7 @@
                   <Glow />
                </effect>
             </LineChart>
-            <LineChart fx:id="recordingXChart" animated="true" createSymbols="false" horizontalGridLinesVisible="false" layoutY="26.0" prefHeight="229.0" prefWidth="652.0" title="X Axis" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="26.0">
+            <LineChart fx:id="recordingXChart" animated="true" createSymbols="false" horizontalGridLinesVisible="false" layoutY="26.0" legendVisible="false" prefHeight="229.0" prefWidth="652.0" title="X Axis" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="26.0">
 
                <xAxis>
                   <NumberAxis fx:id="recXXAxis" side="BOTTOM" />

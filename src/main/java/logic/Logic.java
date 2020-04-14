@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 public class Logic implements LogicInterface {
 
     private List<List<Double>> cop;
+    private List<List<Double>> tpCurve;
 
     public Logic() {
         this.cop = new ArrayList<>();
+        this.tpCurve = new ArrayList<>();
     }
 
     private static List<List<Double>> subtractMean(List<List<Double>> data) {
@@ -69,12 +71,64 @@ public class Logic implements LogicInterface {
             t1 = slope.get(i).get(0);
             t2 = slope.get(i - 1).get(0);
             tp = Math.abs((h1 - h2)) / (t1 - t2);
-            if (tp <= 0.5) return slope.get(i).get(2);
+            tpCurve.add(Arrays.asList(slope.get(i).get(2),tp));
         }
 
-        return -1.0;
+        for (int i = 5; i < tpCurve.size(); i++) {
+            if (tpCurve.get(i).get(1) <= 0.5 ) return tpCurve.get(i).get(0);
+        }
+
+        return -1;
 
     }
+
+    //for testing purpose only. Used to unit test the algorithm with a time series from Torbjørn Aasen. To run test, uncomment method
+    /*
+    public double findTP(List<Double> timeSerie) {
+
+        List<List<Double>> slope = new ArrayList<>();
+
+        int beta = 500;
+        int n = timeSerie.size();
+        int k = 1;
+        double timeInterval = 0.0;
+        double stepsize = 0.01; // i sekunder
+        double sumSpread = 0.0;
+
+        while (k < beta) {
+            double xi, xiPlusK, sqrd;
+            for (int i = 0; i < (-k + n); i++) {
+                xi = timeSerie.get(i);
+                xiPlusK = timeSerie.get(i + k);
+                sqrd = Math.pow(xiPlusK - xi, 2);
+                sumSpread += sqrd;
+            }
+            double msd = sumSpread / (-k + n);
+            double hurst = 0.5 * Math.log10(msd);
+            slope.add(Arrays.asList(Math.log10(timeInterval), hurst, timeInterval));
+            k++;
+            timeInterval += stepsize;
+            sumSpread = 0.0;
+        }
+
+       double h1, h2, t1, t2, tp;
+        for (int i = 5; i < slope.size(); i++) {
+            h1 = slope.get(i).get(1);
+            h2 = slope.get(i - 1).get(1);
+            t1 = slope.get(i).get(0);
+            t2 = slope.get(i - 1).get(0);
+            tp = Math.abs((h1 - h2)) / (t1 - t2);
+            tpCurve.add(Arrays.asList(slope.get(i).get(2),tp));
+        }
+
+        for (int i = 5; i < tpCurve.size(); i++) {
+            if (tpCurve.get(i).get(1) <= 0.5 ) return tpCurve.get(i).get(0);
+        }
+
+        return -1;
+
+    }
+    */
 
     private List<Double> getTimeSerie() {
         List<Double> ts = new ArrayList<>();
@@ -195,5 +249,10 @@ public class Logic implements LogicInterface {
         }
 
         return length;
+    }
+
+    @Override
+    public List getTpCurve() {
+        return this.tpCurve;
     }
 }

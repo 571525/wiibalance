@@ -60,5 +60,6 @@ public interface LogicInterface {
      */
     double calcCurveLengthY();
 
+    List getTpCurve();
 
 }
