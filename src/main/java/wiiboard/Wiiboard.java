@@ -2,7 +2,6 @@ package wiiboard;
 
 import gui.GuiInterface;
 import logic.LogicInterface;
-import wiiboard.wiiboardStack.WiiBoard;
 import wiiboard.wiiboardStack.WiiBoardDiscoverer;
 import wiiboard.wiiboardStack.WiiBoardDiscoveryListener;
 import wiiboard.wiiboardStack.event.WiiBoardButtonEvent;
@@ -10,7 +9,6 @@ import wiiboard.wiiboardStack.event.WiiBoardListener;
 import wiiboard.wiiboardStack.event.WiiBoardMassEvent;
 import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
-import javax.bluetooth.BluetoothStateException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,7 +49,7 @@ public class Wiiboard implements WiiboardInterface {
             xVal = (L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
             yVal = (W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
 
-            gui.notifyCopChanged(xVal,yVal);
+            gui.notifyCopChanged(xVal, yVal);
 
             updated = true;
         }
@@ -88,7 +86,7 @@ public class Wiiboard implements WiiboardInterface {
     @Override
     public void startWiiboardDiscoverer() {
         if (gui != null) {
-            if(WiiBoardDiscoverer.isBluetoothReady()) {
+            if (WiiBoardDiscoverer.isBluetoothReady()) {
                 discoveryListener = wiiboard -> wiiboard.addListener(listener);
                 discoverer = WiiBoardDiscoverer.getWiiBoardDiscoverer(gui);
                 discoverer.addWiiBoardDiscoveryListener(discoveryListener);
@@ -117,9 +115,9 @@ public class Wiiboard implements WiiboardInterface {
                         double time = (System.currentTimeMillis() - start) / 1000.0;
                         logic.addCopPoint(getxVal(), getyVal(), time);
 
-                        gui.plotXrecorded(xVal,time);
-                        gui.plotYrecorded(yVal,time);
-                        gui.plotCOPRecorded(xVal,yVal);
+                        gui.plotXrecorded(xVal, time);
+                        gui.plotYrecorded(yVal, time);
+                        gui.plotCOPRecorded(xVal, yVal);
 
                         xPrev = xVal;
                         yPrev = yVal;

@@ -14,7 +14,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="dashboardPane" prefHeight="749.0" prefWidth="982.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+<?import gui.uiUtils.LogarithmicAxis?>
+
+
+<AnchorPane id="dashboardPane" prefHeight="900.0" prefWidth="1100.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
        <AnchorPane id="infoPane" layoutX="20.0" layoutY="293.0" prefHeight="329.0" prefWidth="250.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="293.0">
 
@@ -24,14 +28,13 @@
                   <Font size="18.0" />
                </font>
             </Text>
-              <TextField fx:id="personText" layoutX="72.0" layoutY="49.0" />
-              <TextField fx:id="durationInput" layoutX="73.0" layoutY="120.0" prefHeight="26.0" prefWidth="75.0" />
-              <Button fx:id="exportButton" layoutX="24.0" layoutY="178.0" mnemonicParsing="false" text="Export Data" />
-              <Button fx:id="startButton" layoutX="139.0" layoutY="178.0" mnemonicParsing="false" text="Start Test" />
-              <Label layoutX="14.0" layoutY="54.0" text="Person" />
-              <Label layoutX="19.0" layoutY="88.0" text="Test" />
-              <Label layoutX="8.0" layoutY="125.0" text="Duration" />
-              <ComboBox fx:id="selectTest" editable="true" layoutX="73.0" layoutY="83.0" prefWidth="150.0" promptText="Select Test">
+              <TextField fx:id="personText" layoutX="72.0" layoutY="49.0" AnchorPane.rightAnchor="10.0" />
+              <TextField fx:id="durationInput" layoutX="73.0" layoutY="120.0" prefHeight="26.0" prefWidth="75.0" AnchorPane.rightAnchor="10.0" />
+              <Button fx:id="startButton" layoutX="139.0" layoutY="178.0" mnemonicParsing="false" prefHeight="50.0" text="Start Test" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+              <Label layoutX="14.0" layoutY="54.0" text="Person:" AnchorPane.leftAnchor="10.0" />
+              <Label layoutX="19.0" layoutY="88.0" text="Test type:" AnchorPane.leftAnchor="10.0" />
+              <Label layoutX="8.0" layoutY="125.0" text="Duration (seconds):" />
+              <ComboBox fx:id="selectTest" editable="true" layoutX="73.0" layoutY="83.0" prefWidth="150.0" promptText="Select Test" AnchorPane.rightAnchor="10.0">
                   <items>
                       <FXCollections fx:factory="observableArrayList">
                           <String fx:value="Eyes Open" />
@@ -52,20 +55,25 @@
                  </font>
              </Label>
              <Label layoutX="33.0" layoutY="59.0" text="Kurvelengde" />
-             <Label layoutX="212.0" layoutY="59.0" text="Areal" />
-             <Label layoutX="398.0" layoutY="59.0" text="Turning-point" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="397.0" />
+             <Label layoutX="399.0" layoutY="58.0" text="Areal" />
+             <Label layoutX="545.0" layoutY="59.0" text="Turning-point" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="545.0" />
              <TextArea fx:id="curve" editable="false" layoutX="12.0" layoutY="89.0" prefHeight="76.0" prefWidth="135.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="87.0">
                <font>
                   <Font size="20.0" />
                </font></TextArea>
-             <TextArea fx:id="areal" editable="false" layoutX="164.0" layoutY="89.0" prefHeight="76.0" prefWidth="135.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="164.0" AnchorPane.topAnchor="87.0">
+             <TextArea fx:id="areal" editable="false" layoutX="350.0" layoutY="89.0" prefHeight="76.0" prefWidth="135.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="89.0">
                <font>
                   <Font size="20.0" />
                </font></TextArea>
-             <TextArea fx:id="turning" editable="false" layoutX="394.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="394.0" AnchorPane.topAnchor="87.0">
+             <TextArea fx:id="turning" editable="false" layoutX="542.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="542.0" AnchorPane.topAnchor="89.0">
                <font>
                   <Font size="20.0" />
                </font></TextArea>
+              <Button fx:id="exportButton" layoutX="695.0" layoutY="144.0" mnemonicParsing="false" prefHeight="50.0" text="Export Data" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+            <Label layoutX="181.0" layoutY="59.0" text="X Curvelength:" />
+            <TextField layoutX="178.0" layoutY="78.0" prefHeight="26.0" prefWidth="117.0" fx:id="xCurvelength" />
+            <TextField fx:id="yCurvelength" layoutX="179.0" layoutY="137.0" prefHeight="26.0" prefWidth="117.0" />
+            <Label layoutX="181.0" layoutY="118.0" text="Y Curvelength:" />
            </children>
        </AnchorPane>
        <AnchorPane fx:id="connectPane" layoutX="14.0" layoutY="14.0" prefHeight="37.0" prefWidth="319.0">
@@ -76,7 +84,7 @@
        </AnchorPane>
       <AnchorPane fx:id="COP" layoutX="276.0" layoutY="58.0" prefHeight="374.0" prefWidth="540.0" AnchorPane.bottomAnchor="204.0" AnchorPane.leftAnchor="274.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="58.0">
          <children>
-            <LineChart fx:id="copChart" animated="true" axisSortingPolicy="NONE" horizontalGridLinesVisible="false" legendVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <LineChart fx:id="copChart" animated="false" axisSortingPolicy="NONE" horizontalGridLinesVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
                <xAxis>
                   <NumberAxis autoRanging="false" lowerBound="-150" side="BOTTOM" tickUnit="1" upperBound="150" />
@@ -89,7 +97,6 @@
       </AnchorPane>
       <AnchorPane fx:id="recordingPane" layoutX="286.0" layoutY="16.0" prefHeight="426.0" prefWidth="540.0" visible="false" AnchorPane.bottomAnchor="194.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="16.0">
          <children>
-            <Label layoutX="89.0" layoutY="369.0" text="X Curvelength:" AnchorPane.bottomAnchor="41.0" AnchorPane.rightAnchor="341.0" />
             <LineChart fx:id="recordingYChart" animated="true" createSymbols="false" horizontalGridLinesVisible="false" layoutY="213.0" legendVisible="false" prefHeight="238.0" prefWidth="652.0" title="Y Axis" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0">
 
                <xAxis>
@@ -113,13 +120,48 @@
             </LineChart>
             <Label layoutX="387.0" layoutY="22.0" text="Time:" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="25.0" />
             <TextField fx:id="remainingTime" layoutX="435.0" layoutY="11.0" prefHeight="37.0" prefWidth="65.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0" />
-            <TextField layoutX="208.0" layoutY="364.0" prefHeight="26.0" prefWidth="93.0" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="239.0" fx:id="xCurvelength" />
-            <Label layoutX="311.0" layoutY="369.0" text="Y Curvelength:" AnchorPane.bottomAnchor="41.0" AnchorPane.rightAnchor="120.0" />
-            <TextField fx:id="yCurvelength" layoutX="422.0" layoutY="364.0" prefHeight="26.0" prefWidth="93.0" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="25.0" />
 
          </children>
       </AnchorPane>
       <Button fx:id="buttonCOPPlot" layoutX="20.0" layoutY="221.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="250.0" text="COP Plot" />
       <Button fx:id="buttonXYSplit" layoutX="20.0" layoutY="166.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="250.0" text="XY Split" />
+      <Button fx:id="buttonResultPlots" layoutX="20.0" layoutY="112.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="250.0" text="Turning Point" />
+      <AnchorPane fx:id="TPResult" layoutX="286.0" layoutY="46.0" prefHeight="487.0" prefWidth="652.0" visible="false" AnchorPane.bottomAnchor="204.0" AnchorPane.leftAnchor="274.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="58.0">
+         <children>
+            <LineChart fx:id="timeseriesPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" prefHeight="300.0" prefWidth="400.0" title="Xi" verticalGridLinesVisible="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <xAxis>
+                  <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
+               </yAxis>
+            </LineChart>
+
+            <LineChart fx:id="tpResultPlot" createSymbols="false" horizontalGridLinesVisible="true" layoutX="362.0" layoutY="236.0" legendVisible="false" prefHeight="300.0" prefWidth="400.0" title="Turning Point" verticalGridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <xAxis>
+                  <LogarithmicAxis lowerBound="0.01" upperBound="8.0" side="BOTTOM" />
+               </xAxis>
+               <yAxis>
+                  <LogarithmicAxis side="LEFT" lowerBound="0.01" upperBound="1.5" />
+               </yAxis>
+            </LineChart>
+            <LineChart fx:id="slopePlot" createSymbols="false" horizontalZeroLineVisible="true" horizontalGridLinesVisible="true" layoutX="325.0" layoutY="10.0" legendVisible="false" prefHeight="300.0" prefWidth="400.0" title="SLOPE" verticalGridLinesVisible="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <xAxis>
+                  <LogarithmicAxis lowerBound="0.01" upperBound="8.0" side="BOTTOM"  />
+               </xAxis>
+               <yAxis>
+                  <LogarithmicAxis lowerBound="0.01" upperBound="5000" side="LEFT" />
+               </yAxis>
+            </LineChart>
+            <LineChart fx:id="msdPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" layoutX="-8.0" layoutY="240.0" legendVisible="false" prefHeight="300.0" prefWidth="400.0" title="MSD" verticalGridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+               <xAxis>
+                  <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
+               </yAxis>
+            </LineChart>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

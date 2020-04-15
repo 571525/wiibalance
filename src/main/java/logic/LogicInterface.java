@@ -62,4 +62,10 @@ public interface LogicInterface {
 
     List getTpCurve();
 
+    List getMsdCurve();
+
+    List getTimeSeries();
+
+
+
 }
