@@ -60,5 +60,12 @@ public interface LogicInterface {
      */
     double calcCurveLengthY();
 
+    List getTpCurve();
+
+    List getMsdCurve();
+
+    List getTimeSeries();
+
+
 
 }
