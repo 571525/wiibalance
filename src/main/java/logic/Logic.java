@@ -45,13 +45,14 @@ public class Logic implements LogicInterface {
         List<List<Double>> slope = new ArrayList<>();
         List<Double> timeSerie = getTimeSerie();
 
-        int beta = 400;
         int n = timeSerie.size();
         int k = 1;
         double timeInterval = cop.get(0).get(2);
         double stepsize = cop.get(cop.size() -1).get(2) / cop.size();
         double sumSpread = 0.0;
-        System.out.println("STEPSIZE: " + timeInterval);
+        int beta = (int) (7/stepsize); // Window size of 7 seconds
+
+        System.out.println("STEPSIZE: " + stepsize);
 
         while (k < beta) {
             double xi, xiPlusK, sqrd;
@@ -227,7 +228,6 @@ public class Logic implements LogicInterface {
     }
 
 
-    @Override
     public String copToString() {
         StringBuilder s = new StringBuilder();
 

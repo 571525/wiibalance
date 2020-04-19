@@ -37,5 +37,10 @@ public interface GuiInterface {
      */
     void plotYrecorded(double yVal, double time);
 
+    /**
+     * Plots the recorded point on the COP chart
+     * @param xVal
+     * @param yVal
+     */
     void plotCOPRecorded(double xVal, double yVal);
 }

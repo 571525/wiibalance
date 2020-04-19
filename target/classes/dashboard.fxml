@@ -150,7 +150,7 @@
                   <LogarithmicAxis lowerBound="0.01" upperBound="8.0" side="BOTTOM"  />
                </xAxis>
                <yAxis>
-                  <LogarithmicAxis lowerBound="0.01" upperBound="5000" side="LEFT" />
+                  <LogarithmicAxis lowerBound="0.01" upperBound="10000" side="LEFT" />
                </yAxis>
             </LineChart>
             <LineChart fx:id="msdPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" layoutX="-8.0" layoutY="240.0" legendVisible="false" prefHeight="300.0" prefWidth="400.0" title="MSD" verticalGridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
