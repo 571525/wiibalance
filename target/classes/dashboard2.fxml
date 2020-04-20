@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import gui.uiUtils.LogarithmicAxis?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="254.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="connectButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="527.0" text="Connect" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="10.0" />
+                    </VBox.margin>
+                </Button>
+            <TextField fx:id="wiiStats" promptText="Click To Connect">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TextField>
+                <Label text="SELECT VIEW">
+                    <VBox.margin>
+                        <Insets left="5.0" top="40.0" />
+                    </VBox.margin>
+                </Label>
+                <GridPane alignment="CENTER" prefHeight="47.0" prefWidth="254.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="5.0" />
+                    </VBox.margin>
+                    <children>
+                        <Button fx:id="buttonCOPPlot" maxWidth="80.0" mnemonicParsing="false" prefHeight="40.0" text="COP" />
+                        <Button fx:id="buttonXYSplit" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="X-Y SPLIT" GridPane.columnIndex="1" />
+                        <Button fx:id="buttonTPPlots" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="TP" GridPane.columnIndex="2" />
+                    </children>
+                </GridPane>
+                <AnchorPane fx:id="infoPane" prefHeight="350.0" prefWidth="254.0">
+                    <children>
+                        <Text id="misc-text" layoutX="40.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person og test info" wrappingWidth="171.0">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Text>
+                        <TextField fx:id="personText" layoutX="72.0" layoutY="49.0" AnchorPane.rightAnchor="10.0" />
+                        <TextField fx:id="durationInput" layoutX="167.0" layoutY="166.0" prefHeight="26.0" prefWidth="75.0" AnchorPane.rightAnchor="12.0" />
+                        <Button fx:id="startButton" layoutX="11.0" layoutY="222.0" mnemonicParsing="false" prefHeight="50.0" text="Start Test" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="13.0">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Button>
+                        <Label layoutX="12.0" layoutY="54.0" text="Person:" AnchorPane.leftAnchor="12.0" />
+                        <Label layoutX="12.0" layoutY="109.0" text="Test type:" AnchorPane.leftAnchor="12.0" />
+                        <Label layoutX="11.0" layoutY="171.0" text="Duration (seconds):" />
+                        <ComboBox fx:id="selectTest" editable="true" layoutX="93.0" layoutY="104.0" prefWidth="150.0" promptText="Select Test" AnchorPane.rightAnchor="11.0">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Eyes Open" />
+                                    <String fx:value="Eyes closed" />
+                                    <String fx:value="Eyes Open - Foam" />
+                                    <String fx:value="Eyes Closed - Foam" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        <TextArea fx:id="remainingTime" layoutX="164.0" layoutY="290.0" prefHeight="37.0" prefWidth="56.0" />
+                        <Label layoutX="22.0" layoutY="300.0" text="Remaining Time:" />
+                    </children>
+                    <VBox.margin>
+                        <Insets top="20.0" />
+                    </VBox.margin>
+                </AnchorPane>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane fx:id="COPPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <LineChart fx:id="copChart" animated="false" axisSortingPolicy="NONE" horizontalGridLinesVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <xAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-150" side="BOTTOM" tickUnit="1" upperBound="150" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-150" side="LEFT" tickUnit="1" upperBound="150" />
+                            </yAxis>
+                        </LineChart>
+                    </children>
+                </AnchorPane>
+                <GridPane fx:id="XYSplitPane" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <LineChart fx:id="recordingXChart" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="X Axis">
+
+                            <xAxis>
+                                <NumberAxis fx:id="recXXAxis" side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-125.0" side="LEFT" upperBound="125.0" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="recordingYChart" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Y Axis" GridPane.rowIndex="1">
+                            <xAxis>
+                                <NumberAxis fx:id="recYXAxis" side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-125.0" side="LEFT" upperBound="125.0" />
+                            </yAxis>
+                        </LineChart>
+                    </children>
+                </GridPane>
+                <GridPane fx:id="TPPane" layoutX="10.0" layoutY="10.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <LineChart fx:id="timeseriesPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Xi" verticalGridLinesVisible="true" >
+                            <xAxis>
+                                <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="msdPlot" GridPane.rowIndex="1"  animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="MSD" verticalGridLinesVisible="true">
+                            <xAxis>
+                                <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="slopePlot" createSymbols="false" GridPane.columnIndex="1" horizontalZeroLineVisible="true" horizontalGridLinesVisible="true" legendVisible="false" prefHeight="300.0" title="SLOPE" verticalGridLinesVisible="true" >
+                            <xAxis>
+                                <LogarithmicAxis lowerBound="0.01" upperBound="8.0" side="BOTTOM"  />
+                            </xAxis>
+                            <yAxis>
+                                <LogarithmicAxis lowerBound="0.01" upperBound="10000" side="LEFT" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="tpResultPlot" GridPane.columnIndex="1" GridPane.rowIndex="1" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Turning Point" verticalGridLinesVisible="true" >
+                            <xAxis>
+                                <LogarithmicAxis lowerBound="0.01" upperBound="8.0" side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <LogarithmicAxis side="LEFT" lowerBound="0.01" upperBound="1.5" />
+                            </yAxis>
+                        </LineChart>
+                    </children>
+                </GridPane>
+            </children>
+        </AnchorPane>
+    </center>
+    <bottom>
+        <HBox prefHeight="175.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+            <children>
+                <GridPane alignment="CENTER" prefHeight="122.0" prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Area" GridPane.halignment="CENTER" />
+                        <TextArea fx:id="areal" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </TextArea>
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <HBox.margin>
+                        <Insets left="200.0" />
+                    </HBox.margin>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Curvelength" GridPane.halignment="CENTER" />
+                        <TextArea fx:id="curve" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="X Curvelength" GridPane.halignment="CENTER" />
+                        <TextArea fx:id="xCurvelength" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Y Curvelength" GridPane.halignment="CENTER" />
+                        <TextArea fx:id="yCurvelength" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Turning Point" GridPane.halignment="CENTER" />
+                        <TextArea fx:id="tpResult" editable="false" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="111.0" text="Export">
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="50.0" right="10.0" top="50.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

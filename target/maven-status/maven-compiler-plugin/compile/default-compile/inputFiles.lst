@@ -8,6 +8,7 @@
 /home/david/bachelor/WiiBalance/src/main/java/wiiboard/wiiboardStack/event/WiiBoardStatusEvent.java
 /home/david/bachelor/WiiBalance/src/main/java/wiiboard/wiiboardStack/event/WiiBoardButtonEvent.java
 /home/david/bachelor/WiiBalance/src/main/java/logic/Logic.java
+/home/david/bachelor/WiiBalance/src/main/java/gui/controller/DashboardController2.java
 /home/david/bachelor/WiiBalance/src/main/java/gui/GuiInterface.java
 /home/david/bachelor/WiiBalance/src/main/java/gui/uiUtils/IllegalLogarithmicRangeException.java
 /home/david/bachelor/WiiBalance/src/main/java/gui/Main.java

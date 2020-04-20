@@ -10,6 +10,7 @@ wiiboard/wiiboardStack/event/WiiBoardStatusEvent.class
 wiiboard/bluetooth/BluetoothDevice.class
 gui/uiUtils/LogarithmicAxis.class
 gui/Main.class
+gui/controller/DashboardController2.class
 gui/uiUtils/LogarithmicAxis$1.class
 wiiboard/wiiboardStack/event/WiiBoardListener.class
 gui/uiUtils/LogarithmicAxis$2.class
