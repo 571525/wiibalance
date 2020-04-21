@@ -42,11 +42,6 @@ public interface LogicInterface {
      */
     void clearData();
 
-    /**
-     * COP recordings to String
-     * @return
-     */
-    String copToString();
 
     /**
      * Finds the curvelength on the x-axis, that is the total distance travelled up and down the x-axis
@@ -59,6 +54,13 @@ public interface LogicInterface {
      * @return
      */
     double calcCurveLengthY();
+
+    List getTpCurve();
+
+    List getMsdCurve();
+
+    List getTimeSeries();
+
 
 
 }

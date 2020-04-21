@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 import logic.Logic;
 import wiiboard.Wiiboard;
 
+import java.io.FileNotFoundException;
+
 
 /**
  * This is the centre of the application, responsible for gui and all couplings in the application.
@@ -51,7 +53,11 @@ public class Main extends Application implements GuiInterface {
 
     @Override
     public void notifyTestFinished() {
-        controller.stopRecording();
+        try {
+            controller.stopRecording();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -73,4 +79,5 @@ public class Main extends Application implements GuiInterface {
     public void plotCOPRecorded(double xVal, double yVal) {
         controller.plotCopRec(xVal,yVal);
     }
+
 }

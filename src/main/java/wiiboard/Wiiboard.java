@@ -2,7 +2,6 @@ package wiiboard;
 
 import gui.GuiInterface;
 import logic.LogicInterface;
-import wiiboard.wiiboardStack.WiiBoard;
 import wiiboard.wiiboardStack.WiiBoardDiscoverer;
 import wiiboard.wiiboardStack.WiiBoardDiscoveryListener;
 import wiiboard.wiiboardStack.event.WiiBoardButtonEvent;
@@ -10,9 +9,10 @@ import wiiboard.wiiboardStack.event.WiiBoardListener;
 import wiiboard.wiiboardStack.event.WiiBoardMassEvent;
 import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
-import javax.bluetooth.BluetoothStateException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This class implements the wiiboard interface and is the connecting class to the rest of the application
@@ -22,43 +22,43 @@ public class Wiiboard implements WiiboardInterface {
     private static final int L = 433; //wiiboardStack length
     private static final int W = 228; // wiiboardStack width
 
-    private volatile double tr;
-    private volatile double tl;
-    private volatile double br;
-    private volatile double bl;
 
-    private double xVal = 0.0, yVal = 0.0, xPrev = 0.0, yPrev = 0.0;
-
-
-    private volatile boolean updated = false;
+    private AtomicReference<Double> xVal = new AtomicReference<>(0.0);
+    private AtomicReference<Double> yVal = new AtomicReference<>(0.0);
+    private boolean updated = false;
 
     private LogicInterface logic;
     private GuiInterface gui;
+    private ExecutorService worker;
 
     private WiiBoardListener listener = new WiiBoardListener() {
         @Override
         public void wiiBoardButtonEvent(WiiBoardButtonEvent buttonEvent) {
-
+            if (buttonEvent.isPressed())
+                buttonEvent.getWiiBoard().requestStatus();
+            if(buttonEvent.isReleased()) {
+                System.out.println(Thread.getAllStackTraces().keySet());
+            }
         }
 
         @Override
         public void wiiBoardMassReceived(WiiBoardMassEvent massEvent) {
-            tr = massEvent.getTopRight();
-            tl = massEvent.getTopLeft();
-            br = massEvent.getBottomRight();
-            bl = massEvent.getBottomLeft();
+            double tr = massEvent.getTopRight();
+            double tl = massEvent.getTopLeft();
+            double br = massEvent.getBottomRight();
+            double bl = massEvent.getBottomLeft();
 
-            xVal = (L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
-            yVal = (W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
-
-            gui.notifyCopChanged(xVal,yVal);
-
-            updated = true;
+            double yNew = (L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
+            double xNew = -(W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
+            setxVal(xNew);
+            setyVal(yNew);
+            setUpdated(true);
+            worker.execute(() -> gui.notifyCopChanged(xNew, yNew));
         }
 
         @Override
         public void wiiBoardStatusReceived(WiiBoardStatusEvent status) {
-
+            System.out.println(status.batteryLife());
         }
 
         @Override
@@ -72,8 +72,12 @@ public class Wiiboard implements WiiboardInterface {
 
     public Wiiboard() {
         System.setProperty("bluecove.jsr82.psm_minimum_off", "true"); //enable bluetooth to work properly
+        worker = Executors.newCachedThreadPool(r -> {
+            Thread t = Executors.defaultThreadFactory().newThread(r);
+            t.setDaemon(true);
+            return t;
+        });
     }
-
 
     @Override
     public void registerGui(GuiInterface gui) {
@@ -88,7 +92,7 @@ public class Wiiboard implements WiiboardInterface {
     @Override
     public void startWiiboardDiscoverer() {
         if (gui != null) {
-            if(WiiBoardDiscoverer.isBluetoothReady()) {
+            if (WiiBoardDiscoverer.isBluetoothReady()) {
                 discoveryListener = wiiboard -> wiiboard.addListener(listener);
                 discoverer = WiiBoardDiscoverer.getWiiBoardDiscoverer(gui);
                 discoverer.addWiiBoardDiscoveryListener(discoveryListener);
@@ -103,52 +107,63 @@ public class Wiiboard implements WiiboardInterface {
 
     @Override
     public void startRecordingData(int seconds) {
-        new Thread(() -> {
+        Thread t = new Thread(() -> {
             logic.clearData();
 
             long start = System.currentTimeMillis();
             long duration = start + seconds * 1000;
+            double xPrev = 0.0, yPrev = 0.0;
 
             while (System.currentTimeMillis() < duration) {
-                if (updated) {
-                    if (xVal != xPrev || yVal != yPrev) { //We want unique values
+                if (isUpdated()) {
+                    double xTemp = getxVal();
+                    double yTemp = getyVal();
 
+                    if (xTemp != xPrev || yTemp != yPrev) { //We want unique values
                         double time = (System.currentTimeMillis() - start) / 1000.0;
-                        logic.addCopPoint(getxVal(), getyVal(), time);
+                        logic.addCopPoint(xTemp, yTemp, time);
+                        xPrev = xTemp;
+                        yPrev = yTemp;
 
-                        gui.plotXrecorded(xVal,time);
-                        gui.plotYrecorded(yVal,time);
-                        gui.plotCOPRecorded(xVal,yVal);
+                        worker.execute(() -> {
+                            gui.plotXrecorded(xTemp, time);
+                            gui.plotYrecorded(yTemp, time);
+                            gui.plotCOPRecorded(xTemp, yTemp);
+                        });
 
-                        xPrev = xVal;
-                        yPrev = yVal;
                     }
-                    updated = false;
                 }
             }
 
             gui.notifyTestFinished();
-        }).start();
+        });
+        t.setDaemon(true);
+        t.start();
     }
 
+
     public double getxVal() {
-        return xVal;
+        return xVal.get();
     }
 
     public void setxVal(double xVal) {
-        this.xVal = xVal;
+        this.xVal.set(xVal);
     }
 
     public double getyVal() {
-        return yVal;
+        return yVal.get();
     }
 
     public void setyVal(double yVal) {
-        this.yVal = yVal;
+        this.yVal.set(yVal);
     }
 
-    @Override
-    public List getCopPoint() {
-        return Arrays.asList(xVal, yVal);
+    public boolean isUpdated() {
+        return updated;
     }
+
+    public void setUpdated(boolean updated) {
+        this.updated = updated;
+    }
+
 }

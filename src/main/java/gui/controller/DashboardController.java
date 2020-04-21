@@ -7,13 +7,16 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import logic.Filemanager;
 import logic.Logic;
 import wiiboard.Wiiboard;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -27,74 +30,80 @@ public class DashboardController {
 
     @FXML
     private Button connectButton;
+    @FXML
+    private TextField wiiStats;
 
     @FXML
     private Button exportButton;
 
     @FXML
-    private TextField wiiStats;
+    private Button buttonTPPlots;
+    @FXML
+    private Button buttonCOPPlot;
+    @FXML
+    private Button buttonXYSplit;
 
     @FXML
     private LineChart copChart;
 
     @FXML
-    private LineChart recordingYChart;
+    private LineChart tpResultPlot;
+    @FXML
+    private LineChart msdPlot;
+    @FXML
+    private LineChart slopePlot;
+    @FXML
+    private LineChart timeseriesPlot;
 
+    @FXML
+    private LineChart recordingYChart;
     @FXML
     private LineChart recordingXChart;
 
     @FXML
     private NumberAxis recYXAxis;
-
     @FXML
     private NumberAxis recXXAxis;
 
     @FXML
+    private TextField personText;
+    @FXML
+    private ComboBox selectTest;
+    @FXML
     private TextField durationInput;
-
     @FXML
     private Button startButton;
 
     @FXML
     private TextArea curve;
-
     @FXML
     private TextArea areal;
+    @FXML
+    private TextArea tpResult;
+    @FXML
+    private TextArea xCurvelength;
+    @FXML
+    private TextArea yCurvelength;
 
     @FXML
-    private TextArea turning;
+    private AnchorPane COPPane;
+    @FXML
+    private GridPane TPPane;
+    @FXML
+    private GridPane XYSplitPane;
 
     @FXML
-    private TextField xCurvelength;
+    private TextArea remainingTime;
 
-    @FXML
-    private TextField yCurvelength;
-
-    @FXML
-    private AnchorPane COP;
-
-    @FXML
-    private AnchorPane recordingPane;
-
-    @FXML
-    private TextField remainingTime;
-
-    @FXML
-    private Button buttonCOPPlot;
-
-    @FXML
-    private Button buttonXYSplit;
-
-    @FXML
-    private TextField personText;
-
-    @FXML
-    private ComboBox selectTest;
 
     private XYChart.Series seriesPlotting = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecording = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecordingX = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecordingY = new XYChart.Series<Double, Double>();
+    private XYChart.Series TPseries = new XYChart.Series<Double, Double>();
+    private XYChart.Series msdSeries = new XYChart.Series<Double, Double>();
+    private XYChart.Series timeseries = new XYChart.Series<Double, Double>();
+    private XYChart.Series slopeSeries = new XYChart.Series<Double, Double>();
     private double tp = 0.0;
     private double area = 0.0;
     private double curvelength = 0.0;
@@ -116,16 +125,27 @@ public class DashboardController {
         connectButton.setOnMouseClicked(e -> wiiboard.startWiiboardDiscoverer());
         startButton.setOnMouseClicked(e -> startRecording());
         buttonCOPPlot.setOnMouseClicked(e -> {
-            COP.setVisible(true);
-            recordingPane.setVisible(false);
+            COPPane.setVisible(true);
+            XYSplitPane.setVisible(false);
+            TPPane.setVisible(false);
         });
         buttonXYSplit.setOnMouseClicked(e -> {
-            COP.setVisible(false);
-            recordingPane.setVisible(true);
+            COPPane.setVisible(false);
+            XYSplitPane.setVisible(true);
+            TPPane.setVisible(false);
         });
+        buttonTPPlots.setOnMouseClicked(e -> {
+            COPPane.setVisible(false);
+            XYSplitPane.setVisible(false);
+            TPPane.setVisible(true);
+        });
+
 
         exportButton.setOnMouseClicked(e -> exportData());
 
+
+        seriesRecording.setName("Test result");
+        seriesPlotting.setName("Current COP");
 
         copChart.getData().add(seriesPlotting);
         copChart.getData().add(seriesRecording);
@@ -133,6 +153,12 @@ public class DashboardController {
 
         recordingXChart.getData().add(seriesRecordingX);
         recordingYChart.getData().add(seriesRecordingY);
+
+        msdPlot.getData().add(msdSeries);
+        slopePlot.getData().add(slopeSeries);
+        timeseriesPlot.getData().add(timeseries);
+
+        tpResultPlot.getData().add(TPseries);
     }
 
     private void exportData() {
@@ -186,14 +212,31 @@ public class DashboardController {
 
         if (duration > 0) {
             changeViewToRecording(duration);
+            resetResultPlots();
             wiiboard.startRecordingData(duration);
             startTimer(duration);
         }
     }
 
+    private void resetResultPlots() {
+        xCurvelength.setText("");
+        yCurvelength.setText("");
+        curve.setText("");
+        areal.setText("");
+        tpResult.setText("");
+        seriesRecording.getData().clear();
+        seriesRecordingX.getData().clear();
+        seriesRecordingY.getData().clear();
+        timeseries.getData().clear();
+        TPseries.getData().clear();
+        msdSeries.getData().clear();
+        slopeSeries.getData().clear();
+    }
+
     private void changeViewToRecording(int time) {
-        COP.setVisible(false);
-        recordingPane.setVisible(true);
+        COPPane.setVisible(false);
+        XYSplitPane.setVisible(true);
+        TPPane.setVisible(false);
 
         recXXAxis.setAutoRanging(false);
         recYXAxis.setAutoRanging(false);
@@ -202,10 +245,6 @@ public class DashboardController {
         recXXAxis.setUpperBound(time);
         recYXAxis.setLowerBound(0.0);
         recYXAxis.setUpperBound(time);
-
-        seriesRecordingX.getData().clear();
-        seriesRecordingY.getData().clear();
-        seriesRecording.getData().clear();
     }
 
     private void startTimer(int time) {
@@ -220,8 +259,10 @@ public class DashboardController {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
-    public void stopRecording() {
+    public void stopRecording() throws FileNotFoundException {
+
         tp = logic.findTP();
+        plotTPCurve();
         area = logic.calculateCurveArea();
         curvelength = logic.calculateCurveLength();
         curveX = logic.calcCurveLengthX();
@@ -231,7 +272,42 @@ public class DashboardController {
         yCurvelength.setText(String.format("%.2f", curveY));
         curve.setText(String.format("%.2f", curvelength));
         areal.setText(String.format("%.2f", area));
-        turning.setText(String.format("%.2f", tp));
+        tpResult.setText(String.format("%.2f", tp));
+    }
+
+    private void plotTPCurve() {
+        List<List<Double>> tpCurve = logic.getTpCurve();
+        List<List<Double>> msdCurve = logic.getMsdCurve();
+        List<List<Double>> timeseriescurve = logic.getTimeSeries();
+
+
+        Platform.runLater(() -> {
+            tpCurve.forEach(a -> {
+                double x = a.get(0);
+                double y = a.get(1);
+                XYChart.Data point = new XYChart.Data<>(x, y);
+                TPseries.getData().add(point);
+            });
+
+            timeseriescurve.forEach(a -> {
+                double x = a.get(0);
+                double y = a.get(1);
+                XYChart.Data point = new XYChart.Data<>(x, y);
+                timeseries.getData().add(point);
+            });
+            msdCurve.forEach(a -> {
+                double x = a.get(0);
+                double y = a.get(1);
+                XYChart.Data point = new XYChart.Data<>(x, y);
+                msdSeries.getData().add(point);
+            });
+            msdCurve.forEach(a -> {
+                double x = a.get(0);
+                double y = a.get(1);
+                XYChart.Data point = new XYChart.Data<>(x, y);
+                slopeSeries.getData().add(point);
+            });
+        });
     }
 
     public void setStage(Stage stage) {
@@ -239,6 +315,6 @@ public class DashboardController {
     }
 
     public void plotCopRec(double xVal, double yVal) {
-       Platform.runLater(() -> seriesRecording.getData().add(new XYChart.Data<>(xVal,yVal)));
+        Platform.runLater(() -> seriesRecording.getData().add(new XYChart.Data<>(xVal, yVal)));
     }
 }

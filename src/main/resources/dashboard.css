@@ -1,64 +1,43 @@
-
-.root{
-
+.text-area .content {
+    -fx-background-color: #F3F7F0;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
 }
 
-#dashboardPane{
-    -fx-background-color: azure;;
+.combo-box .content {
+    -fx-background-color: #F3F7F0;
 }
 
-.label{
+.combo-box .text-field {
+    -fx-background-color: #F3F7F0;
+}
 
+.combo-box .text-field .content {
+    -fx-background-color: #F3F7F0;
+}
+
+.label {
     -fx-font-weight: bold;
 }
 
-
-
-#result-text{
-    -fx-border-color: black;
+.button {
+    -fx-font-weight: bold;
 }
 
-#infoPane{
-    -fx-border-color: black;
-    -fx-background-color: darkgray;
+.text-area *.text {
+    -fx-text-alignment: center;
+
 }
 
-#resultPane{
-    -fx-border-color: black;
-    -fx-background-color: darkgrey;
-}
-
-#connectButton{
-    -fx-text-fill: red;
-    -fx-background-radius: 25px;
-}
-#exportButton{
-    -fx-background-radius: 25px;
-}
-
-#startButton{
-    -fx-background-radius: 25px;
-}
-
-#turning{
-    -fx-border-color: black;
-}
-
-#areal{
-    -fx-border-color: black;
-}
-
-#curve{
-    -fx-border-color: black;
-}
-
-#connectPane{
-    -fx-background-radius: 25px;
-    -fx-border-color: salmon;
-    -fx-background-color: white;
-    -fx-border-radius: 25px;
+.chart {
+    -fx-background-color:  E7F6EA;
 }
 
 
+.chart-plot-background {
+    -fx-background-color: #F3F7F0;
+}
 
-
+.chart-title {
+    -fx-text-fill: #273043;
+}
