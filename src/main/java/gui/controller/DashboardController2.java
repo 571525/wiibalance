@@ -96,7 +96,6 @@ public class DashboardController2 {
     private TextArea remainingTime;
 
 
-
     private XYChart.Series seriesPlotting = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecording = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecordingX = new XYChart.Series<Double, Double>();
@@ -145,6 +144,9 @@ public class DashboardController2 {
         exportButton.setOnMouseClicked(e -> exportData());
 
 
+        seriesRecording.setName("Test result");
+        seriesPlotting.setName("Current COP");
+
         copChart.getData().add(seriesPlotting);
         copChart.getData().add(seriesRecording);
         copChart.setCreateSymbols(false);
@@ -156,10 +158,7 @@ public class DashboardController2 {
         slopePlot.getData().add(slopeSeries);
         timeseriesPlot.getData().add(timeseries);
 
-        XYChart.Series line = new XYChart.Series<Double,Double>();
-        line.getData().add(new XYChart.Data<>(0.01,0.5));
-        line.getData().add(new XYChart.Data<>(8.0,0.5));
-        tpResultPlot.getData().addAll(TPseries,line);
+        tpResultPlot.getData().add(TPseries);
     }
 
     private void exportData() {
@@ -280,6 +279,7 @@ public class DashboardController2 {
         List<List<Double>> tpCurve = logic.getTpCurve();
         List<List<Double>> msdCurve = logic.getMsdCurve();
         List<List<Double>> timeseriescurve = logic.getTimeSeries();
+
 
         Platform.runLater(() -> {
             tpCurve.forEach(a -> {

@@ -3,6 +3,7 @@ package gui;
 import gui.controller.DashboardController;
 import gui.controller.DashboardController2;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -80,4 +81,5 @@ public class Main extends Application implements GuiInterface {
     public void plotCOPRecorded(double xVal, double yVal) {
         controller.plotCopRec(xVal,yVal);
     }
+
 }

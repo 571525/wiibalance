@@ -1,10 +1,5 @@
 package gui.uiUtils;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -14,12 +9,15 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.chart.ValueAxis;
 import javafx.util.Duration;
 
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A logarithmic axis implementation for JavaFX 2 charts<br>
  * <br>
  *
  * @author Kevin Senechal
- *
  */
 public class LogarithmicAxis extends ValueAxis<Number> {
 
@@ -127,6 +125,9 @@ public class LogarithmicAxis extends ValueAxis<Number> {
             double logLowerBound = Math.log10(lowerBound.doubleValue());
             double logUpperBound = Math.log10(upperBound.doubleValue());
 
+           tickPositions.add(0.1);
+           tickPositions.add(0.5);
+
             for (double i = 0; i <= logUpperBound; i += 1) {
                 for (double j = 1; j <= 9; j++) {
                     double value = j * Math.pow(10, i);
@@ -139,7 +140,7 @@ public class LogarithmicAxis extends ValueAxis<Number> {
 
     @Override
     protected Number[] getRange() {
-        return new Number[] { lowerBoundProperty().get(), upperBoundProperty().get() };
+        return new Number[]{lowerBoundProperty().get(), upperBoundProperty().get()};
     }
 
     @Override

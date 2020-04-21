@@ -11,6 +11,7 @@ import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -22,8 +23,8 @@ public class Wiiboard implements WiiboardInterface {
     private static final int W = 228; // wiiboardStack width
 
 
-    private AtomicReference<Double> xVal;
-    private AtomicReference<Double> yVal;
+    private AtomicReference<Double> xVal = new AtomicReference<>(0.0);
+    private AtomicReference<Double> yVal = new AtomicReference<>(0.0);
     private boolean updated = false;
 
     private LogicInterface logic;
@@ -71,11 +72,12 @@ public class Wiiboard implements WiiboardInterface {
 
     public Wiiboard() {
         System.setProperty("bluecove.jsr82.psm_minimum_off", "true"); //enable bluetooth to work properly
-        worker = Executors.newCachedThreadPool();
-        xVal = new AtomicReference<>(0.0);
-        yVal = new AtomicReference<>(0.0);
+        worker = Executors.newCachedThreadPool(r -> {
+            Thread t = Executors.defaultThreadFactory().newThread(r);
+            t.setDaemon(true);
+            return t;
+        });
     }
-
 
     @Override
     public void registerGui(GuiInterface gui) {
