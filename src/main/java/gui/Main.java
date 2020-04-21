@@ -79,4 +79,5 @@ public class Main extends Application implements GuiInterface {
     public void plotCOPRecorded(double xVal, double yVal) {
         controller.plotCopRec(xVal,yVal);
     }
+
 }

@@ -16,6 +16,4 @@ public interface WiiboardInterface {
 
     void startRecordingData(int seconds);
 
-    List getCopPoint();
-
 }

@@ -41,7 +41,7 @@ public class UnitTests {
 
     @Test
     public void testTPImplementation() {
-        double tp = logic.findTP(integratedCOP);
+        double tp = logic.findTP();
         System.out.println(tp);
         assertEquals(Math.round(tp * 100.0) / 100.0,0.56);
     }

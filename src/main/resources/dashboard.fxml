@@ -1,167 +1,404 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import gui.uiUtils.LogarithmicAxis?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<?import gui.uiUtils.LogarithmicAxis?>
-
-
-<AnchorPane id="dashboardPane" prefHeight="900.0" prefWidth="1100.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-       <AnchorPane id="infoPane" layoutX="20.0" layoutY="293.0" prefHeight="329.0" prefWidth="250.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="293.0">
-
-          <children>
-              <Text id="misc-text" layoutX="40.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Person og test info" wrappingWidth="171.0">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="254.0" style="-fx-background-color: C6F1E7;" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="connectButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="527.0" style="-fx-background-color: FF737A;" text="Connect" textFill="#273043" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="10.0" />
+                    </VBox.margin>
                <font>
-                  <Font size="18.0" />
+                  <Font name="Monospaced Regular" size="22.0" />
                </font>
-            </Text>
-              <TextField fx:id="personText" layoutX="72.0" layoutY="49.0" AnchorPane.rightAnchor="10.0" />
-              <TextField fx:id="durationInput" layoutX="73.0" layoutY="120.0" prefHeight="26.0" prefWidth="75.0" AnchorPane.rightAnchor="10.0" />
-              <Button fx:id="startButton" layoutX="139.0" layoutY="178.0" mnemonicParsing="false" prefHeight="50.0" text="Start Test" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-              <Label layoutX="14.0" layoutY="54.0" text="Person:" AnchorPane.leftAnchor="10.0" />
-              <Label layoutX="19.0" layoutY="88.0" text="Test type:" AnchorPane.leftAnchor="10.0" />
-              <Label layoutX="8.0" layoutY="125.0" text="Duration (seconds):" />
-              <ComboBox fx:id="selectTest" editable="true" layoutX="73.0" layoutY="83.0" prefWidth="150.0" promptText="Select Test" AnchorPane.rightAnchor="10.0">
-                  <items>
-                      <FXCollections fx:factory="observableArrayList">
-                          <String fx:value="Eyes Open" />
-                          <String fx:value="Eyes closed" />
-                          <String fx:value="Eyes Open - Foam" />
-                          <String fx:value="Eyes Closed - Foam" />
-                      </FXCollections>
-                  </items>
-              </ComboBox>
-          </children>
-       </AnchorPane>
-       <AnchorPane id="resultPane" layoutX="283.0" layoutY="441.0" prefHeight="181.0" prefWidth="531.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="281.0" AnchorPane.rightAnchor="14.0">
-
-           <children>
-             <Label id="result-text" text="Resultat">
-                 <font>
-                     <Font size="28.0" />
-                 </font>
-             </Label>
-             <Label layoutX="33.0" layoutY="59.0" text="Kurvelengde" />
-             <Label layoutX="399.0" layoutY="58.0" text="Areal" />
-             <Label layoutX="545.0" layoutY="59.0" text="Turning-point" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="545.0" />
-             <TextArea fx:id="curve" editable="false" layoutX="12.0" layoutY="89.0" prefHeight="76.0" prefWidth="135.0" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="87.0">
+                </Button>
+            <TextField fx:id="wiiStats" editable="false" promptText="Click To Connect" style="-fx-background-color: #F3F7F0; -fx-text-fill: #273043;">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TextField>
+                <Label text="SELECT VIEW">
+                    <VBox.margin>
+                        <Insets left="5.0" top="40.0" />
+                    </VBox.margin>
                <font>
-                  <Font size="20.0" />
-               </font></TextArea>
-             <TextArea fx:id="areal" editable="false" layoutX="350.0" layoutY="89.0" prefHeight="76.0" prefWidth="135.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="89.0">
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+                </Label>
+                <GridPane alignment="CENTER" prefHeight="47.0" prefWidth="254.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="5.0" />
+                    </VBox.margin>
+                    <children>
+                        <Button fx:id="buttonCOPPlot" maxWidth="80.0" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: #11CBD7;" text="COP" textFill="#273043">
+                     <font>
+                        <Font name="Monospaced Bold" size="11.0" />
+                     </font></Button>
+                        <Button fx:id="buttonXYSplit" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #11CBD7;" text="X-Y SPLIT" wrapText="true" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Monospaced Bold" size="11.0" />
+                     </font></Button>
+                        <Button fx:id="buttonTPPlots" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #11CBD7;" text="TP" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="Monospaced Bold" size="11.0" />
+                     </font></Button>
+                    </children>
+                </GridPane>
+                <AnchorPane fx:id="infoPane" prefHeight="350.0" prefWidth="254.0">
+                    <children>
+                        <Text id="misc-text" layoutX="97.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TEST" wrappingWidth="61.0">
+                            <font>
+                                <Font name="Monospaced Bold" size="22.0" />
+                            </font>
+                        </Text>
+                        <TextField fx:id="personText" layoutX="72.0" layoutY="49.0" style="-fx-background-color: #F3F7F0;-fx-text-fill: #273043;" AnchorPane.rightAnchor="10.0" />
+                        <TextField fx:id="durationInput" layoutX="167.0" layoutY="166.0" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #F3F7F0;-fx-text-fill: #273043" AnchorPane.rightAnchor="12.0" />
+                        <Button fx:id="startButton" layoutX="11.0" layoutY="222.0" mnemonicParsing="false" prefHeight="50.0" style="-fx-background-color: #11CBD7;" text="Start Test" textFill="#273043" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="13.0">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Button>
+                        <Label layoutX="12.0" layoutY="54.0" text="Person:" textFill="#273043" AnchorPane.leftAnchor="12.0">
+                     <font>
+                        <Font name="Monospaced Regular" size="13.0" />
+                     </font></Label>
+                        <Label layoutX="12.0" layoutY="109.0" text="Test type:" textFill="#273043" AnchorPane.leftAnchor="12.0">
+                     <font>
+                        <Font name="Monospaced Regular" size="13.0" />
+                     </font></Label>
+                        <Label layoutX="11.0" layoutY="171.0" text="Duration (seconds):" textFill="#273043">
+                     <font>
+                        <Font name="Monospaced Regular" size="13.0" />
+                     </font></Label>
+                        <ComboBox fx:id="selectTest" editable="true" layoutX="93.0" layoutY="104.0" prefWidth="150.0" promptText="Select Test" style="-fx-background-color: #F3F7F0;" AnchorPane.rightAnchor="11.0">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Eyes Open" />
+                                    <String fx:value="Eyes closed" />
+                                    <String fx:value="Eyes Open - Foam" />
+                                    <String fx:value="Eyes Closed - Foam" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        <TextArea fx:id="remainingTime" editable="false" layoutX="164.0" layoutY="290.0" prefHeight="37.0" prefWidth="56.0" style="-fx-background-color: #F3F7F0;" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="290.0" />
+                        <Label layoutX="14.0" layoutY="303.0" text="Remaining Time:" textFill="#273043" />
+                    </children>
+                    <VBox.margin>
+                        <Insets top="20.0" />
+                    </VBox.margin>
+                </AnchorPane>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane fx:id="COPPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <LineChart fx:id="copChart" animated="false" axisSortingPolicy="NONE" horizontalGridLinesVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <xAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-150" side="BOTTOM" tickUnit="1" upperBound="150" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-150" side="LEFT" tickUnit="1" upperBound="150" />
+                            </yAxis>
+                        </LineChart>
+                    </children>
+                </AnchorPane>
+                <GridPane fx:id="XYSplitPane" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <LineChart fx:id="recordingXChart" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="X Axis">
+
+                            <xAxis>
+                                <NumberAxis fx:id="recXXAxis" side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-125.0" side="LEFT" upperBound="125.0" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="recordingYChart" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Y Axis" GridPane.rowIndex="1">
+                            <xAxis>
+                                <NumberAxis fx:id="recYXAxis" side="BOTTOM" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-125.0" side="LEFT" upperBound="125.0" />
+                            </yAxis>
+                        </LineChart>
+                    </children>
+                </GridPane>
+                <GridPane fx:id="TPPane" layoutX="10.0" layoutY="10.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <LineChart fx:id="timeseriesPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Xi" verticalGridLinesVisible="true">
+                            <xAxis>
+                                <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="msdPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="MSD" verticalGridLinesVisible="true" GridPane.rowIndex="1">
+                            <xAxis>
+                                <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="slopePlot" createSymbols="false" horizontalGridLinesVisible="true" horizontalZeroLineVisible="true" legendVisible="false" prefHeight="300.0" title="SLOPE" verticalGridLinesVisible="true" GridPane.columnIndex="1">
+                            <xAxis>
+                                <LogarithmicAxis lowerBound="0.01" side="BOTTOM" upperBound="8.0" />
+                            </xAxis>
+                            <yAxis>
+                                <LogarithmicAxis lowerBound="0.01" side="LEFT" upperBound="10000" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="tpResultPlot" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Turning Point" verticalGridLinesVisible="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <xAxis>
+                                <LogarithmicAxis lowerBound="0.01" side="BOTTOM" upperBound="8.0" />
+                            </xAxis>
+                            <yAxis>
+                                <LogarithmicAxis lowerBound="0.01" side="LEFT" upperBound="1.5" />
+                            </yAxis>
+                        </LineChart>
+                    </children>
+                </GridPane>
+            </children>
+        </AnchorPane>
+    </center>
+    <bottom>
+        <HBox prefHeight="175.0" prefWidth="1000.0" style="-fx-background-color: C6F1E7;" BorderPane.alignment="CENTER">
+            <children>
+                <GridPane alignment="CENTER" prefHeight="122.0" prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label alignment="CENTER" text="Area" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea fx:id="areal" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <HBox.margin>
+                        <Insets left="200.0" />
+                    </HBox.margin>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Curvelength" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea fx:id="curve" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="X Curvelength" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" fx:id="xCurvelength">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Y Curvelength" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea fx:id="yCurvelength" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Turning Point" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea fx:id="tpResult" editable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="75.0" prefWidth="111.0" style="-fx-background-color: #11CBD7;" text="Save" textFill="#273043">
+                    <HBox.margin>
+                        <Insets bottom="10.0" left="50.0" right="10.0" top="50.0" />
+                    </HBox.margin>
                <font>
-                  <Font size="20.0" />
-               </font></TextArea>
-             <TextArea fx:id="turning" editable="false" layoutX="542.0" layoutY="89.0" prefHeight="76.0" prefWidth="109.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="542.0" AnchorPane.topAnchor="89.0">
-               <font>
-                  <Font size="20.0" />
-               </font></TextArea>
-              <Button fx:id="exportButton" layoutX="695.0" layoutY="144.0" mnemonicParsing="false" prefHeight="50.0" text="Export Data" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-            <Label layoutX="181.0" layoutY="59.0" text="X Curvelength:" />
-            <TextField layoutX="178.0" layoutY="78.0" prefHeight="26.0" prefWidth="117.0" fx:id="xCurvelength" />
-            <TextField fx:id="yCurvelength" layoutX="179.0" layoutY="137.0" prefHeight="26.0" prefWidth="117.0" />
-            <Label layoutX="181.0" layoutY="118.0" text="Y Curvelength:" />
-           </children>
-       </AnchorPane>
-       <AnchorPane fx:id="connectPane" layoutX="14.0" layoutY="14.0" prefHeight="37.0" prefWidth="319.0">
-          <children>
-              <Button fx:id="connectButton" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" text="Connect" />
-              <TextField fx:id="wiiStats" editable="false" layoutX="94.0" layoutY="6.0" prefHeight="25.0" prefWidth="211.0" />
-          </children>
-       </AnchorPane>
-      <AnchorPane fx:id="COP" layoutX="276.0" layoutY="58.0" prefHeight="374.0" prefWidth="540.0" AnchorPane.bottomAnchor="204.0" AnchorPane.leftAnchor="274.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="58.0">
-         <children>
-            <LineChart fx:id="copChart" animated="false" axisSortingPolicy="NONE" horizontalGridLinesVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-
-               <xAxis>
-                  <NumberAxis autoRanging="false" lowerBound="-150" side="BOTTOM" tickUnit="1" upperBound="150" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis autoRanging="false" lowerBound="-150" side="LEFT" tickUnit="1" upperBound="150" />
-               </yAxis>
-            </LineChart>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="recordingPane" layoutX="286.0" layoutY="16.0" prefHeight="426.0" prefWidth="540.0" visible="false" AnchorPane.bottomAnchor="194.0" AnchorPane.leftAnchor="268.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="16.0">
-         <children>
-            <LineChart fx:id="recordingYChart" animated="true" createSymbols="false" horizontalGridLinesVisible="false" layoutY="213.0" legendVisible="false" prefHeight="238.0" prefWidth="652.0" title="Y Axis" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0">
-
-               <xAxis>
-                  <NumberAxis fx:id="recYXAxis" side="BOTTOM" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis autoRanging="false" lowerBound="-125.0" side="LEFT" upperBound="125.0" />
-               </yAxis>
-               <effect>
-                  <Glow />
-               </effect>
-            </LineChart>
-            <LineChart fx:id="recordingXChart" animated="true" createSymbols="false" horizontalGridLinesVisible="false" layoutY="26.0" legendVisible="false" prefHeight="229.0" prefWidth="652.0" title="X Axis" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="26.0">
-
-               <xAxis>
-                  <NumberAxis fx:id="recXXAxis" side="BOTTOM" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis autoRanging="false" lowerBound="-125.0" side="LEFT" upperBound="125.0" />
-               </yAxis>
-            </LineChart>
-            <Label layoutX="387.0" layoutY="22.0" text="Time:" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="25.0" />
-            <TextField fx:id="remainingTime" layoutX="435.0" layoutY="11.0" prefHeight="37.0" prefWidth="65.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0" />
-
-         </children>
-      </AnchorPane>
-      <Button fx:id="buttonCOPPlot" layoutX="20.0" layoutY="221.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="250.0" text="COP Plot" />
-      <Button fx:id="buttonXYSplit" layoutX="20.0" layoutY="166.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="250.0" text="XY Split" />
-      <Button fx:id="buttonResultPlots" layoutX="20.0" layoutY="112.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="250.0" text="Turning Point" />
-      <AnchorPane fx:id="TPResult" layoutX="286.0" layoutY="46.0" prefHeight="487.0" prefWidth="652.0" visible="false" AnchorPane.bottomAnchor="204.0" AnchorPane.leftAnchor="274.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="58.0">
-         <children>
-            <LineChart fx:id="timeseriesPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" prefHeight="300.0" prefWidth="400.0" title="Xi" verticalGridLinesVisible="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <xAxis>
-                  <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
-               </yAxis>
-            </LineChart>
-
-            <LineChart fx:id="tpResultPlot" createSymbols="false" horizontalGridLinesVisible="true" layoutX="362.0" layoutY="236.0" legendVisible="false" prefHeight="300.0" prefWidth="400.0" title="Turning Point" verticalGridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <xAxis>
-                  <LogarithmicAxis lowerBound="0.01" upperBound="8.0" side="BOTTOM" />
-               </xAxis>
-               <yAxis>
-                  <LogarithmicAxis side="LEFT" lowerBound="0.01" upperBound="1.5" />
-               </yAxis>
-            </LineChart>
-            <LineChart fx:id="slopePlot" createSymbols="false" horizontalZeroLineVisible="true" horizontalGridLinesVisible="true" layoutX="325.0" layoutY="10.0" legendVisible="false" prefHeight="300.0" prefWidth="400.0" title="SLOPE" verticalGridLinesVisible="true" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <xAxis>
-                  <LogarithmicAxis lowerBound="0.01" upperBound="8.0" side="BOTTOM"  />
-               </xAxis>
-               <yAxis>
-                  <LogarithmicAxis lowerBound="0.01" upperBound="5000" side="LEFT" />
-               </yAxis>
-            </LineChart>
-            <LineChart fx:id="msdPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" layoutX="-8.0" layoutY="240.0" legendVisible="false" prefHeight="300.0" prefWidth="400.0" title="MSD" verticalGridLinesVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-               <xAxis>
-                  <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
-               </xAxis>
-               <yAxis>
-                  <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
-               </yAxis>
-            </LineChart>
-         </children>
-      </AnchorPane>
-   </children>
-</AnchorPane>
+                  <Font name="Monospaced Bold" size="22.0" />
+               </font>
+                </Button>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>
