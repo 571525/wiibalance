@@ -7,7 +7,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Line;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import logic.Filemanager;
 import logic.Logic;
@@ -30,15 +30,18 @@ public class DashboardController {
 
     @FXML
     private Button connectButton;
+    @FXML
+    private TextField wiiStats;
 
     @FXML
     private Button exportButton;
 
     @FXML
-    private Button buttonResultPlots;
-
+    private Button buttonTPPlots;
     @FXML
-    private TextField wiiStats;
+    private Button buttonCOPPlot;
+    @FXML
+    private Button buttonXYSplit;
 
     @FXML
     private LineChart copChart;
@@ -54,60 +57,44 @@ public class DashboardController {
 
     @FXML
     private LineChart recordingYChart;
-
     @FXML
     private LineChart recordingXChart;
 
     @FXML
     private NumberAxis recYXAxis;
-
     @FXML
     private NumberAxis recXXAxis;
 
     @FXML
+    private TextField personText;
+    @FXML
+    private ComboBox selectTest;
+    @FXML
     private TextField durationInput;
-
     @FXML
     private Button startButton;
 
     @FXML
     private TextArea curve;
-
     @FXML
     private TextArea areal;
+    @FXML
+    private TextArea tpResult;
+    @FXML
+    private TextArea xCurvelength;
+    @FXML
+    private TextArea yCurvelength;
 
     @FXML
-    private TextArea turning;
+    private AnchorPane COPPane;
+    @FXML
+    private GridPane TPPane;
+    @FXML
+    private GridPane XYSplitPane;
 
     @FXML
-    private TextField xCurvelength;
+    private TextArea remainingTime;
 
-    @FXML
-    private TextField yCurvelength;
-
-    @FXML
-    private AnchorPane COP;
-
-    @FXML
-    private AnchorPane TPResult;
-
-    @FXML
-    private AnchorPane recordingPane;
-
-    @FXML
-    private TextField remainingTime;
-
-    @FXML
-    private Button buttonCOPPlot;
-
-    @FXML
-    private Button buttonXYSplit;
-
-    @FXML
-    private TextField personText;
-
-    @FXML
-    private ComboBox selectTest;
 
     private XYChart.Series seriesPlotting = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecording = new XYChart.Series<Double, Double>();
@@ -138,24 +125,27 @@ public class DashboardController {
         connectButton.setOnMouseClicked(e -> wiiboard.startWiiboardDiscoverer());
         startButton.setOnMouseClicked(e -> startRecording());
         buttonCOPPlot.setOnMouseClicked(e -> {
-            COP.setVisible(true);
-            recordingPane.setVisible(false);
-            TPResult.setVisible(false);
+            COPPane.setVisible(true);
+            XYSplitPane.setVisible(false);
+            TPPane.setVisible(false);
         });
         buttonXYSplit.setOnMouseClicked(e -> {
-            COP.setVisible(false);
-            recordingPane.setVisible(true);
-            TPResult.setVisible(false);
+            COPPane.setVisible(false);
+            XYSplitPane.setVisible(true);
+            TPPane.setVisible(false);
         });
-        buttonResultPlots.setOnMouseClicked(e -> {
-            COP.setVisible(false);
-            recordingPane.setVisible(false);
-            TPResult.setVisible(true);
+        buttonTPPlots.setOnMouseClicked(e -> {
+            COPPane.setVisible(false);
+            XYSplitPane.setVisible(false);
+            TPPane.setVisible(true);
         });
 
 
         exportButton.setOnMouseClicked(e -> exportData());
 
+
+        seriesRecording.setName("Test result");
+        seriesPlotting.setName("Current COP");
 
         copChart.getData().add(seriesPlotting);
         copChart.getData().add(seriesRecording);
@@ -168,10 +158,7 @@ public class DashboardController {
         slopePlot.getData().add(slopeSeries);
         timeseriesPlot.getData().add(timeseries);
 
-        XYChart.Series line = new XYChart.Series<Double,Double>();
-        line.getData().add(new XYChart.Data<>(0.01,0.5));
-        line.getData().add(new XYChart.Data<>(8.0,0.5));
-        tpResultPlot.getData().addAll(TPseries,line);
+        tpResultPlot.getData().add(TPseries);
     }
 
     private void exportData() {
@@ -236,7 +223,7 @@ public class DashboardController {
         yCurvelength.setText("");
         curve.setText("");
         areal.setText("");
-        turning.setText("");
+        tpResult.setText("");
         seriesRecording.getData().clear();
         seriesRecordingX.getData().clear();
         seriesRecordingY.getData().clear();
@@ -247,9 +234,9 @@ public class DashboardController {
     }
 
     private void changeViewToRecording(int time) {
-        COP.setVisible(false);
-        recordingPane.setVisible(true);
-        TPResult.setVisible(false);
+        COPPane.setVisible(false);
+        XYSplitPane.setVisible(true);
+        TPPane.setVisible(false);
 
         recXXAxis.setAutoRanging(false);
         recYXAxis.setAutoRanging(false);
@@ -285,13 +272,14 @@ public class DashboardController {
         yCurvelength.setText(String.format("%.2f", curveY));
         curve.setText(String.format("%.2f", curvelength));
         areal.setText(String.format("%.2f", area));
-        turning.setText(String.format("%.2f", tp));
+        tpResult.setText(String.format("%.2f", tp));
     }
 
     private void plotTPCurve() {
         List<List<Double>> tpCurve = logic.getTpCurve();
         List<List<Double>> msdCurve = logic.getMsdCurve();
         List<List<Double>> timeseriescurve = logic.getTimeSeries();
+
 
         Platform.runLater(() -> {
             tpCurve.forEach(a -> {

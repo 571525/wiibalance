@@ -1,9 +1,7 @@
 package gui;
 
 import gui.controller.DashboardController;
-import gui.controller.DashboardController2;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +17,7 @@ import java.io.FileNotFoundException;
  */
 public class Main extends Application implements GuiInterface {
 
-    private DashboardController2 controller;
+    private DashboardController controller;
     private Scene scene;
     private Logic logic;
     private Wiiboard wiiboard;
@@ -36,8 +34,8 @@ public class Main extends Application implements GuiInterface {
         wiiboard.registerLogic(logic);
         wiiboard.registerGui(this);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard2.fxml"));
-        controller = new DashboardController2(logic, wiiboard);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
+        controller = new DashboardController(logic, wiiboard);
         loader.setController(controller);
         Parent root = loader.load();
         scene = new Scene(root);
