@@ -11,7 +11,6 @@ import wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -36,7 +35,7 @@ public class Wiiboard implements WiiboardInterface {
         public void wiiBoardButtonEvent(WiiBoardButtonEvent buttonEvent) {
             if (buttonEvent.isPressed())
                 buttonEvent.getWiiBoard().requestStatus();
-            if(buttonEvent.isReleased()) {
+            if (buttonEvent.isReleased()) {
                 System.out.println(Thread.getAllStackTraces().keySet());
             }
         }
@@ -50,8 +49,8 @@ public class Wiiboard implements WiiboardInterface {
 
             double yNew = (L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
             double xNew = -(W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
-            setxVal(xNew);
-            setyVal(yNew);
+            setxVal(calibrateW(xNew));
+            setyVal(calibrateL(yNew));
             setUpdated(true);
             worker.execute(() -> gui.notifyCopChanged(xNew, yNew));
         }
@@ -141,6 +140,31 @@ public class Wiiboard implements WiiboardInterface {
         t.start();
     }
 
+    /**
+     * Calibrations are based on the article "Validating and Calibrating the Nintendo Wii
+     * Balance Board to Derive Reliable Center of Pressure Measures"
+     * located at https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4239899/ section 2.4.4.
+     * This method calibrates the longer side of the board measuring 433mm.
+     *
+     * @param rec
+     * @return
+     */
+    private double calibrateL(double rec) {
+        return 1 / 1.098 * (rec + 0.001);
+    }
+
+    /**
+     * Calibrations are based on the article "Validating and Calibrating the Nintendo Wii
+     * Balance Board to Derive Reliable Center of Pressure Measures"
+     * located at https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4239899/ section 2.4.4.
+     *
+     * This method calibrates the shorter side of the board measuring 228mm.
+     * @param rec
+     * @return
+     */
+    private double calibrateW(double rec) {
+        return 1 / 1.088 * (rec - 0.002);
+    }
 
     public double getxVal() {
         return xVal.get();
