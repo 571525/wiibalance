@@ -1,6 +1,6 @@
 package units;
 
-import logic.Logic;
+import com.bachelor.logic.Logic;
 import org.junit.Before;
 import org.junit.Test;
 
