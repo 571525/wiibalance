@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.ScatterChart?>
+<?import javafx.scene.chart.LineChart?>
+<ScatterChart fx:id="chart" legendVisible="false" prefHeight="372.0" prefWidth="423.0"
+           visible="true" xmlns:fx="http://javafx.com/fxml" animated="false">
+    <xAxis>
+        <NumberAxis autoRanging="false" lowerBound="-100" side="BOTTOM" tickUnit="1" upperBound="100" />
+    </xAxis>
+    <yAxis>
+        <NumberAxis autoRanging="false" lowerBound="-100" side="LEFT" tickUnit="1" upperBound="100" />
+    </yAxis>
+</ScatterChart>

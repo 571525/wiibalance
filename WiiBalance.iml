@@ -9,17 +9,18 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: net.sf.bluecove:bluecove:2.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:14" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:linux:14" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:14" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:linux:14" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:14" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:linux:14" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:14" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:linux:14" level="project" />
+    <orderEntry type="library" name="Maven: net.sf.bluecove:bluecove-gpl:2.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:11" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:linux:11" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:11" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:linux:11" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:11" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:linux:11" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:11" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:linux:11" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>

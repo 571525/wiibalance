@@ -27,7 +27,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.6.0</version>
                 <configuration>
                     <source>11</source>
                     <target>11</target>
@@ -38,30 +38,29 @@
     </build>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/net.sf.bluecove/bluecove-gpl
-        -->
+        <!-- https://mvnrepository.com/artifact/net.sf.bluecove/bluecove-gpl -->
+
         <dependency>
             <groupId>net.sf.bluecove</groupId>
             <artifactId>bluecove</artifactId>
             <version>2.1.0</version>
         </dependency>
-        <!-- Linux dependency
+
         <dependency>
             <groupId>net.sf.bluecove</groupId>
             <artifactId>bluecove-gpl</artifactId>
             <version>2.1.0</version>
         </dependency>
-        -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>14</version>
+            <version>11</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>14</version>
+            <version>11</version>
         </dependency>
 
         <dependency>
@@ -70,8 +69,5 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
-
 </project>
