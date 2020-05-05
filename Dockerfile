@@ -9,4 +9,4 @@ RUN mkdir wiibalance
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/wiibalance*.jar /wiibalance
 RUN apt-get update && apt-get install --no-install-recommends -y openjfx && rm -rf /var/lib/apt/lists/*
 WORKDIR /wiibalance
-CMD java -jar wiibalance*.jar
+CMD java -jar target/wiibalance-1.0-SNAPSHOT.jar
