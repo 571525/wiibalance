@@ -1,5 +1,9 @@
 package com.bachelor.gui.controller;
 
+import com.bachelor.gui.uiUtils.LogarithmicAxis;
+import com.bachelor.logic.Filemanager;
+import com.bachelor.logic.Logic;
+import com.bachelor.wiiboard.Wiiboard;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -9,9 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import com.bachelor.logic.Filemanager;
-import com.bachelor.logic.Logic;
-import com.bachelor.wiiboard.Wiiboard;
+import org.gillius.jfxutils.chart.JFXChartUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -84,6 +86,10 @@ public class DashboardController {
     private TextArea xCurvelength;
     @FXML
     private TextArea yCurvelength;
+    @FXML
+    private Button slopeResetZoom;
+    @FXML
+    private Button tpResetZoom;
 
     @FXML
     private AnchorPane COPPane;
@@ -139,10 +145,10 @@ public class DashboardController {
             XYSplitPane.setVisible(false);
             TPPane.setVisible(true);
         });
-
+        slopeResetZoom.setOnMouseClicked(e -> resetSlopeZoom());
+        tpResetZoom.setOnMouseClicked(e -> resetTpZoom());
 
         exportButton.setOnMouseClicked(e -> exportData());
-
 
         seriesRecording.setName("Test result");
         seriesPlotting.setName("Current COP");
@@ -159,6 +165,18 @@ public class DashboardController {
         timeseriesPlot.getData().add(timeseries);
 
         tpResultPlot.getData().add(TPseries);
+
+        Platform.runLater(() -> {
+            JFXChartUtil.setupZooming(copChart);
+
+            JFXChartUtil.setupZooming(timeseriesPlot);
+            JFXChartUtil.setupZooming(slopePlot);
+            JFXChartUtil.setupZooming(msdPlot);
+            JFXChartUtil.setupZooming(tpResultPlot);
+
+            JFXChartUtil.setupZooming(recordingYChart);
+            JFXChartUtil.setupZooming(recordingXChart);
+        });
     }
 
     private void exportData() {
@@ -211,6 +229,7 @@ public class DashboardController {
         }
 
         if (duration > 0) {
+            resetAxis();
             changeViewToRecording(duration);
             resetResultPlots();
             wiiboard.startRecordingData(duration);
@@ -308,6 +327,49 @@ public class DashboardController {
                 slopeSeries.getData().add(point);
             });
         });
+    }
+
+    private void resetAxis() {
+        NumberAxis copX = (NumberAxis) copChart.getXAxis();
+        NumberAxis copY = (NumberAxis) copChart.getYAxis();
+        copX.setLowerBound(-150);
+        copX.setUpperBound(150);
+        copY.setLowerBound(-150);
+        copY.setUpperBound(150);
+
+        NumberAxis recXY = (NumberAxis) recordingXChart.getYAxis();
+        NumberAxis recYY = (NumberAxis) recordingXChart.getYAxis();
+        recXY.setLowerBound(-125);
+        recXY.setUpperBound(125);
+        recYY.setLowerBound(-125);
+        recYY.setUpperBound(125);
+
+        timeseriesPlot.getYAxis().setAutoRanging(true);
+        timeseriesPlot.getXAxis().setAutoRanging(true);
+        msdPlot.getXAxis().setAutoRanging(true);
+        msdPlot.getYAxis().setAutoRanging(true);
+
+        resetSlopeZoom();
+        resetTpZoom();
+    }
+
+    private void resetSlopeZoom() {
+        LogarithmicAxis slopeX = (LogarithmicAxis) slopePlot.getXAxis();
+        LogarithmicAxis slopeY = (LogarithmicAxis) slopePlot.getYAxis();
+        slopeX.setLowerBound(0.01);
+        slopeX.setUpperBound(8);
+        slopeY.setLowerBound(0.01);
+        slopeY.setUpperBound(10000);
+
+    }
+
+    private void resetTpZoom(){
+        LogarithmicAxis tpX = (LogarithmicAxis) tpResultPlot.getXAxis();
+        LogarithmicAxis tpY = (LogarithmicAxis) tpResultPlot.getYAxis();
+        tpX.setLowerBound(0.01);
+        tpX.setUpperBound(8);
+        tpY.setLowerBound(0.01);
+        tpY.setUpperBound(1.5);
     }
 
     public void setStage(Stage stage) {
