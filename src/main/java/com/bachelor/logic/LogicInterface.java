@@ -26,6 +26,11 @@ public interface LogicInterface {
     List getCopList();
 
     /**
+     * Sets COP list in object
+     */
+    void setCopList(List cop);
+
+    /**
      * calculates the total curvelength
      * @return
      */

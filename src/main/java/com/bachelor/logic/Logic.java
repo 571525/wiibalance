@@ -185,6 +185,11 @@ public class Logic implements LogicInterface {
     }
 
     @Override
+    public void setCopList(List cop) {
+        this.cop = cop;
+    }
+
+    @Override
     public double calculateCurveLength() {
         double curveLength = 0.0;
 

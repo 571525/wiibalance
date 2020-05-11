@@ -12,12 +12,15 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.gillius.jfxutils.chart.JFXChartUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -37,6 +40,8 @@ public class DashboardController {
 
     @FXML
     private Button exportButton;
+    @FXML
+    private Button exportAllButton;
 
     @FXML
     private Button buttonTPPlots;
@@ -74,6 +79,8 @@ public class DashboardController {
     @FXML
     private TextField durationInput;
     @FXML
+    private TextField repeatTestInput;
+    @FXML
     private Button startButton;
 
     @FXML
@@ -101,6 +108,9 @@ public class DashboardController {
     @FXML
     private TextArea remainingTime;
 
+    @FXML
+    private VBox testSwitchBox;
+
 
     private XYChart.Series seriesPlotting = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecording = new XYChart.Series<Double, Double>();
@@ -116,7 +126,10 @@ public class DashboardController {
     private double curveX = 0.0;
     private double curveY = 0.0;
     private int duration = 0;
+    private int testRepeats = 0;
+    private int totalTests = 0;
 
+    private List<HashMap<String,Object>> testResults;
     public DashboardController(Logic logic, Wiiboard wiiboard) {
         this.logic = logic;
         this.wiiboard = wiiboard;
@@ -129,7 +142,13 @@ public class DashboardController {
     public void setup(Stage stage) {
         setStage(stage);
         connectButton.setOnMouseClicked(e -> wiiboard.startWiiboardDiscoverer());
-        startButton.setOnMouseClicked(e -> startRecording());
+        startButton.setOnMouseClicked(e -> {
+            try {
+                totalTests = Integer.parseInt(repeatTestInput.getText());
+            } catch (NumberFormatException er) {}
+            testResults = new ArrayList<>();
+            startRecording();
+        });
         buttonCOPPlot.setOnMouseClicked(e -> {
             COPPane.setVisible(true);
             XYSplitPane.setVisible(false);
@@ -223,17 +242,20 @@ public class DashboardController {
     private void startRecording() {
         try {
             duration = Integer.parseInt(durationInput.getText());
+            testRepeats = Integer.parseInt(repeatTestInput.getText());
         } catch (NumberFormatException e) {
-            //TODO - alert user to write a number
+            showDialog("Input must be a number!");
             return;
         }
 
-        if (duration > 0) {
+        if (duration > 0 && testRepeats > 0) {
             resetAxis();
             changeViewToRecording(duration);
             resetResultPlots();
             wiiboard.startRecordingData(duration);
-            startTimer(duration);
+            startTimer(duration, "#273043");
+            testRepeats--;
+            repeatTestInput.setText("" + testRepeats);
         }
     }
 
@@ -266,10 +288,10 @@ public class DashboardController {
         recYXAxis.setUpperBound(time);
     }
 
-    private void startTimer(int time) {
+    private void startTimer(int time, String color) {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         AtomicInteger remaining = new AtomicInteger(time + 1);
-
+        remainingTime.setStyle("-fx-text-fill: " + color);
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             int t = remaining.getAndDecrement();
             if (t <= 1) scheduledExecutorService.shutdown();
@@ -278,8 +300,7 @@ public class DashboardController {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
-    public void stopRecording() throws FileNotFoundException {
-
+    public void stopRecording() {
         tp = logic.findTP();
         plotTPCurve();
         area = logic.calculateCurveArea();
@@ -292,6 +313,25 @@ public class DashboardController {
         curve.setText(String.format("%.2f", curvelength));
         areal.setText(String.format("%.2f", area));
         tpResult.setText(String.format("%.2f", tp));
+
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("tp",tp);
+        map.put("area",area);
+        map.put("curvelength", curvelength);
+        map.put("curveX",curveX);
+        map.put("curveY",curveY);
+        map.put("cop",logic.getCopList());
+        testResults.add(map);
+
+        try {
+            testRepeats = Integer.parseInt(repeatTestInput.getText());
+            if (testRepeats > 0) {
+                startTimer(3,"red");
+                Thread.sleep(3000);
+                startRecording();
+            }
+        } catch (NumberFormatException e) {}
+        catch (InterruptedException e) {}
     }
 
     private void plotTPCurve() {
@@ -363,7 +403,7 @@ public class DashboardController {
 
     }
 
-    private void resetTpZoom(){
+    private void resetTpZoom() {
         LogarithmicAxis tpX = (LogarithmicAxis) tpResultPlot.getXAxis();
         LogarithmicAxis tpY = (LogarithmicAxis) tpResultPlot.getYAxis();
         tpX.setLowerBound(0.01);
