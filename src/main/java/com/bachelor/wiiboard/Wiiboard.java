@@ -11,7 +11,6 @@ import com.bachelor.wiiboard.wiiboardStack.event.WiiBoardStatusEvent;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This class implements the wiiboard interface and is the connecting class to the rest of the application
@@ -21,23 +20,25 @@ public class Wiiboard implements WiiboardInterface {
     private static final int L = 433; //wiiboardStack length
     private static final int W = 228; // wiiboardStack width
 
-
-    private AtomicReference<Double> xVal = new AtomicReference<>(0.0);
-    private AtomicReference<Double> yVal = new AtomicReference<>(0.0);
-    private boolean updated = false;
+    private long recStart = 0;
+    private boolean recording = false;
 
     private LogicInterface logic;
     private GuiInterface gui;
     private ExecutorService worker;
+    private ExecutorService guiWorker;
+
+
+    private double xNew = 0.0;
+    private double yNew = 0.0;
+    private double xPrev = 0.0;
+    private double yPrev = 0.0;
 
     private WiiBoardListener listener = new WiiBoardListener() {
         @Override
         public void wiiBoardButtonEvent(WiiBoardButtonEvent buttonEvent) {
             if (buttonEvent.isPressed())
                 buttonEvent.getWiiBoard().requestStatus();
-            if (buttonEvent.isReleased()) {
-                System.out.println(Thread.getAllStackTraces().keySet());
-            }
         }
 
         @Override
@@ -46,13 +47,24 @@ public class Wiiboard implements WiiboardInterface {
             double tl = massEvent.getTopLeft();
             double br = massEvent.getBottomRight();
             double bl = massEvent.getBottomLeft();
+            double recTime = (System.currentTimeMillis() - recStart) / 1000.0;
 
-            double yNew = (L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl));
-            double xNew = -(W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl));
-            setxVal(calibrateW(xNew));
-            setyVal(calibrateL(yNew));
-            setUpdated(true);
-            worker.execute(() -> gui.notifyCopChanged(xNew, yNew));
+            yPrev = yNew;
+            xPrev = xNew;
+            yNew = calibrateL((L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl)));
+            xNew = -calibrateW((W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl)));
+
+            if (recording) {
+                if (xNew != xPrev || yNew != yPrev) { // we want unique values
+                    logic.addCopPoint(xNew, yNew, recTime);
+                    guiWorker.execute(() -> {
+                        gui.plotXrecorded(xNew, recTime);
+                        gui.plotYrecorded(yNew, recTime);
+                        gui.plotCOPRecorded(xNew, yNew);
+                    });
+                }
+            }
+            guiWorker.execute(() -> gui.notifyCopChanged(xNew, yNew));
         }
 
         @Override
@@ -72,6 +84,11 @@ public class Wiiboard implements WiiboardInterface {
     public Wiiboard() {
         System.setProperty("bluecove.jsr82.psm_minimum_off", "true"); //enable bluetooth to work properly
         worker = Executors.newCachedThreadPool(r -> {
+            Thread t = Executors.defaultThreadFactory().newThread(r);
+            t.setDaemon(true);
+            return t;
+        });
+        guiWorker = Executors.newCachedThreadPool(r -> {
             Thread t = Executors.defaultThreadFactory().newThread(r);
             t.setDaemon(true);
             return t;
@@ -108,32 +125,13 @@ public class Wiiboard implements WiiboardInterface {
     public void startRecordingData(int seconds) {
         Thread t = new Thread(() -> {
             logic.clearData();
-
-            long start = System.currentTimeMillis();
-            long duration = start + seconds * 1000;
-            double xPrev = 0.0, yPrev = 0.0;
-
-            while (System.currentTimeMillis() < duration) {
-                if (isUpdated()) {
-                    double xTemp = getxVal();
-                    double yTemp = getyVal();
-
-                    if (xTemp != xPrev || yTemp != yPrev) { //We want unique values
-                        double time = (System.currentTimeMillis() - start) / 1000.0;
-                        logic.addCopPoint(xTemp, yTemp, time);
-                        xPrev = xTemp;
-                        yPrev = yTemp;
-
-                        worker.execute(() -> {
-                            gui.plotXrecorded(xTemp, time);
-                            gui.plotYrecorded(yTemp, time);
-                            gui.plotCOPRecorded(xTemp, yTemp);
-                        });
-
-                    }
-                }
+            recording = true;
+            recStart = System.currentTimeMillis();
+            try {
+                Thread.sleep(seconds * 1000);
+            } catch (InterruptedException e) {
             }
-
+            recording = false;
             gui.notifyTestFinished();
         });
         t.setDaemon(true);
@@ -157,37 +155,13 @@ public class Wiiboard implements WiiboardInterface {
      * Calibrations are based on the article "Validating and Calibrating the Nintendo Wii
      * Balance Board to Derive Reliable Center of Pressure Measures"
      * located at https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4239899/ section 2.4.4.
-     *
+     * <p>
      * This method calibrates the shorter side of the board measuring 228mm.
+     *
      * @param rec
      * @return
      */
     private double calibrateW(double rec) {
         return 1 / 1.088 * (rec - 0.002);
     }
-
-    public double getxVal() {
-        return xVal.get();
-    }
-
-    public void setxVal(double xVal) {
-        this.xVal.set(xVal);
-    }
-
-    public double getyVal() {
-        return yVal.get();
-    }
-
-    public void setyVal(double yVal) {
-        this.yVal.set(yVal);
-    }
-
-    public boolean isUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(boolean updated) {
-        this.updated = updated;
-    }
-
 }

@@ -31,7 +31,7 @@ public class Main extends Application implements GuiInterface {
 
         wiiboard.registerLogic(logic);
         wiiboard.registerGui(this);
-
+        setUserAgentStylesheet(STYLESHEET_MODENA);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
         controller = new DashboardController(logic, wiiboard);
         loader.setController(controller);

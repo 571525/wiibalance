@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import org.gillius.jfxutils.chart.JFXChartUtil;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,7 +105,9 @@ public class DashboardController {
     private GridPane XYSplitPane;
 
     @FXML
-    private TextArea remainingTime;
+    private TextField remainingTime;
+    @FXML
+    private TextField remainingTests;
 
     @FXML
     private VBox testSwitchBox;
@@ -127,9 +128,9 @@ public class DashboardController {
     private double curveY = 0.0;
     private int duration = 0;
     private int testRepeats = 0;
-    private int totalTests = 0;
 
-    private List<HashMap<String,Object>> testResults;
+    private List<HashMap<String, Object>> testResults;
+
     public DashboardController(Logic logic, Wiiboard wiiboard) {
         this.logic = logic;
         this.wiiboard = wiiboard;
@@ -144,9 +145,12 @@ public class DashboardController {
         connectButton.setOnMouseClicked(e -> wiiboard.startWiiboardDiscoverer());
         startButton.setOnMouseClicked(e -> {
             try {
-                totalTests = Integer.parseInt(repeatTestInput.getText());
-            } catch (NumberFormatException er) {}
+                testRepeats = Integer.parseInt(repeatTestInput.getText());
+            } catch (NumberFormatException er) {
+            }
+            remainingTests.setText("" + testRepeats);
             testResults = new ArrayList<>();
+            testSwitchBox.getChildren().clear();
             startRecording();
         });
         buttonCOPPlot.setOnMouseClicked(e -> {
@@ -242,7 +246,7 @@ public class DashboardController {
     private void startRecording() {
         try {
             duration = Integer.parseInt(durationInput.getText());
-            testRepeats = Integer.parseInt(repeatTestInput.getText());
+            testRepeats = Integer.parseInt(remainingTests.getText());
         } catch (NumberFormatException e) {
             showDialog("Input must be a number!");
             return;
@@ -254,8 +258,6 @@ public class DashboardController {
             resetResultPlots();
             wiiboard.startRecordingData(duration);
             startTimer(duration, "#273043");
-            testRepeats--;
-            repeatTestInput.setText("" + testRepeats);
         }
     }
 
@@ -291,7 +293,7 @@ public class DashboardController {
     private void startTimer(int time, String color) {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         AtomicInteger remaining = new AtomicInteger(time + 1);
-        remainingTime.setStyle("-fx-text-fill: " + color);
+        remainingTime.setStyle("-fx-text-fill: " + color + ";-fx-background-color: C6F1E7;");
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             int t = remaining.getAndDecrement();
             if (t <= 1) scheduledExecutorService.shutdown();
@@ -301,6 +303,36 @@ public class DashboardController {
     }
 
     public void stopRecording() {
+        plotResults();
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("tp", tp);
+        map.put("area", area);
+        map.put("curvelength", curvelength);
+        map.put("curveX", curveX);
+        map.put("curveY", curveY);
+        map.put("cop", logic.getCopList());
+        testResults.add(map);
+
+        try {
+            testRepeats = Integer.parseInt(remainingTests.getText());
+            testRepeats--;
+            remainingTests.setText("" + testRepeats);
+            if (testRepeats > 0) {
+                addResultButton(testRepeats, map);
+                startTimer(5, "red");
+                Thread.sleep(5000);
+                startRecording();
+            } else if (testRepeats == 0) {
+                addResultButton(testRepeats, map);
+            }
+
+        } catch (NumberFormatException e) {
+        } catch (InterruptedException e) {
+        }
+    }
+
+    private void plotResults() {
         tp = logic.findTP();
         plotTPCurve();
         area = logic.calculateCurveArea();
@@ -313,25 +345,33 @@ public class DashboardController {
         curve.setText(String.format("%.2f", curvelength));
         areal.setText(String.format("%.2f", area));
         tpResult.setText(String.format("%.2f", tp));
+    }
 
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("tp",tp);
-        map.put("area",area);
-        map.put("curvelength", curvelength);
-        map.put("curveX",curveX);
-        map.put("curveY",curveY);
-        map.put("cop",logic.getCopList());
-        testResults.add(map);
-
+    private void addResultButton(int testRepeats, HashMap<String, Object> map) {
+        int tTest = -1;
         try {
-            testRepeats = Integer.parseInt(repeatTestInput.getText());
-            if (testRepeats > 0) {
-                startTimer(3,"red");
-                Thread.sleep(3000);
-                startRecording();
-            }
-        } catch (NumberFormatException e) {}
-        catch (InterruptedException e) {}
+            tTest = Integer.parseInt(repeatTestInput.getText());
+        }catch (NumberFormatException e) {}
+
+        if(tTest >= 0) {
+            Button button = new Button();
+            int nr = tTest - testRepeats;
+            button.setText("Test " + nr);
+            button.setStyle("-fx-background-color: #11CBD7; -fx-text-fill: #273043");
+            button.setId("test_"+nr);
+            button.setOnMouseClicked(e -> {
+                System.out.println(logic.getCopList().toString());
+                //logic.setCopList((List<List<Double>>) map.get("cop"));
+                //updateView(map);
+            });
+            Platform.runLater(() -> testSwitchBox.getChildren().add(button));
+        }
+    }
+
+    private void updateView(HashMap<String, Object> map) {
+        resetAxis();
+        plotResults();
+        plotTPCurve();
     }
 
     private void plotTPCurve() {

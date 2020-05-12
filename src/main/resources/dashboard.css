@@ -41,3 +41,7 @@
 .chart-title {
     -fx-text-fill: #273043;
 }
+
+.text-field {
+    -fx-alignment: center;
+}
