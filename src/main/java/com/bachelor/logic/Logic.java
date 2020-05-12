@@ -193,7 +193,7 @@ public class Logic implements LogicInterface {
 
 
     @Override
-    public List getCopList() {
+    public List<List<Double>> getCopList() {
         return this.cop;
     }
 

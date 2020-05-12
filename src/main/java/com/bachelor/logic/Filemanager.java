@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class Filemanager {
@@ -37,6 +38,19 @@ public class Filemanager {
 
         csvWriter.flush();
         csvWriter.close();
+    }
+
+    public static void writeToCsv(List<HashMap<String,Object>> data, File file, String id, String type) throws IOException {
+        String filename = String.format("%s_%s_%tc.csv", id, type, new Date());
+
+        FileWriter csvWriter = new FileWriter(file.getAbsolutePath() + "/" + filename);
+        int inputs = data.size();
+
+        //Start with id and testtype in first two rows
+        csvWriter.append(String.format("Id,%s\n", id));
+        csvWriter.append(String.format("Test type,%s\n", type));
+
+
     }
 
     public static File findDir(Stage stage) {

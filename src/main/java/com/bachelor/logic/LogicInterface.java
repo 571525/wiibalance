@@ -23,7 +23,7 @@ public interface LogicInterface {
      * returns a list on the format [x,y,time]
      * @return List<List<Double>> with all COP recordings
      */
-    List getCopList();
+    List<List<Double>> getCopList();
 
     /**
      * Sets COP list in object

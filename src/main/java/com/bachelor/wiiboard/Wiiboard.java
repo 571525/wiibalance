@@ -43,28 +43,30 @@ public class Wiiboard implements WiiboardInterface {
 
         @Override
         public void wiiBoardMassReceived(WiiBoardMassEvent massEvent) {
-            double tr = massEvent.getTopRight();
-            double tl = massEvent.getTopLeft();
-            double br = massEvent.getBottomRight();
-            double bl = massEvent.getBottomLeft();
-            double recTime = (System.currentTimeMillis() - recStart) / 1000.0;
+            worker.execute(() -> {
+                double tr = massEvent.getTopRight();
+                double tl = massEvent.getTopLeft();
+                double br = massEvent.getBottomRight();
+                double bl = massEvent.getBottomLeft();
+                double recTime = (System.currentTimeMillis() - recStart) / 1000.0;
 
-            yPrev = yNew;
-            xPrev = xNew;
-            yNew = calibrateL((L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl)));
-            xNew = -calibrateW((W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl)));
+                yPrev = yNew;
+                xPrev = xNew;
+                yNew = calibrateL((L / 2.0) * (((tr + br) - (tl + bl)) / (tr + br + tl + bl)));
+                xNew = -calibrateW((W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl)));
 
-            if (recording) {
-                if (xNew != xPrev || yNew != yPrev) { // we want unique values
-                    logic.addCopPoint(xNew, yNew, recTime);
-                    guiWorker.execute(() -> {
-                        gui.plotXrecorded(xNew, recTime);
-                        gui.plotYrecorded(yNew, recTime);
-                        gui.plotCOPRecorded(xNew, yNew);
-                    });
+                if (recording) {
+                    if (xNew != xPrev || yNew != yPrev) { // we want unique values
+                        logic.addCopPoint(xNew, yNew, recTime);
+                        guiWorker.execute(() -> {
+                            gui.plotXrecorded(xNew, recTime);
+                            gui.plotYrecorded(yNew, recTime);
+                            gui.plotCOPRecorded(xNew, yNew);
+                        });
+                    }
                 }
-            }
-            guiWorker.execute(() -> gui.notifyCopChanged(xNew, yNew));
+                guiWorker.execute(() -> gui.notifyCopChanged(xNew, yNew));
+            });
         }
 
         @Override

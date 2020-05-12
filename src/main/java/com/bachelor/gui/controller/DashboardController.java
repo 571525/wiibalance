@@ -18,9 +18,7 @@ import org.gillius.jfxutils.chart.JFXChartUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -305,13 +303,15 @@ public class DashboardController {
     public void stopRecording() {
         plotResults();
 
-        HashMap<String, Object> map = new HashMap<>();
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
         map.put("tp", tp);
         map.put("area", area);
         map.put("curvelength", curvelength);
         map.put("curveX", curveX);
         map.put("curveY", curveY);
-        map.put("cop", logic.getCopList());
+        List<List<Double>> list = new ArrayList<>();
+        logic.getCopList().forEach(a -> list.add(a));
+        map.put("cop", list);
         testResults.add(map);
 
         try {
@@ -351,27 +351,32 @@ public class DashboardController {
         int tTest = -1;
         try {
             tTest = Integer.parseInt(repeatTestInput.getText());
-        }catch (NumberFormatException e) {}
+        } catch (NumberFormatException e) {
+        }
 
-        if(tTest >= 0) {
+        if (tTest >= 0) {
             Button button = new Button();
             int nr = tTest - testRepeats;
             button.setText("Test " + nr);
             button.setStyle("-fx-background-color: #11CBD7; -fx-text-fill: #273043");
-            button.setId("test_"+nr);
+            button.setId("test_" + nr);
             button.setOnMouseClicked(e -> {
-                System.out.println(logic.getCopList().toString());
-                //logic.setCopList((List<List<Double>>) map.get("cop"));
-                //updateView(map);
+                logic.setCopList((List) map.get("cop"));
+                updateView();
             });
             Platform.runLater(() -> testSwitchBox.getChildren().add(button));
         }
     }
 
-    private void updateView(HashMap<String, Object> map) {
+    private void updateView() {
         resetAxis();
         plotResults();
+        msdSeries.getData().clear();
+        timeseries.getData().clear();
+        slopeSeries.getData().clear();
+        TPseries.getData().clear();
         plotTPCurve();
+        updateCharts();
     }
 
     private void plotTPCurve() {
@@ -387,7 +392,6 @@ public class DashboardController {
                 XYChart.Data point = new XYChart.Data<>(x, y);
                 TPseries.getData().add(point);
             });
-
             timeseriescurve.forEach(a -> {
                 double x = a.get(0);
                 double y = a.get(1);
@@ -399,11 +403,6 @@ public class DashboardController {
                 double y = a.get(1);
                 XYChart.Data point = new XYChart.Data<>(x, y);
                 msdSeries.getData().add(point);
-            });
-            msdCurve.forEach(a -> {
-                double x = a.get(0);
-                double y = a.get(1);
-                XYChart.Data point = new XYChart.Data<>(x, y);
                 slopeSeries.getData().add(point);
             });
         });
@@ -458,5 +457,19 @@ public class DashboardController {
 
     public void plotCopRec(double xVal, double yVal) {
         Platform.runLater(() -> seriesRecording.getData().add(new XYChart.Data<>(xVal, yVal)));
+    }
+
+    private void updateCharts() {
+        seriesRecording.getData().clear();
+        seriesRecordingX.getData().clear();
+        seriesRecordingY.getData().clear();
+
+        List<List<Double>> list = logic.getCopList();
+        list.forEach(a -> {
+            plotCopRec(a.get(0),a.get(1));
+            plotXRec(a.get(0),a.get(2));
+            plotYRec(a.get(1),a.get(2));
+        });
+
     }
 }
