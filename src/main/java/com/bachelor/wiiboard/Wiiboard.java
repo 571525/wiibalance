@@ -28,7 +28,6 @@ public class Wiiboard implements WiiboardInterface {
     private ExecutorService worker;
     private ExecutorService guiWorker;
 
-
     private double xNew = 0.0;
     private double yNew = 0.0;
     private double xPrev = 0.0;

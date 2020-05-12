@@ -170,6 +170,7 @@ public class DashboardController {
         tpResetZoom.setOnMouseClicked(e -> resetTpZoom());
 
         exportButton.setOnMouseClicked(e -> exportData());
+        exportAllButton.setOnMouseClicked(e -> exportAllData());
 
         seriesRecording.setName("Test result");
         seriesPlotting.setName("Current COP");
@@ -211,7 +212,26 @@ public class DashboardController {
         } else {
             File file = Filemanager.findDir(stage);
             try {
-                Filemanager.writeToCSV(type, id, duration, tp, curveX, curveY, curvelength, area, logic.getCopList(), file);
+                Filemanager.writeToCsv(type, id, duration, tp, curveX, curveY, curvelength, area, logic.getCopList(), file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            showDialog("Data exported sucessfully");
+        }
+    }
+
+    private void exportAllData() {
+        String id = personText.getText();
+        String type = (String) selectTest.getValue();
+
+        if (id.equals("")) {
+            showDialog("Please provide a person id");
+        } else if (type == null) {
+            showDialog("Please provide a test type");
+        } else {
+            File file = Filemanager.findDir(stage);
+            try {
+                Filemanager.writeAllToCsv(testResults,file,id,type,duration);
             } catch (IOException e) {
                 e.printStackTrace();
             }
