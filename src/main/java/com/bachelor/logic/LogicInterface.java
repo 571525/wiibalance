@@ -60,10 +60,22 @@ public interface LogicInterface {
      */
     double calcCurveLengthY();
 
+    /**
+     * Returns the List containing all turning point curve
+     * @return
+     */
     List getTpCurve();
 
+    /**
+     * Returns the MSD list
+     * @return
+     */
     List getMsdCurve();
 
+    /**
+     * Returns the timeseries used to calculate turning point
+     * @return
+     */
     List getTimeSeries();
 
 

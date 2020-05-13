@@ -17,22 +17,21 @@ import java.util.concurrent.Executors;
  */
 public class Wiiboard implements WiiboardInterface {
 
-    private static final int L = 433; //wiiboardStack length
-    private static final int W = 228; // wiiboardStack width
-
+    private static final int L = 433; //Board length in mm
+    private static final int W = 228; //Board width in mm
     private long recStart = 0;
     private boolean recording = false;
-
     private LogicInterface logic;
     private GuiInterface gui;
     private ExecutorService worker;
     private ExecutorService guiWorker;
-
     private double xNew = 0.0;
     private double yNew = 0.0;
     private double xPrev = 0.0;
     private double yPrev = 0.0;
 
+    private WiiBoardDiscoverer discoverer;
+    private WiiBoardDiscoveryListener discoveryListener;
     private WiiBoardListener listener = new WiiBoardListener() {
         @Override
         public void wiiBoardButtonEvent(WiiBoardButtonEvent buttonEvent) {
@@ -78,9 +77,6 @@ public class Wiiboard implements WiiboardInterface {
             gui.updateConnectionInfo("Disconnected");
         }
     };
-
-    private WiiBoardDiscoverer discoverer;
-    private WiiBoardDiscoveryListener discoveryListener;
 
     public Wiiboard() {
         System.setProperty("bluecove.jsr82.psm_minimum_off", "true"); //enable bluetooth to work properly

@@ -28,7 +28,6 @@ public class Main extends Application implements GuiInterface {
     public void start(Stage stage) throws Exception {
         logic = new Logic();
         wiiboard = new Wiiboard();
-
         wiiboard.registerLogic(logic);
         wiiboard.registerGui(this);
         setUserAgentStylesheet(STYLESHEET_MODENA);
@@ -39,7 +38,6 @@ public class Main extends Application implements GuiInterface {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
         controller.setup(stage);
     }
 

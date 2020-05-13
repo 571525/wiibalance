@@ -17,10 +17,7 @@ import javafx.stage.Stage;
 import org.gillius.jfxutils.chart.JFXChartUtil;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -179,6 +176,7 @@ public class DashboardController {
         setupViewMenu();
         setupActions();
         setupCharts();
+        setupMenu();
     }
 
     private void setupViewMenu() {
@@ -229,6 +227,14 @@ public class DashboardController {
         resetYSplit.setOnMouseClicked(e -> resetYSplitZoom());
         exportButton.setOnMouseClicked(e -> exportData());
         exportAllButton.setOnMouseClicked(e -> exportAllData());
+    }
+
+    private void setupMenu() {
+        menuHelp.setOnAction(e -> showDialog("Not implemented yet"));
+        menuHelp.setOnAction(e -> showDialog("Not implemented yet"));
+        menuFileClose.setOnAction(e -> Platform.exit());
+        menuFileExport.setOnAction(e -> exportData());
+        menuFileExportAll.setOnAction(e -> exportAllData());
     }
 
     private void setupCharts() {
@@ -537,12 +543,14 @@ public class DashboardController {
     }
 
     private void resetCopZoom() {
-        NumberAxis copX = (NumberAxis) copChart.getXAxis();
-        NumberAxis copY = (NumberAxis) copChart.getYAxis();
-        copX.setLowerBound(-150);
-        copX.setUpperBound(150);
-        copY.setLowerBound(-150);
-        copY.setUpperBound(150);
+        try {
+            NumberAxis copX = (NumberAxis) copChart.getXAxis();
+            NumberAxis copY = (NumberAxis) copChart.getYAxis();
+            copX.setLowerBound(-150);
+            copX.setUpperBound(150);
+            copY.setLowerBound(-150);
+            copY.setUpperBound(150);
+        }catch (ConcurrentModificationException e) {}
     }
 
     private void resetSlopeZoom() {

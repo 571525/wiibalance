@@ -2,10 +2,7 @@ package com.bachelor.logic;
 
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +12,6 @@ public class Filemanager {
     public static void writeToCsv(String testType, String id, int duration, double tp, double xLen, double yLen, double totLen, double area, List<List<Double>> cop, File file) throws IOException {
 
         String filename = String.format("%s_%s_%tc.csv", id, testType, new Date());
-
         FileWriter csvWriter = new FileWriter(file.getAbsolutePath() + "/" + filename);
 
         csvWriter.append(String.format("Id,%s\n", id));
@@ -26,9 +22,7 @@ public class Filemanager {
         csvWriter.append(String.format("Curvelength Y,%s\n", String.valueOf(yLen).replace(",", ".")));
         csvWriter.append(String.format("Total Curvelength,%s\n", String.valueOf(totLen).replace(",", ".")));
         csvWriter.append(String.format("Area,%s\n\n", String.valueOf(area).replace(",", ".")));
-
         csvWriter.append("COP readings\n");
-
         csvWriter.append("X,Y,time\n");
 
         for (List<Double> rowData : cop) {
@@ -42,7 +36,6 @@ public class Filemanager {
 
     public static void writeAllToCsv(List<HashMap<String, Object>> data, File file, String id, String type, int duration) throws IOException {
         String filename = String.format("%s_%s_%tc.csv", id, type, new Date());
-
         FileWriter csvWriter = new FileWriter(file.getAbsolutePath() + "/" + filename);
         int inputs = data.size();
 
@@ -102,8 +95,6 @@ public class Filemanager {
             }
             csvWriter.append("\n");
         }
-
-
     }
 
     private static int findMaxLength(List<HashMap<String, Object>> data) {
@@ -113,7 +104,6 @@ public class Filemanager {
             List<List<Double>> l = (List<List<Double>>) data.get(i).get("cop");
             if (l.size() > max) max = l.size();
         }
-
         return max;
     }
 

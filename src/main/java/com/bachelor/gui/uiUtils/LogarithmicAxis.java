@@ -8,7 +8,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.chart.ValueAxis;
 import javafx.util.Duration;
-
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,6 @@ public class LogarithmicAxis extends ValueAxis<Number> {
     private static final double ANIMATION_TIME = 2000;
     private final Timeline lowerRangeTimeline = new Timeline();
     private final Timeline upperRangeTimeline = new Timeline();
-
     private final DoubleProperty logUpperBound = new SimpleDoubleProperty();
     private final DoubleProperty logLowerBound = new SimpleDoubleProperty();
 
@@ -132,7 +130,6 @@ public class LogarithmicAxis extends ValueAxis<Number> {
             Number upperBound = ((Number[]) range)[1];
             double logLowerBound = Math.log10(lowerBound.doubleValue());
             double logUpperBound = Math.log10(upperBound.doubleValue());
-
             tickPositions.add(0.1);
             tickPositions.add(0.2);
             tickPositions.add(0.3);
