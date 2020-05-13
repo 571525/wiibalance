@@ -98,11 +98,19 @@ public class LogarithmicAxis extends ValueAxis<Number> {
         Number[] range = getRange();
         List<Number> minorTickMarksPositions = new ArrayList<Number>();
         if (range != null) {
-
             Number upperBound = range[1];
             double logUpperBound = Math.log10(upperBound.doubleValue());
             int minorTickMarkCount = getMinorTickCount();
 
+            minorTickMarksPositions.add(0.1);
+            minorTickMarksPositions.add(0.2);
+            minorTickMarksPositions.add(0.3);
+            minorTickMarksPositions.add(0.4);
+            minorTickMarksPositions.add(0.5);
+            minorTickMarksPositions.add(0.6);
+            minorTickMarksPositions.add(0.7);
+            minorTickMarksPositions.add(0.8);
+            minorTickMarksPositions.add(0.9);
             for (double i = 0; i <= logUpperBound; i += 1) {
                 for (double j = 0; j <= 9; j += (1. / minorTickMarkCount)) {
                     double value = j * Math.pow(10, i);
@@ -125,9 +133,11 @@ public class LogarithmicAxis extends ValueAxis<Number> {
             double logLowerBound = Math.log10(lowerBound.doubleValue());
             double logUpperBound = Math.log10(upperBound.doubleValue());
 
-           tickPositions.add(0.1);
-           tickPositions.add(0.5);
-
+            tickPositions.add(0.1);
+            tickPositions.add(0.2);
+            tickPositions.add(0.3);
+            tickPositions.add(0.5);
+            tickPositions.add(0.7);
             for (double i = 0; i <= logUpperBound; i += 1) {
                 for (double j = 1; j <= 9; j++) {
                     double value = j * Math.pow(10, i);

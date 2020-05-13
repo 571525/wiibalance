@@ -15,10 +15,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.gillius.jfxutils.chart.JFXChartUtil;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -27,19 +29,27 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DashboardController {
     private Logic logic;
     private Wiiboard wiiboard;
+    private Stage stage; // Needed when exporting data
 
-    private Stage stage;
+    //Menu
+    @FXML
+    private MenuItem menuAbout;
+    @FXML
+    private MenuItem menuHelp;
+    @FXML
+    private MenuItem menuFileExport;
+    @FXML
+    private MenuItem menuFileExportAll;
+    @FXML
+    private MenuItem menuFileClose;
 
+    //Connect area
     @FXML
     private Button connectButton;
     @FXML
     private TextField wiiStats;
 
-    @FXML
-    private Button exportButton;
-    @FXML
-    private Button exportAllButton;
-
+    //Menu to switch between views
     @FXML
     private Button buttonTPPlots;
     @FXML
@@ -47,9 +57,17 @@ public class DashboardController {
     @FXML
     private Button buttonXYSplit;
 
+    //COP plot
+    @FXML
+    private AnchorPane COPPane;
     @FXML
     private LineChart copChart;
+    @FXML
+    private Button resetCop;
 
+    //TP result area
+    @FXML
+    private GridPane TPPane;
     @FXML
     private LineChart tpResultPlot;
     @FXML
@@ -58,17 +76,32 @@ public class DashboardController {
     private LineChart slopePlot;
     @FXML
     private LineChart timeseriesPlot;
+    @FXML
+    private Button slopeResetZoom;
+    @FXML
+    private Button tpResetZoom;
+    @FXML
+    private Button resetXi;
+    @FXML
+    private Button resetMsd;
 
+    //X-Y Split screen
+    @FXML
+    private GridPane XYSplitPane;
     @FXML
     private LineChart recordingYChart;
     @FXML
     private LineChart recordingXChart;
-
     @FXML
     private NumberAxis recYXAxis;
     @FXML
     private NumberAxis recXXAxis;
+    @FXML
+    private Button resetXSplit;
+    @FXML
+    private Button resetYSplit;
 
+    // Area named "DASHBOARD"
     @FXML
     private TextField personText;
     @FXML
@@ -79,7 +112,12 @@ public class DashboardController {
     private TextField repeatTestInput;
     @FXML
     private Button startButton;
+    @FXML
+    private TextField remainingTime;
+    @FXML
+    private TextField remainingTest;
 
+    //Result area
     @FXML
     private TextArea curve;
     @FXML
@@ -90,26 +128,18 @@ public class DashboardController {
     private TextArea xCurvelength;
     @FXML
     private TextArea yCurvelength;
-    @FXML
-    private Button slopeResetZoom;
-    @FXML
-    private Button tpResetZoom;
 
+    //Save buttons
     @FXML
-    private AnchorPane COPPane;
+    private Button exportButton;
     @FXML
-    private GridPane TPPane;
-    @FXML
-    private GridPane XYSplitPane;
+    private Button exportAllButton;
 
-    @FXML
-    private TextField remainingTime;
-    @FXML
-    private TextField remainingTests;
-
+    //refrences to the area with buttons to switch between test results
     @FXML
     private VBox testSwitchBox;
-
+    @FXML
+    private ScrollPane testScroll;
 
     private XYChart.Series seriesPlotting = new XYChart.Series<Double, Double>();
     private XYChart.Series seriesRecording = new XYChart.Series<Double, Double>();
@@ -119,6 +149,7 @@ public class DashboardController {
     private XYChart.Series msdSeries = new XYChart.Series<Double, Double>();
     private XYChart.Series timeseries = new XYChart.Series<Double, Double>();
     private XYChart.Series slopeSeries = new XYChart.Series<Double, Double>();
+
     private double tp = 0.0;
     private double area = 0.0;
     private double curvelength = 0.0;
@@ -138,19 +169,19 @@ public class DashboardController {
         wiiStats.setText(info);
     }
 
+    /**
+     * Called just after controller is attached to fxml document in order to set up fxml references
+     *
+     * @param stage
+     */
     public void setup(Stage stage) {
         setStage(stage);
-        connectButton.setOnMouseClicked(e -> wiiboard.startWiiboardDiscoverer());
-        startButton.setOnMouseClicked(e -> {
-            try {
-                testRepeats = Integer.parseInt(repeatTestInput.getText());
-            } catch (NumberFormatException er) {
-            }
-            remainingTests.setText("" + testRepeats);
-            testResults = new ArrayList<>();
-            testSwitchBox.getChildren().clear();
-            startRecording();
-        });
+        setupViewMenu();
+        setupActions();
+        setupCharts();
+    }
+
+    private void setupViewMenu() {
         buttonCOPPlot.setOnMouseClicked(e -> {
             COPPane.setVisible(true);
             XYSplitPane.setVisible(false);
@@ -166,41 +197,66 @@ public class DashboardController {
             XYSplitPane.setVisible(false);
             TPPane.setVisible(true);
         });
+    }
+
+    private void setupActions() {
+        connectButton.setOnMouseClicked(e -> wiiboard.startWiiboardDiscoverer());
+        startButton.setOnMouseClicked(e -> {
+            try {
+                testRepeats = Integer.parseInt(repeatTestInput.getText());
+            } catch (NumberFormatException er) {
+            }
+            remainingTest.setText("" + testRepeats);
+            testResults = new ArrayList<>();
+            testSwitchBox.getChildren().clear();
+            startRecording();
+        });
+        selectTest.getSelectionModel().selectedItemProperty().addListener((options, oldvalue, newvalue) -> {
+            if (newvalue.equals("Romberg")) {
+                repeatTestInput.setText("4");
+                durationInput.setText("20");
+            } else {
+                repeatTestInput.setText("1");
+            }
+        });
+
         slopeResetZoom.setOnMouseClicked(e -> resetSlopeZoom());
         tpResetZoom.setOnMouseClicked(e -> resetTpZoom());
-
+        resetCop.setOnMouseClicked(e -> resetCopZoom());
+        resetMsd.setOnMouseClicked(e -> resetMsdZoom());
+        resetXi.setOnMouseClicked(e -> resetXiZoom());
+        resetXSplit.setOnMouseClicked(e -> resetXSplitZoom());
+        resetYSplit.setOnMouseClicked(e -> resetYSplitZoom());
         exportButton.setOnMouseClicked(e -> exportData());
         exportAllButton.setOnMouseClicked(e -> exportAllData());
+    }
 
+    private void setupCharts() {
         seriesRecording.setName("Test result");
         seriesPlotting.setName("Current COP");
-
         copChart.getData().add(seriesPlotting);
         copChart.getData().add(seriesRecording);
         copChart.setCreateSymbols(false);
-
         recordingXChart.getData().add(seriesRecordingX);
         recordingYChart.getData().add(seriesRecordingY);
-
         msdPlot.getData().add(msdSeries);
         slopePlot.getData().add(slopeSeries);
         timeseriesPlot.getData().add(timeseries);
-
         tpResultPlot.getData().add(TPseries);
-
         Platform.runLater(() -> {
             JFXChartUtil.setupZooming(copChart);
-
             JFXChartUtil.setupZooming(timeseriesPlot);
             JFXChartUtil.setupZooming(slopePlot);
             JFXChartUtil.setupZooming(msdPlot);
             JFXChartUtil.setupZooming(tpResultPlot);
-
             JFXChartUtil.setupZooming(recordingYChart);
             JFXChartUtil.setupZooming(recordingXChart);
         });
     }
 
+    /**
+     * Exports the currently selected data to a CSV file
+     */
     private void exportData() {
         String id = personText.getText();
         String type = (String) selectTest.getValue();
@@ -220,6 +276,9 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Exports all data stored in testResults to one CSV file
+     */
     private void exportAllData() {
         String id = personText.getText();
         String type = (String) selectTest.getValue();
@@ -231,7 +290,7 @@ public class DashboardController {
         } else {
             File file = Filemanager.findDir(stage);
             try {
-                Filemanager.writeAllToCsv(testResults,file,id,type,duration);
+                Filemanager.writeAllToCsv(testResults, file, id, type, duration);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -239,6 +298,11 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Alerts a message dialog to the user
+     *
+     * @param message
+     */
     private void showDialog(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Wiibalance");
@@ -264,14 +328,13 @@ public class DashboardController {
     private void startRecording() {
         try {
             duration = Integer.parseInt(durationInput.getText());
-            testRepeats = Integer.parseInt(remainingTests.getText());
+            testRepeats = Integer.parseInt(remainingTest.getText());
         } catch (NumberFormatException e) {
-            showDialog("Input must be a number!");
+            showDialog("Duration must be a valid integer number. \n - no decimals allowed");
             return;
         }
-
         if (duration > 0 && testRepeats > 0) {
-            resetAxis();
+            resetAllAxis();
             changeViewToRecording(duration);
             resetResultPlots();
             wiiboard.startRecordingData(duration);
@@ -298,10 +361,8 @@ public class DashboardController {
         COPPane.setVisible(false);
         XYSplitPane.setVisible(true);
         TPPane.setVisible(false);
-
         recXXAxis.setAutoRanging(false);
         recYXAxis.setAutoRanging(false);
-
         recXXAxis.setLowerBound(0.0);
         recXXAxis.setUpperBound(time);
         recYXAxis.setLowerBound(0.0);
@@ -335,9 +396,9 @@ public class DashboardController {
         testResults.add(map);
 
         try {
-            testRepeats = Integer.parseInt(remainingTests.getText());
+            testRepeats = Integer.parseInt(remainingTest.getText());
             testRepeats--;
-            remainingTests.setText("" + testRepeats);
+            remainingTest.setText("" + testRepeats);
             if (testRepeats > 0) {
                 addResultButton(testRepeats, map);
                 startTimer(5, "red");
@@ -346,7 +407,6 @@ public class DashboardController {
             } else if (testRepeats == 0) {
                 addResultButton(testRepeats, map);
             }
-
         } catch (NumberFormatException e) {
         } catch (InterruptedException e) {
         }
@@ -359,7 +419,6 @@ public class DashboardController {
         curvelength = logic.calculateCurveLength();
         curveX = logic.calcCurveLengthX();
         curveY = logic.calcCurveLengthY();
-
         xCurvelength.setText(String.format("%.2f", curveX));
         yCurvelength.setText(String.format("%.2f", curveY));
         curve.setText(String.format("%.2f", curvelength));
@@ -378,8 +437,8 @@ public class DashboardController {
             Button button = new Button();
             int nr = tTest - testRepeats;
             button.setText("Test " + nr);
-            button.setStyle("-fx-background-color: #11CBD7; -fx-text-fill: #273043");
-            button.setId("test_" + nr);
+            button.setStyle("-fx-background-color: #11CBD7; -fx-text-fill: #273043;-fx-pref-width: 100;");
+            button.setId("testSwitch");
             button.setOnMouseClicked(e -> {
                 logic.setCopList((List) map.get("cop"));
                 updateView();
@@ -389,21 +448,20 @@ public class DashboardController {
     }
 
     private void updateView() {
-        resetAxis();
+        resetAllAxis();
         plotResults();
         msdSeries.getData().clear();
         timeseries.getData().clear();
         slopeSeries.getData().clear();
         TPseries.getData().clear();
         plotTPCurve();
-        updateCharts();
+        updateAllCharts();
     }
 
     private void plotTPCurve() {
         List<List<Double>> tpCurve = logic.getTpCurve();
         List<List<Double>> msdCurve = logic.getMsdCurve();
         List<List<Double>> timeseriescurve = logic.getTimeSeries();
-
 
         Platform.runLater(() -> {
             tpCurve.forEach(a -> {
@@ -428,28 +486,63 @@ public class DashboardController {
         });
     }
 
-    private void resetAxis() {
+    private void resetAllAxis() {
+        resetCopZoom();
+        resetSlopeZoom();
+        resetTpZoom();
+        NumberAxis recYY = (NumberAxis) recordingYChart.getYAxis();
+        recYY.setLowerBound(-125);
+        recYY.setUpperBound(125);
+        NumberAxis recXY = (NumberAxis) recordingXChart.getYAxis();
+        recXY.setLowerBound(-125);
+        recXY.setUpperBound(125);
+        timeseriesPlot.getYAxis().setAutoRanging(true);
+        timeseriesPlot.getXAxis().setAutoRanging(true);
+        msdPlot.getXAxis().setAutoRanging(true);
+        msdPlot.getYAxis().setAutoRanging(true);
+    }
+
+    private void resetMsdZoom() {
+        msdPlot.getYAxis().setAutoRanging(true);
+        msdPlot.getXAxis().setAutoRanging(true);
+    }
+
+    private void resetXiZoom() {
+        timeseriesPlot.getXAxis().setAutoRanging(true);
+        timeseriesPlot.getYAxis().setAutoRanging(true);
+    }
+
+    private void resetXSplitZoom() {
+        NumberAxis recXY = (NumberAxis) recordingXChart.getYAxis();
+        recXY.setLowerBound(-125);
+        recXY.setUpperBound(125);
+        recXXAxis.setLowerBound(0);
+        try {
+            duration = Integer.parseInt(durationInput.getText());
+            recXXAxis.setUpperBound(duration);
+        } catch (NumberFormatException e) {
+        }
+    }
+
+    private void resetYSplitZoom() {
+        NumberAxis recYY = (NumberAxis) recordingYChart.getYAxis();
+        recYY.setLowerBound(-125);
+        recYY.setUpperBound(125);
+        recYXAxis.setLowerBound(0);
+        try {
+            duration = Integer.parseInt(durationInput.getText());
+            recYXAxis.setUpperBound(duration);
+        } catch (NumberFormatException e) {
+        }
+    }
+
+    private void resetCopZoom() {
         NumberAxis copX = (NumberAxis) copChart.getXAxis();
         NumberAxis copY = (NumberAxis) copChart.getYAxis();
         copX.setLowerBound(-150);
         copX.setUpperBound(150);
         copY.setLowerBound(-150);
         copY.setUpperBound(150);
-
-        NumberAxis recXY = (NumberAxis) recordingXChart.getYAxis();
-        NumberAxis recYY = (NumberAxis) recordingXChart.getYAxis();
-        recXY.setLowerBound(-125);
-        recXY.setUpperBound(125);
-        recYY.setLowerBound(-125);
-        recYY.setUpperBound(125);
-
-        timeseriesPlot.getYAxis().setAutoRanging(true);
-        timeseriesPlot.getXAxis().setAutoRanging(true);
-        msdPlot.getXAxis().setAutoRanging(true);
-        msdPlot.getYAxis().setAutoRanging(true);
-
-        resetSlopeZoom();
-        resetTpZoom();
     }
 
     private void resetSlopeZoom() {
@@ -459,7 +552,6 @@ public class DashboardController {
         slopeX.setUpperBound(8);
         slopeY.setLowerBound(0.01);
         slopeY.setUpperBound(10000);
-
     }
 
     private void resetTpZoom() {
@@ -479,17 +571,15 @@ public class DashboardController {
         Platform.runLater(() -> seriesRecording.getData().add(new XYChart.Data<>(xVal, yVal)));
     }
 
-    private void updateCharts() {
+    private void updateAllCharts() {
         seriesRecording.getData().clear();
         seriesRecordingX.getData().clear();
         seriesRecordingY.getData().clear();
-
         List<List<Double>> list = logic.getCopList();
         list.forEach(a -> {
-            plotCopRec(a.get(0),a.get(1));
-            plotXRec(a.get(0),a.get(2));
-            plotYRec(a.get(1),a.get(2));
+            plotCopRec(a.get(0), a.get(1));
+            plotXRec(a.get(0), a.get(2));
+            plotYRec(a.get(1), a.get(2));
         });
-
     }
 }
