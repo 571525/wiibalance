@@ -1,0 +1,77 @@
+.text-area .content {
+    -fx-background-color: #F3F7F0;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+.combo-box .content {
+    -fx-background-color: #F3F7F0;
+}
+
+.combo-box .text-field {
+    -fx-background-color: #F3F7F0;
+}
+
+.combo-box .text-field .content {
+    -fx-background-color: #F3F7F0;
+}
+
+.label {
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-font-weight: bold;
+}
+
+.text-area *.text {
+    -fx-text-alignment: center;
+
+}
+
+.chart {
+    -fx-background-color:  E7F6EA;
+}
+
+
+.chart-plot-background {
+    -fx-background-color: #F3F7F0;
+}
+
+.chart-title {
+    -fx-text-fill: #273043;
+}
+
+.text-field {
+    -fx-alignment: center;
+}
+
+.scroll-bar  {
+    -fx-background-color:  #11CBD7;
+}
+
+#scrollPane .thumb {
+    -fx-background-color:  #F3F7F0;
+}
+
+#scrollPane {
+    -fx-border-color:  #C6F1E7;
+    -fx-padding: 5;
+}
+
+#scrollPane .decrement-arrow {
+    -fx-background-color:  #F3F7F0;
+}
+
+#scrollPane .increment-arrow {
+    -fx-background-color:  #F3F7F0;
+}
+
+#testSwitchBox {
+    -fx-spacing: 5;
+}
+
+#testSwitch:focused {
+    -fx-border-color:  #FF737A;
+}
+

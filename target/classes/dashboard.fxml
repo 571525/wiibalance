@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.bachelor.gui.uiUtils.LogarithmicAxis?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <left>
+        <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="254.0" style="-fx-background-color: C6F1E7;" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="connectButton" maxHeight="40.0" maxWidth="527.0" minHeight="40.0" minWidth="242.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="242.0" style="-fx-background-color: FF737A;" text="Connect" textFill="#273043" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="10.0" />
+                    </VBox.margin>
+               <font>
+                  <Font name="Monospaced Regular" size="15.0" />
+               </font>
+                </Button>
+            <TextField fx:id="wiiStats" editable="false" promptText="Click To Connect" style="-fx-background-color: #F3F7F0; -fx-text-fill: #273043;">
+               <VBox.margin>
+                  <Insets left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </TextField>
+                <Label text="SELECT VIEW">
+                    <VBox.margin>
+                        <Insets left="5.0" top="40.0" />
+                    </VBox.margin>
+               <font>
+                  <Font name="Monospaced Bold" size="18.0" />
+               </font>
+                </Label>
+                <GridPane alignment="CENTER" prefHeight="47.0" prefWidth="254.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="5.0" />
+                    </VBox.margin>
+                    <children>
+                        <Button fx:id="buttonCOPPlot" maxWidth="80.0" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: #11CBD7;" text="COP" textFill="#273043">
+                     <font>
+                        <Font name="Monospaced Bold" size="11.0" />
+                     </font></Button>
+                        <Button fx:id="buttonXYSplit" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #11CBD7;" text="SPLIT" wrapText="true" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Monospaced Bold" size="11.0" />
+                     </font>
+                  </Button>
+                        <Button fx:id="buttonTPPlots" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" style="-fx-background-color: #11CBD7;" text="TP" GridPane.columnIndex="2">
+                     <font>
+                        <Font name="Monospaced Bold" size="11.0" />
+                     </font></Button>
+                    </children>
+                </GridPane>
+                <AnchorPane fx:id="infoPane" prefHeight="410.0" prefWidth="254.0">
+                    <children>
+                        <Text id="misc-text" layoutX="62.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DASHBOARD" wrappingWidth="132.0">
+                            <font>
+                                <Font name="Monospaced Bold" size="22.0" />
+                            </font>
+                        </Text>
+                        <TextField fx:id="personText" layoutX="81.0" layoutY="49.0" prefHeight="26.0" prefWidth="168.0" style="-fx-background-color: #F3F7F0;-fx-text-fill: #273043;" AnchorPane.rightAnchor="17.0" />
+                        <TextField fx:id="durationInput" layoutX="174.0" layoutY="161.0" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #F3F7F0;-fx-text-fill: #273043" AnchorPane.rightAnchor="17.0" />
+                        <Button fx:id="startButton" layoutX="7.0" layoutY="250.0" maxHeight="50.0" maxWidth="242.0" minHeight="50.0" minWidth="242.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="242.0" style="-fx-background-color: #11CBD7;" text="Start Test" textFill="#273043" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="17.0">
+                            <font>
+                                <Font name="Monospaced Bold" size="15.0" />
+                            </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                        </Button>
+                        <Label layoutX="17.0" layoutY="54.0" text="Person:" textFill="#273043" AnchorPane.leftAnchor="17.0">
+                     <font>
+                        <Font name="Monospaced Regular" size="13.0" />
+                     </font></Label>
+                        <Label layoutX="17.0" layoutY="109.0" text="Test type:" textFill="#273043" AnchorPane.leftAnchor="17.0">
+                     <font>
+                        <Font name="Monospaced Regular" size="13.0" />
+                     </font></Label>
+                        <Label layoutX="17.0" layoutY="166.0" text="Duration (seconds):" textFill="#273043">
+                     <font>
+                        <Font name="Monospaced Regular" size="13.0" />
+                     </font></Label>
+                        <ComboBox fx:id="selectTest" editable="true" layoutX="99.0" layoutY="104.0" prefWidth="150.0" promptText="Select Test" style="-fx-background-color: #F3F7F0;" AnchorPane.rightAnchor="17.0">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Romberg" />
+                                    <String fx:value="Eyes Open" />
+                                    <String fx:value="Eyes closed" />
+                                    <String fx:value="Eyes Open - Foam" />
+                                    <String fx:value="Eyes Closed - Foam" />
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        <Label layoutX="14.0" layoutY="307.0" prefHeight="29.0" prefWidth="85.0" text="Countdown" textFill="#273043" />
+                  <Label layoutX="17.0" layoutY="217.0" text="Number of tests:" textFill="#273043">
+                     <font>
+                        <Font name="Monospaced Regular" size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="repeatTestInput" layoutX="174.0" layoutY="204.0" prefHeight="26.0" prefWidth="75.0" style="-fx-background-color: #F3F7F0;-fx-text-fill: #273043" text="1" />
+                  <Label layoutX="117.0" layoutY="307.0" prefHeight="29.0" prefWidth="120.0" text="Tests remaining" textFill="#273043" />
+                  <TextField fx:id="remainingTime" editable="false" layoutX="14.0" layoutY="330.0" prefHeight="40.0" prefWidth="55.0" style="-fx-background-color: C6F1E7;">
+                     <font>
+                        <Font name="Monospaced Regular" size="20.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="remainingTest" editable="false" layoutX="140.0" layoutY="330.0" prefHeight="40.0" prefWidth="55.0" style="-fx-background-color: C6F1E7;">
+                     <font>
+                        <Font name="Monospaced Regular" size="20.0" />
+                     </font>
+                  </TextField>
+                    </children>
+                    <VBox.margin>
+                        <Insets top="20.0" />
+                    </VBox.margin>
+                </AnchorPane>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <AnchorPane prefHeight="555.0" prefWidth="746.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane fx:id="COPPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <LineChart fx:id="copChart" animated="false" axisSortingPolicy="NONE" horizontalGridLinesVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <xAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-150" side="BOTTOM" tickUnit="1" upperBound="150" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-150" side="LEFT" tickUnit="1" upperBound="150" />
+                            </yAxis>
+                        </LineChart>
+                  <Button fx:id="resetCop" layoutX="708.0" layoutY="8.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="12.0" style="-fx-background-color: FF737A;" text="-" textAlignment="CENTER" textFill="#273043" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                    </children>
+                </AnchorPane>
+                <GridPane fx:id="XYSplitPane" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <LineChart fx:id="recordingXChart" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="X Axis">
+
+                            <xAxis>
+                                <NumberAxis fx:id="recXXAxis" side="BOTTOM" tickLabelsVisible="true" tickUnit="1" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-125.0" side="LEFT" upperBound="125.0" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="recordingYChart" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Y Axis" GridPane.rowIndex="1">
+                            <xAxis>
+                                <NumberAxis fx:id="recYXAxis" side="BOTTOM" tickLabelsVisible="true" tickUnit="1" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="false" lowerBound="-125.0" side="LEFT" upperBound="125.0" />
+                            </yAxis>
+                        </LineChart>
+                  <Button fx:id="resetXSplit" mnemonicParsing="false" prefHeight="26.0" prefWidth="12.0" style="-fx-background-color: FF737A;" text="-" textAlignment="CENTER" textFill="#273043" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="5.0" top="5.0" />
+                     </GridPane.margin></Button>
+                  <Button fx:id="resetYSplit" mnemonicParsing="false" prefHeight="26.0" prefWidth="12.0" style="-fx-background-color: FF737A;" text="-" textAlignment="CENTER" textFill="#273043" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="5.0" top="5.0" />
+                     </GridPane.margin></Button>
+                    </children>
+                </GridPane>
+                <GridPane fx:id="TPPane" layoutX="10.0" layoutY="10.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <LineChart fx:id="timeseriesPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Xi" verticalGridLinesVisible="true">
+                            <xAxis>
+                                <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="msdPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="MSD" verticalGridLinesVisible="true" GridPane.rowIndex="1">
+                            <xAxis>
+                                <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="slopePlot" createSymbols="false" horizontalGridLinesVisible="true" horizontalZeroLineVisible="true" legendVisible="false" prefHeight="300.0" title="SLOPE" verticalGridLinesVisible="true" GridPane.columnIndex="1">
+                            <xAxis>
+                                <LogarithmicAxis lowerBound="0.01" side="BOTTOM" upperBound="8.0" />
+                            </xAxis>
+                            <yAxis>
+                                <LogarithmicAxis lowerBound="0.01" side="LEFT" upperBound="10000" />
+                            </yAxis>
+                        </LineChart>
+                        <LineChart fx:id="tpResultPlot" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Turning Point" verticalGridLinesVisible="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <xAxis>
+                                <LogarithmicAxis lowerBound="0.01" side="BOTTOM" upperBound="8.0" />
+                            </xAxis>
+                            <yAxis>
+                                <LogarithmicAxis lowerBound="0.01" side="LEFT" upperBound="1.5" />
+                            </yAxis>
+                        </LineChart>
+                  <Button fx:id="slopeResetZoom" mnemonicParsing="false" prefHeight="26.0" prefWidth="0.0" style="-fx-background-color: FF737A;" text="-" textAlignment="CENTER" textFill="#273043" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="10.0" top="3.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="tpResetZoom" mnemonicParsing="false" prefHeight="26.0" prefWidth="12.0" style="-fx-background-color: FF737A;" text="-" textAlignment="CENTER" textFill="#273043" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <GridPane.margin>
+                        <Insets right="10.0" top="3.0" />
+                     </GridPane.margin>
+                  </Button>
+                  <Button fx:id="resetXi" mnemonicParsing="false" prefHeight="26.0" prefWidth="0.0" style="-fx-background-color: FF737A;" text="-" textAlignment="CENTER" textFill="#273043" GridPane.halignment="RIGHT" GridPane.valignment="TOP" />
+                  <Button fx:id="resetMsd" mnemonicParsing="false" prefHeight="26.0" prefWidth="12.0" style="-fx-background-color: FF737A;" text="-" textAlignment="CENTER" textFill="#273043" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                    </children>
+                </GridPane>
+            </children>
+        </AnchorPane>
+    </center>
+    <bottom>
+        <HBox prefHeight="175.0" prefWidth="1000.0" style="-fx-background-color: C6F1E7;" BorderPane.alignment="CENTER">
+            <children>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+               <top>
+                  <Label text="Select Test" BorderPane.alignment="CENTER" />
+               </top>
+               <right>
+                  <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="139.0" prefWidth="155.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+                     <content>
+                        <VBox fx:id="testSwitchBox" prefHeight="136.0" prefWidth="137.0" style="-fx-background-color: #F3F7F0;" />
+                     </content>
+                  </ScrollPane>
+               </right>
+            </BorderPane>
+                <GridPane alignment="CENTER" prefHeight="122.0" prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label alignment="CENTER" text="Area" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea fx:id="areal" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <HBox.margin>
+                        <Insets left="50.0" />
+                    </HBox.margin>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Curvelength" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea fx:id="curve" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="X Curvelength" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" fx:id="xCurvelength">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Y Curvelength" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea fx:id="yCurvelength" editable="false" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                </GridPane>
+                <GridPane prefWidth="120.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label text="Turning Point" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                     <font>
+                        <Font name="Monospaced Bold" size="13.0" />
+                     </font>
+                     <GridPane.margin>
+                        <Insets bottom="10.0" />
+                     </GridPane.margin></Label>
+                        <TextArea fx:id="tpResult" editable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F3F7F0;" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <GridPane.margin>
+                                <Insets bottom="10.0" left="5.0" right="5.0" />
+                            </GridPane.margin>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                     <font>
+                        <Font name="Monospaced Bold" size="16.0" />
+                     </font>
+                        </TextArea>
+                    </children>
+                </GridPane>
+            <GridPane prefHeight="175.0" prefWidth="189.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                      <Button fx:id="exportButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #11CBD7;" text="Save Current" textFill="#273043">
+                     <font>
+                        <Font name="Monospaced Regular" size="15.0" />
+                     </font>
+                      </Button>
+                  <Button fx:id="exportAllButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #11CBD7;" text="Save All" textFill="#273043" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Monospaced Regular" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+               <HBox.margin>
+                  <Insets left="50.0" />
+               </HBox.margin>
+            </GridPane>
+            </children>
+        </HBox>
+    </bottom>
+   <top>
+      <MenuBar style="-fx-background-color: #11CBD7;" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem fx:id="menuFileExport" mnemonicParsing="false" text="Export Current" />
+                  <MenuItem fx:id="menuFileExportAll" mnemonicParsing="false" text="Export All" />
+              <MenuItem fx:id="menuFileClose" mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="menuHelp" mnemonicParsing="false" text="Help" />
+                  <MenuItem fx:id="menuAbout" mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>
