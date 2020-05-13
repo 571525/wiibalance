@@ -1,15 +1,13 @@
 package com.bachelor.gui;
 
 import com.bachelor.gui.controller.DashboardController;
+import com.bachelor.logic.Logic;
+import com.bachelor.wiiboard.Wiiboard;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import com.bachelor.logic.Logic;
-import com.bachelor.wiiboard.Wiiboard;
-
-import java.io.FileNotFoundException;
 
 
 /**
@@ -30,10 +28,9 @@ public class Main extends Application implements GuiInterface {
     public void start(Stage stage) throws Exception {
         logic = new Logic();
         wiiboard = new Wiiboard();
-
         wiiboard.registerLogic(logic);
         wiiboard.registerGui(this);
-
+        setUserAgentStylesheet(STYLESHEET_MODENA);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/dashboard.fxml"));
         controller = new DashboardController(logic, wiiboard);
         loader.setController(controller);
@@ -41,7 +38,6 @@ public class Main extends Application implements GuiInterface {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
         controller.setup(stage);
     }
 
@@ -53,11 +49,7 @@ public class Main extends Application implements GuiInterface {
 
     @Override
     public void notifyTestFinished() {
-        try {
-            controller.stopRecording();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        controller.stopRecording();
     }
 
     @Override
@@ -77,7 +69,7 @@ public class Main extends Application implements GuiInterface {
 
     @Override
     public void plotCOPRecorded(double xVal, double yVal) {
-        controller.plotCopRec(xVal,yVal);
+        controller.plotCopRec(xVal, yVal);
     }
 
 }

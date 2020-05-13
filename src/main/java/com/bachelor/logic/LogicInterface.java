@@ -23,7 +23,12 @@ public interface LogicInterface {
      * returns a list on the format [x,y,time]
      * @return List<List<Double>> with all COP recordings
      */
-    List getCopList();
+    List<List<Double>> getCopList();
+
+    /**
+     * Sets COP list in object
+     */
+    void setCopList(List cop);
 
     /**
      * calculates the total curvelength
@@ -55,10 +60,22 @@ public interface LogicInterface {
      */
     double calcCurveLengthY();
 
+    /**
+     * Returns the List containing all turning point curve
+     * @return
+     */
     List getTpCurve();
 
+    /**
+     * Returns the MSD list
+     * @return
+     */
     List getMsdCurve();
 
+    /**
+     * Returns the timeseries used to calculate turning point
+     * @return
+     */
     List getTimeSeries();
 
 
