@@ -382,7 +382,6 @@ public class DashboardController {
         scheduledExecutorService.scheduleAtFixedRate(() -> {
             int t = remaining.getAndDecrement();
             if (t <= 1) scheduledExecutorService.shutdown();
-
             Platform.runLater(() -> remainingTime.setText(String.format("%d", remaining.get())));
         }, 0, 1, TimeUnit.SECONDS);
     }
@@ -407,8 +406,8 @@ public class DashboardController {
             remainingTest.setText("" + testRepeats);
             if (testRepeats > 0) {
                 addResultButton(testRepeats, map);
-                startTimer(5, "red");
-                Thread.sleep(5000);
+                startTimer(15, "red");
+                Thread.sleep(15000);
                 startRecording();
             } else if (testRepeats == 0) {
                 addResultButton(testRepeats, map);
