@@ -3,7 +3,9 @@ package com.bachelor.gui.controller;
 import com.bachelor.gui.uiUtils.LogarithmicAxis;
 import com.bachelor.logic.Filemanager;
 import com.bachelor.logic.Logic;
+import com.bachelor.logic.LogicInterface;
 import com.bachelor.wiiboard.Wiiboard;
+import com.bachelor.wiiboard.WiiboardInterface;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -24,8 +26,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DashboardController {
-    private Logic logic;
-    private Wiiboard wiiboard;
+    private LogicInterface logic;
+    private WiiboardInterface wiiboard;
     private Stage stage; // Needed when exporting data
 
     //Menu
@@ -157,7 +159,7 @@ public class DashboardController {
 
     private List<HashMap<String, Object>> testResults;
 
-    public DashboardController(Logic logic, Wiiboard wiiboard) {
+    public DashboardController(LogicInterface logic, WiiboardInterface wiiboard) {
         this.logic = logic;
         this.wiiboard = wiiboard;
     }
@@ -406,8 +408,8 @@ public class DashboardController {
             remainingTest.setText("" + testRepeats);
             if (testRepeats > 0) {
                 addResultButton(testRepeats, map);
-                startTimer(15, "red");
-                Thread.sleep(15000);
+                startTimer(5, "red");
+                Thread.sleep(5000);
                 startRecording();
             } else if (testRepeats == 0) {
                 addResultButton(testRepeats, map);

@@ -54,7 +54,7 @@ public class Wiiboard implements WiiboardInterface {
                 xNew = -calibrateW((W / 2.0) * (((tr + tl) - (br + bl)) / (tr + br + tl + bl)));
 
                 if (recording) {
-                    if (xNew != xPrev || yNew != yPrev) { // we want unique values
+                    if (xNew != xPrev || yNew != yPrev) { // we want unique readings
                         logic.addCopPoint(xNew, yNew, recTime);
                         guiWorker.execute(() -> {
                             gui.plotXrecorded(xNew, recTime);

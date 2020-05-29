@@ -54,6 +54,8 @@ public class Logic implements LogicInterface {
             double sumSpread = 0.0;
             int beta = (int) (7 / stepsize); // Window size of 7 seconds
 
+            System.out.println("STEPSIZE: " + stepsize);
+
             while (k < beta) {
                 double xi, xiPlusK, sqrd;
                 for (int i = 0; i < (-k + n); i++) {

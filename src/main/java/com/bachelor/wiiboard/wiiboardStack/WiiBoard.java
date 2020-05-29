@@ -459,20 +459,11 @@ public class WiiBoard implements BluetoothDevice {
          */
         protected void createMassEvent(ByteBuffer b) {
             double topRight, bottomRight, topLeft, bottomLeft;
-
-            prevBL = rawBL;
-            prevBR = rawBR;
-            prevTL = rawTL;
-            prevTR = rawTR;
-
             b.rewind();
             rawTR = ((b.get() & 0xff) << 8) + (b.get() & 0xff);
             rawBR = ((b.get() & 0xff) << 8) + (b.get() & 0xff);
             rawTL = ((b.get() & 0xff) << 8) + (b.get() & 0xff);
             rawBL = ((b.get() & 0xff) << 8) + (b.get() & 0xff);
-
-            //prevent identical readings
-            if (prevTR == rawTR && prevTL == rawTL && prevBR == rawBR && prevBL == rawBL) return;
 
             topRight = calcMass(rawTR, TOP_RIGHT);
             topLeft = calcMass(rawTL, TOP_LEFT);

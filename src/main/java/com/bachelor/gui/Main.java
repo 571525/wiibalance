@@ -2,7 +2,9 @@ package com.bachelor.gui;
 
 import com.bachelor.gui.controller.DashboardController;
 import com.bachelor.logic.Logic;
+import com.bachelor.logic.LogicInterface;
 import com.bachelor.wiiboard.Wiiboard;
+import com.bachelor.wiiboard.WiiboardInterface;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,8 +19,8 @@ public class Main extends Application implements GuiInterface {
 
     private DashboardController controller;
     private Scene scene;
-    private Logic logic;
-    private Wiiboard wiiboard;
+    private LogicInterface logic;
+    private WiiboardInterface wiiboard;
 
     public static void main(String[] args) {
         launch();
