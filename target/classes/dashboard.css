@@ -75,3 +75,11 @@
     -fx-border-color:  #FF737A;
 }
 
+
+.chart-line-symbol {
+    -fx-background-color: orange;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 0px;
+    -fx-padding: 0px;
+}
+

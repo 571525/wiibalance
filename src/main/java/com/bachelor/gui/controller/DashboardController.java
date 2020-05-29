@@ -244,7 +244,7 @@ public class DashboardController {
         seriesPlotting.setName("Current COP");
         copChart.getData().add(seriesPlotting);
         copChart.getData().add(seriesRecording);
-        copChart.setCreateSymbols(false);
+       // copChart.setCreateSymbols(false);
         recordingXChart.getData().add(seriesRecordingX);
         recordingYChart.getData().add(seriesRecordingY);
         msdPlot.getData().add(msdSeries);
@@ -426,11 +426,11 @@ public class DashboardController {
         curvelength = logic.calculateCurveLength();
         curveX = logic.calcCurveLengthX();
         curveY = logic.calcCurveLengthY();
-        xCurvelength.setText(String.format("%.2f", curveX));
-        yCurvelength.setText(String.format("%.2f", curveY));
-        curve.setText(String.format("%.2f", curvelength));
-        areal.setText(String.format("%.2f", area));
-        tpResult.setText(String.format("%.2f", tp));
+        xCurvelength.setText(String.format("%.2f \n (mm)", curveX));
+        yCurvelength.setText(String.format("%.2f \n (mm)", curveY));
+        curve.setText(String.format("%.2f \n (mm)", curvelength));
+        areal.setText(String.format("%.2f \n (mm^2)", area));
+        tpResult.setText(String.format("%.2f \n (sec)", tp));
     }
 
     private void addResultButton(int testRepeats, HashMap<String, Object> map) {

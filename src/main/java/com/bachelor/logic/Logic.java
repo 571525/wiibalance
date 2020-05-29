@@ -93,7 +93,9 @@ public class Logic implements LogicInterface {
         return -1.0;
     }
 
-    //for testing purpose only. Used to unit test the algorithm with a time series from Torbjørn Aasen. To run test, uncomment method
+    /**
+     *  for testing purpose only. Used to unit test the algorithm with a time series from Torbjørn Aasen. To run test, uncomment method
+     */
     public double findTP(List<Double> timeSerie) {
 
         try {

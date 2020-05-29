@@ -149,7 +149,7 @@
             <children>
                 <AnchorPane fx:id="COPPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <LineChart fx:id="copChart" animated="false" axisSortingPolicy="NONE" horizontalGridLinesVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <LineChart fx:id="copChart" animated="true" axisSortingPolicy="NONE" horizontalGridLinesVisible="false" prefHeight="374.0" prefWidth="531.0" title="COP" verticalGridLinesVisible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <xAxis>
                                 <NumberAxis autoRanging="false" lowerBound="-150" side="BOTTOM" tickUnit="1" upperBound="150" />
                             </xAxis>
@@ -206,7 +206,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <LineChart fx:id="timeseriesPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Xi" verticalGridLinesVisible="true">
+                        <LineChart fx:id="timeseriesPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Time series (z)" verticalGridLinesVisible="true">
                             <xAxis>
                                 <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
                             </xAxis>
@@ -214,7 +214,7 @@
                                 <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
                             </yAxis>
                         </LineChart>
-                        <LineChart fx:id="msdPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="MSD" verticalGridLinesVisible="true" GridPane.rowIndex="1">
+                        <LineChart fx:id="msdPlot" animated="true" createSymbols="false" horizontalGridLinesVisible="true" legendVisible="false" title="Mean Squared Displacement" verticalGridLinesVisible="true" GridPane.rowIndex="1">
                             <xAxis>
                                 <NumberAxis autoRanging="true" side="BOTTOM" tickUnit="0.1" />
                             </xAxis>
@@ -222,7 +222,7 @@
                                 <NumberAxis autoRanging="true" side="LEFT" tickUnit="0.1" />
                             </yAxis>
                         </LineChart>
-                        <LineChart fx:id="slopePlot" createSymbols="false" horizontalGridLinesVisible="true" horizontalZeroLineVisible="true" legendVisible="false" prefHeight="300.0" title="SLOPE" verticalGridLinesVisible="true" GridPane.columnIndex="1">
+                        <LineChart fx:id="slopePlot" createSymbols="false" horizontalGridLinesVisible="true" horizontalZeroLineVisible="true" legendVisible="false" prefHeight="300.0" title="Slope" verticalGridLinesVisible="true" GridPane.columnIndex="1">
                             <xAxis>
                                 <LogarithmicAxis lowerBound="0.01" side="BOTTOM" upperBound="8.0" />
                             </xAxis>
@@ -282,7 +282,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label alignment="CENTER" text="Area" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                        <Label alignment="CENTER" prefWidth="35.0" text="Area" textFill="#273043" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                      <font>
                         <Font name="Monospaced Bold" size="13.0" />
                      </font>
