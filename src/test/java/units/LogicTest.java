@@ -1,6 +1,6 @@
 package units;
 
-import com.bachelor.logic.Logic;
+import com.balance.logic.Logic;
 import org.junit.Before;
 import org.junit.Test;
 

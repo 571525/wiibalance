@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.bachelor.gui.uiUtils.LogarithmicAxis?>
+<?import com.balance.gui.uiUtils.LogarithmicAxis?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>

@@ -18,7 +18,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.bachelor.Launcher</mainClass>
+                  <mainClass>com.balance.Launcher</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -38,7 +38,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.4</version>
         <configuration>
-          <mainClass>com.bachelor.Launcher</mainClass>
+          <mainClass>com.balance.Launcher</mainClass>
         </configuration>
       </plugin>
       <plugin>
@@ -58,7 +58,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.bachelor.Launcher</mainClass>
+              <mainClass>com.balance.Launcher</mainClass>
             </manifest>
           </archive>
         </configuration>

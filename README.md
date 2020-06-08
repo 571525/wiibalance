@@ -11,7 +11,7 @@ The application is developed on JDK 8 and will require a compatible runtime envi
 ## Linux
 Install libbluetooth-dev and BlueZ
 ```
-sudo apt-get install libbluetooth-dev bluez
+sudo apt-get install bluetooth libbluetooth3 libbluetooth-dev bluez
 ```
 Also remember to make the jar executable
 ```
